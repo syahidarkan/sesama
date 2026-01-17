@@ -1,0 +1,674 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+enum UserRole {
+  USER              // Public user / visitor
+  PENGUSUL          // Proposer (needs verification)
+  MANAGER           // Main gatekeeper (approves all)
+  CONTENT_MANAGER   // Internal admin (creates content, needs approval)
+  SUPERVISOR        // Read-only access to all data
+  SUPER_ADMIN       // Full access (emergency & setup)
+}
+
+enum PengusulStatus {
+  PENDING_VERIFICATION
+  APPROVED
+  REJECTED
+}
+
+enum ProgramType {
+  INDIVIDU    // For individual aid (personal help cases)
+  LEMBAGA     // For organization/institution programs
+}
+
+enum BeritaCategory {
+  POLITIK
+  SOSIAL
+  TEKNOLOGI
+  EKONOMI
+  PENDIDIKAN
+  KESEHATAN
+  OLAHRAGA
+  HIBURAN
+  LAINNYA
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  name          String
+  role          UserRole @default(USER)
+  passwordHash  String?  @map("password_hash") // Nullable for public donors
+  isActive      Boolean  @default(true) @map("is_active")
+
+  // Pengusul verification fields
+  pengusulStatus    PengusulStatus? @map("pengusul_status")
+  ktpNumber         String?         @unique @map("ktp_number")
+  ktpImageUrl       String?         @map("ktp_image_url")
+  phone             String?
+  address           String?         @db.Text
+  institutionName   String?         @map("institution_name")
+  institutionProfile String?        @map("institution_profile") @db.Text
+  supportingDocuments Json?         @map("supporting_documents") // Array of document URLs
+  verificationNotes  String?        @map("verification_notes") @db.Text
+  verifiedAt        DateTime?       @map("verified_at")
+  verifiedBy        String?         @map("verified_by")
+
+  // 2FA / OTP fields
+  otpSecret         String?         @map("otp_secret")
+  otpEnabled        Boolean         @default(false) @map("otp_enabled")
+  lastOtpAt         DateTime?       @map("last_otp_at")
+
+  // Session security
+  lastLoginAt       DateTime?       @map("last_login_at")
+  lastActivityAt    DateTime?       @map("last_activity_at")
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  verifier              User?            @relation("PengusulVerifier", fields: [verifiedBy], references: [id])
+  verifiedPengusuls     User[]           @relation("PengusulVerifier")
+  programsCreated       Program[]        @relation("ProgramCreator")
+  approvalsRequested    Approval[]       @relation("ApprovalRequester")
+  approvalActions       ApprovalAction[]
+  donations             Donation[]       @relation("DonorUser")
+  articles              Article[]        @relation("ArticleAuthor")
+  articleApprovals      ArticleApproval[]
+  beritaCreated         Berita[]         @relation("BeritaAuthor")
+  pelaporanCreated      Pelaporan[]      @relation("PelaporanAuthor")
+  pelaporanApprovals    PelaporanApproval[]
+  staticPagesEdited     StaticPage[]     @relation("StaticPageEditor")
+  formFieldsUpdated     FormFieldConfig[] @relation("FormFieldUpdater")
+  auditLogs             AuditLog[]
+  sessions              UserSession[]
+  uploadedFiles         UploadedFile[]   @relation("FileUploader")
+
+  @@index([email])
+  @@index([ktpNumber])
+  @@map("users")
+}
+
+// ============================================
+// USER SESSIONS (for auto-logout tracking)
+// ============================================
+
+model UserSession {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  token         String   @unique
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+  lastActivityAt DateTime @default(now()) @map("last_activity_at")
+  expiresAt     DateTime @map("expires_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@map("user_sessions")
+}
+
+// ============================================
+// PROGRAM DONASI
+// ============================================
+
+enum ProgramStatus {
+  DRAFT
+  PENDING_APPROVAL
+  ACTIVE
+  CLOSED
+  REJECTED
+}
+
+model Program {
+  id              String         @id @default(uuid())
+  title           String
+  slug            String         @unique
+  description     String         @db.Text
+  targetAmount    Decimal        @map("target_amount") @db.Decimal(15, 2)
+  collectedAmount Decimal        @default(0) @map("collected_amount") @db.Decimal(15, 2)
+  status          ProgramStatus  @default(DRAFT)
+  programType     ProgramType    @default(LEMBAGA) @map("program_type")
+  imageUrl        String?        @map("image_url")
+  category        String?        // e.g., "Pendidikan", "Kesehatan", "Bencana"
+  location        String?
+  startDate       DateTime?      @map("start_date")
+  endDate         DateTime?      @map("end_date")
+
+  // Profil Lembaga
+  institutionName       String?  @map("institution_name")
+  institutionAddress    String?  @map("institution_address") @db.Text
+  institutionPhone      String?  @map("institution_phone")
+  institutionEmail      String?  @map("institution_email")
+  institutionType       String?  @map("institution_type")
+  institutionEstablished String? @map("institution_established")
+  institutionProfile    String?  @map("institution_profile") @db.Text
+
+  // Dokumen Legalitas
+  aktaNotaris      String?  @map("akta_notaris")
+  skKemenkumham    String?  @map("sk_kemenkumham")
+  npwp             String?
+  suratDomisili    String?  @map("surat_domisili")
+  legalityDocs     String?  @map("legality_docs")
+
+  // Proposal & Surat Resmi
+  proposalUrl      String?  @map("proposal_url")
+  officialLetterUrl String? @map("official_letter_url")
+  budgetPlanUrl    String?  @map("budget_plan_url")
+
+  // Contact Person (PIC)
+  picName          String?  @map("pic_name")
+  picPosition      String?  @map("pic_position")
+  picPhone         String?  @map("pic_phone")
+  picEmail         String?  @map("pic_email")
+
+  // Detail Pelaksanaan Program
+  beneficiaryCount   Int?     @map("beneficiary_count")
+  programObjective   String?  @map("program_objective") @db.Text
+  implementationPlan String?  @map("implementation_plan") @db.Text
+  expectedOutput     String?  @map("expected_output") @db.Text
+  sustainabilityPlan String?  @map("sustainability_plan") @db.Text
+
+  // Rekening Bank untuk Pencairan
+  bankName           String?  @map("bank_name")
+  bankAccountNumber  String?  @map("bank_account_number")
+  bankAccountName    String?  @map("bank_account_name")
+
+  // Fields for INDIVIDU Program Type
+  // Data Pengaju (Applicant Data)
+  applicantName          String?  @map("applicant_name")           // Full name of applicant
+  applicantKtpNumber     String?  @map("applicant_ktp_number")     // KTP number of applicant
+  applicantPhone         String?  @map("applicant_phone")          // Phone/WhatsApp of applicant
+  applicantAddress       String?  @map("applicant_address") @db.Text // Full address of applicant
+  ktpPengajuUrl          String?  @map("ktp_pengaju_url")          // KTP photo URL of proposer
+
+  // Bukti Kondisi (Evidence of Condition)
+  buktiKondisiUrls       Json?    @map("bukti_kondisi_urls")       // Array of photo/video URLs showing condition
+  kondisiDescription     String?  @map("kondisi_description") @db.Text // Detailed description of condition
+
+  // Surat Keterangan RT/RW (Local Authority Letter)
+  suratKeteranganRtUrl   String?  @map("surat_keterangan_rt_url")  // Official letter from RT/RW/Kelurahan
+  rtRwName               String?  @map("rt_rw_name")               // Name of RT/RW/Village head
+  rtRwPhone              String?  @map("rt_rw_phone")              // Phone number of RT/RW/Village head
+
+  // Rekening Penerima (Beneficiary Bank Account)
+  beneficiaryBankName    String?  @map("beneficiary_bank_name")    // Bank name for beneficiary
+  beneficiaryBankAccount String?  @map("beneficiary_bank_account") // Bank account of beneficiary
+  beneficiaryAccountName String?  @map("beneficiary_account_name") // Account holder name
+
+  createdBy       String         @map("created_by")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+  publishedAt     DateTime?      @map("published_at")
+  closedAt        DateTime?      @map("closed_at")
+
+  // Relations
+  creator         User           @relation("ProgramCreator", fields: [createdBy], references: [id])
+  donations       Donation[]
+  approvals       Approval[]
+  articles        Article[]      // Reports for this program (deprecated)
+  pelaporan       Pelaporan[]    // Reports for this program (new)
+
+  @@index([slug])
+  @@index([status])
+  @@map("programs")
+}
+
+// ============================================
+// APPROVAL WORKFLOW (Multi-layer)
+// ============================================
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum ActionType {
+  PENGUSUL_REGISTRATION
+  CREATE_PROGRAM
+  EDIT_PROGRAM
+  CLOSE_PROGRAM
+  PUBLISH_ARTICLE
+}
+
+model Approval {
+  id          String          @id @default(uuid())
+  entityType  String          @map("entity_type") // "user", "program", "article"
+  entityId    String          @map("entity_id")
+  actionType  ActionType      @map("action_type")
+  status      ApprovalStatus  @default(PENDING)
+  requestedBy String          @map("requested_by")
+  metadata    Json?           // Store request details (before/after changes)
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  requester   User              @relation("ApprovalRequester", fields: [requestedBy], references: [id])
+  actions     ApprovalAction[]
+  program     Program?          @relation(fields: [entityId], references: [id])
+
+  @@index([entityType, entityId])
+  @@index([status])
+  @@map("approvals")
+}
+
+enum ApprovalActionType {
+  APPROVE
+  REJECT
+}
+
+model ApprovalAction {
+  id           String              @id @default(uuid())
+  approvalId   String              @map("approval_id")
+  approverRole UserRole            @map("approver_role")
+  approverId   String              @map("approver_id")
+  action       ApprovalActionType
+  comment      String?             @db.Text
+  requiresReauth Boolean           @default(false) @map("requires_reauth") // If re-auth was required
+  createdAt    DateTime            @default(now()) @map("created_at")
+
+  // Relations
+  approval     Approval            @relation(fields: [approvalId], references: [id], onDelete: Cascade)
+  approver     User                @relation(fields: [approverId], references: [id])
+
+  @@index([approvalId])
+  @@map("approval_actions")
+}
+
+// ============================================
+// DONATIONS & TRANSACTIONS (ActionPay)
+// ============================================
+
+enum DonationStatus {
+  PENDING
+  SUCCESS
+  SETTLEMENT
+  FAILED
+  EXPIRED
+  DENY
+  CANCEL
+}
+
+model Donation {
+  id              String          @id @default(uuid())
+  programId       String          @map("program_id")
+  userId          String?         @map("user_id") // Nullable for anonymous
+  donorName       String          @map("donor_name")
+  donorEmail      String?         @map("donor_email")
+  amount          Decimal         @db.Decimal(15, 2)
+  isAnonymous     Boolean         @default(false) @map("is_anonymous")
+  paymentMethod   String?         @map("payment_method")
+  metadata        Json?           // Payment gateway response
+
+  // ActionPay integration
+  actionpayOrderId    String      @unique @map("actionpay_order_id")
+  actionpaySignature  String?     @map("actionpay_signature")
+  actionpayResponse   Json?       @map("actionpay_response") // Full webhook response
+
+  status          DonationStatus  @default(PENDING)
+  paidAt          DateTime?       @map("paid_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  program         Program         @relation(fields: [programId], references: [id])
+  user            User?           @relation("DonorUser", fields: [userId], references: [id])
+
+  @@index([actionpayOrderId])
+  @@index([programId])
+  @@index([userId])
+  @@map("donations")
+}
+
+// ============================================
+// CMS REPORT / ARTICLE SYSTEM
+// ============================================
+
+enum ArticleStatus {
+  DRAFT
+  PENDING_APPROVAL
+  PUBLISHED
+  REJECTED
+}
+
+model Article {
+  id              String          @id @default(uuid())
+  title           String
+  slug            String          @unique
+  content         String          @db.Text
+  excerpt         String?         @db.Text
+  coverImageUrl   String?         @map("cover_image_url")
+  programId       String?         @map("program_id") // Related program (for reports)
+  authorId        String          @map("author_id")
+  status          ArticleStatus   @default(DRAFT)
+  publishedAt     DateTime?       @map("published_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  author          User            @relation("ArticleAuthor", fields: [authorId], references: [id])
+  program         Program?        @relation(fields: [programId], references: [id])
+  approvals       ArticleApproval[]
+  history         ArticleHistory[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([programId])
+  @@map("articles")
+}
+
+// Article approval (manager must approve)
+model ArticleApproval {
+  id          String              @id @default(uuid())
+  articleId   String              @map("article_id")
+  approverId  String              @map("approver_id")
+  action      ApprovalActionType  // APPROVE or REJECT
+  comment     String?             @db.Text
+  createdAt   DateTime            @default(now()) @map("created_at")
+
+  // Relations
+  article     Article             @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  approver    User                @relation(fields: [approverId], references: [id])
+
+  @@index([articleId])
+  @@map("article_approvals")
+}
+
+// Article edit history
+model ArticleHistory {
+  id          String   @id @default(uuid())
+  articleId   String   @map("article_id")
+  title       String
+  content     String   @db.Text
+  editedBy    String   @map("edited_by")
+  editedAt    DateTime @default(now()) @map("edited_at")
+
+  // Relations
+  article     Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId])
+  @@map("article_history")
+}
+
+// ============================================
+// GAMIFICATION SYSTEM
+// ============================================
+
+enum DonorTitle {
+  PEMULA        // < 1 jt
+  DERMAWAN      // 1-10 jt
+  JURAGAN       // 10-50 jt
+  SULTAN        // 50-100 jt
+  LEGEND        // 100 jt+
+}
+
+model DonorLeaderboard {
+  id              String      @id @default(uuid())
+  donorIdentifier String      @unique @map("donor_identifier") // email or user_id
+  donorName       String      @map("donor_name")
+  totalDonations  Decimal     @default(0) @map("total_donations") @db.Decimal(15, 2)
+  donationCount   Int         @default(0) @map("donation_count")
+  title           DonorTitle  @default(PEMULA)
+  isAnonymous     Boolean     @default(false) @map("is_anonymous")
+  lastDonationAt  DateTime?   @map("last_donation_at")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@index([totalDonations])
+  @@index([donorIdentifier])
+  @@map("donor_leaderboard")
+}
+
+// ============================================
+// AUDIT LOG SYSTEM (Immutable)
+// ============================================
+
+enum AuditAction {
+  LOGIN
+  LOGOUT
+  CREATE
+  UPDATE
+  DELETE
+  APPROVE
+  REJECT
+  PUBLISH
+  VERIFY_PENGUSUL
+  DONATION_SUCCESS
+  OTP_SENT
+  SESSION_EXPIRED
+}
+
+model AuditLog {
+  id          String      @id @default(uuid())
+  userId      String?     @map("user_id") // Nullable for system actions
+  userRole    UserRole?   @map("user_role")
+  action      AuditAction
+  entityType  String?     @map("entity_type") // "program", "user", "article", etc.
+  entityId    String?     @map("entity_id")
+  metadata    Json?       // Additional context
+  ipAddress   String?     @map("ip_address")
+  userAgent   String?     @map("user_agent")
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  // Relations
+  user        User?       @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([action])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================
+// BERITA / NEWS SYSTEM (No Approval)
+// ============================================
+
+model Berita {
+  id              String          @id @default(uuid())
+  title           String
+  slug            String          @unique
+  content         String          @db.Text
+  excerpt         String?         @db.Text
+  coverImageUrl   String?         @map("cover_image_url")
+  category        BeritaCategory  @default(LAINNYA)
+  authorId        String          @map("author_id")
+  status          ArticleStatus   @default(PUBLISHED) // Direct publish
+  publishedAt     DateTime?       @map("published_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  author          User            @relation("BeritaAuthor", fields: [authorId], references: [id])
+
+  @@index([slug])
+  @@index([status])
+  @@index([category])
+  @@map("berita")
+}
+
+// ============================================
+// STATIC PAGES (About Us, Legal)
+// ============================================
+
+model StaticPage {
+  id              String          @id @default(uuid())
+  slug            String          @unique
+  title           String
+  content         String          @db.Text
+  lastEditedBy    String?         @map("last_edited_by")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  editor          User?           @relation("StaticPageEditor", fields: [lastEditedBy], references: [id])
+
+  @@map("static_pages")
+}
+
+// ============================================
+// SYSTEM SETTINGS (Dropdown Management)
+// ============================================
+
+model SystemSetting {
+  id              String          @id @default(uuid())
+  category        String          // "program_categories", "institution_types", "bank_names"
+  key             String          // Unique key within category
+  value           String          // Display value
+  isActive        Boolean         @default(true) @map("is_active")
+  sortOrder       Int             @default(0) @map("sort_order")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  @@unique([category, key])
+  @@index([category])
+  @@map("system_settings")
+}
+
+// ============================================
+// FORM FIELD CONFIGURATION
+// ============================================
+
+model FormFieldConfig {
+  id              String          @id @default(uuid())
+  formType        String          // "program_lembaga", "program_individu"
+  fieldName       String          // e.g., "aktaNotaris", "npwp"
+  isVisible       Boolean         @default(true) @map("is_visible")
+  isRequired      Boolean         @default(false) @map("is_required")
+  updatedBy       String?         @map("updated_by")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  updater         User?           @relation("FormFieldUpdater", fields: [updatedBy], references: [id])
+
+  @@unique([formType, fieldName])
+  @@map("form_field_configs")
+}
+
+// ============================================
+// PELAPORAN (Renamed from Article)
+// ============================================
+
+model Pelaporan {
+  id              String          @id @default(uuid())
+  title           String
+  slug            String          @unique
+  content         String          @db.Text
+  excerpt         String?         @db.Text
+  coverImageUrl   String?         @map("cover_image_url")
+  programId       String?         @map("program_id")
+  authorId        String          @map("author_id")
+  status          ArticleStatus   @default(DRAFT)
+  publishedAt     DateTime?       @map("published_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  author          User            @relation("PelaporanAuthor", fields: [authorId], references: [id])
+  program         Program?        @relation(fields: [programId], references: [id])
+  approvals       PelaporanApproval[]
+  history         PelaporanHistory[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([programId])
+  @@map("pelaporan")
+}
+
+model PelaporanApproval {
+  id          String              @id @default(uuid())
+  pelaporanId String              @map("pelaporan_id")
+  approverId  String              @map("approver_id")
+  action      ApprovalActionType
+  comment     String?             @db.Text
+  createdAt   DateTime            @default(now()) @map("created_at")
+
+  // Relations
+  pelaporan   Pelaporan           @relation(fields: [pelaporanId], references: [id], onDelete: Cascade)
+  approver    User                @relation(fields: [approverId], references: [id])
+
+  @@index([pelaporanId])
+  @@map("pelaporan_approvals")
+}
+
+model PelaporanHistory {
+  id          String   @id @default(uuid())
+  pelaporanId String   @map("pelaporan_id")
+  title       String
+  content     String   @db.Text
+  editedBy    String   @map("edited_by")
+  editedAt    DateTime @default(now()) @map("edited_at")
+
+  // Relations
+  pelaporan   Pelaporan @relation(fields: [pelaporanId], references: [id], onDelete: Cascade)
+
+  @@index([pelaporanId])
+  @@map("pelaporan_history")
+}
+
+// ============================================
+// FILE UPLOADS (Document Management)
+// ============================================
+
+enum FileCategory {
+  KTP                    // KTP images
+  PROPOSAL               // Proposal documents
+  AKTA_NOTARIS           // Akta Notaris
+  SK_KEMENKUMHAM         // SK Kemenkumham
+  NPWP                   // NPWP documents
+  SURAT_DOMISILI         // Surat Domisili
+  LEGALITY_DOCS          // Other legality docs
+  OFFICIAL_LETTER        // Surat Resmi
+  BUDGET_PLAN            // RAB (Rencana Anggaran Biaya)
+  BUKTI_KONDISI          // Photos/videos of condition (for INDIVIDU)
+  SURAT_KETERANGAN_RT    // RT/RW letter
+  COVER_IMAGE            // Cover images for programs/articles
+  OTHER                  // Other files
+}
+
+model UploadedFile {
+  id              String        @id @default(uuid())
+  filename        String        // Original filename
+  storedFilename  String        @unique @map("stored_filename") // UUID-based filename
+  mimeType        String        @map("mime_type")
+  size            Int           // File size in bytes
+  category        FileCategory  @default(OTHER)
+
+  // Entity relations
+  entityType      String?       @map("entity_type") // "program", "user", "pelaporan", etc.
+  entityId        String?       @map("entity_id")
+  fieldName       String?       @map("field_name") // Which field this file belongs to
+
+  // Uploader info
+  uploadedBy      String        @map("uploaded_by")
+  uploadedAt      DateTime      @default(now()) @map("uploaded_at")
+
+  // Access control
+  isPublic        Boolean       @default(false) @map("is_public")
+
+  // Relations
+  uploader        User          @relation("FileUploader", fields: [uploadedBy], references: [id])
+
+  @@index([entityType, entityId])
+  @@index([uploadedBy])
+  @@index([category])
+  @@map("uploaded_files")
+}

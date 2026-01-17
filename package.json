@@ -1,0 +1,13 @@
+{
+  "name": "donation-platform",
+  "version": "1.0.0",
+  "description": "Platform donasi internal untuk organisasi Islam (LAZISMU dan lembaga mitra) dengan sistem multi-role approval, integrasi Midtrans, dan wallet management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

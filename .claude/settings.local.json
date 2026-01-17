@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(npm run build:*)",
+      "Bash(psql:*)",
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(Select-Object -Last 50)",
+      "Bash(Get-Process -Name node -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object Id, ProcessName, CPU)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(netstat:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(npm run start:dev:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(ngrok version:*)",
+      "Bash(start-ngrok.bat)",
+      "Bash(timeout /t 3 /nobreak)",
+      "Bash(ngrok http:*)",
+      "Bash(ping:*)",
+      "Bash(powershell -Command \"Start-Process -FilePath ''ngrok'' -ArgumentList ''http'', ''3001'' -WindowStyle Hidden\")",
+      "Bash(timeout /t 3)",
+      "Bash(timeout:*)",
+      "Bash(npx prisma generate)",
+      "Bash(npx prisma db seed)",
+      "Bash(powershell -Command \"cd ''c:\\\\Users\\\\User\\\\kita-bisa\\\\backend''; npm run start:dev\")",
+      "Bash(powershell -Command:*)",
+      "Bash(npx ts-node:*)"
+    ]
+  }
+}

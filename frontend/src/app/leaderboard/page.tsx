@@ -52,9 +52,9 @@ export default function LeaderboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full mb-4 shadow-lg shadow-orange-500/30 animate-spin">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-600 rounded-full mb-4 border border-gray-200 shadow-orange-500/30 animate-spin">
             <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full"></div>
           </div>
           <p className="text-gray-600 font-medium">Memuat leaderboard...</p>
@@ -67,13 +67,13 @@ export default function LeaderboardPage() {
   const remaining = leaderboard.slice(3);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-gray-200/80 backdrop-blur-sm bg-white/95 shadow-sm">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30 transform group-hover:scale-105 transition-transform">
+              <div className="w-11 h-11 bg-orange-600 rounded-xl flex items-center justify-center border border-gray-200 shadow-orange-500/30 transform group-hover:scale-105 transition-transform">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
@@ -96,7 +96,7 @@ export default function LeaderboardPage() {
       </nav>
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 overflow-hidden">
+      <div className="relative bg-orange-600 overflow-hidden">
         <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,black)]"></div>
         <div className="relative max-w-7xl mx-auto px-6 py-20 text-center">
           <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-5 py-2.5 rounded-full mb-6 border border-white/30">
@@ -115,19 +115,19 @@ export default function LeaderboardPage() {
 
           {/* Stats */}
           <div className="grid md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
               <div className="text-4xl font-bold text-white mb-2">
                 {totalDonors}+
               </div>
               <div className="text-orange-100 font-medium">Donatur Aktif</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
               <div className="text-4xl font-bold text-white mb-2">
                 {formatAmount(totalDonations).replace('Rp', 'Rp ')}
               </div>
               <div className="text-orange-100 font-medium">Total Donasi Terkumpul</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
               <div className="text-4xl font-bold text-white mb-2">
                 100%
               </div>
@@ -150,10 +150,10 @@ export default function LeaderboardPage() {
               {/* Rank 2 - Silver */}
               {topThree[1] && (
                 <div className="relative">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center shadow-lg shadow-gray-400/40 border-4 border-white z-10">
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center border border-gray-200 shadow-gray-400/40 border-4 border-white z-10">
                     <span className="text-2xl">🥈</span>
                   </div>
-                  <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl p-8 pt-12 border-2 border-gray-300 shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+                  <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg p-8 pt-12 border-2 border-gray-300 border border-gray-200 transform hover:-translate-y-2 transition-all duration-300">
                     <div className="text-center">
                       <div className="text-5xl font-bold text-gray-700 mb-1">#2</div>
                       <div className="h-16 flex items-center justify-center mb-4">
@@ -165,7 +165,7 @@ export default function LeaderboardPage() {
                           {topThree[1].title}
                         </span>
                       </div>
-                      <div className="bg-white rounded-xl p-4 shadow-lg mb-3">
+                      <div className="bg-white rounded-xl p-4 border border-gray-200 mb-3">
                         <div className="text-sm text-gray-600 mb-1">Total Donasi</div>
                         <div className="text-2xl font-bold bg-gradient-to-r from-gray-600 to-gray-700 bg-clip-text text-transparent">
                           {formatAmount(Number(topThree[1].totalDonations))}
@@ -182,10 +182,10 @@ export default function LeaderboardPage() {
               {/* Rank 1 - Gold */}
               {topThree[0] && (
                 <div className="relative md:-mt-8">
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-20 h-20 bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-xl shadow-yellow-500/50 border-4 border-white z-10 animate-pulse">
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-20 h-20 bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-500 rounded-full flex items-center justify-center border border-gray-200 shadow-yellow-500/50 border-4 border-white z-10 animate-pulse">
                     <span className="text-3xl">👑</span>
                   </div>
-                  <div className="bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-100 rounded-3xl p-10 pt-14 border-4 border-yellow-400 shadow-2xl shadow-yellow-500/30 transform hover:-translate-y-2 transition-all duration-300">
+                  <div className="bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-100 rounded-lg p-10 pt-14 border-4 border-yellow-400 border border-gray-200 shadow-yellow-500/30 transform hover:-translate-y-2 transition-all duration-300">
                     <div className="text-center">
                       <div className="text-6xl font-bold bg-gradient-to-r from-yellow-600 to-orange-500 bg-clip-text text-transparent mb-1">#1</div>
                       <div className="h-16 flex items-center justify-center mb-4">
@@ -197,9 +197,9 @@ export default function LeaderboardPage() {
                           {topThree[0].title}
                         </span>
                       </div>
-                      <div className="bg-white rounded-2xl p-6 shadow-xl mb-4">
+                      <div className="bg-white rounded-lg p-6 border border-gray-200 mb-4">
                         <div className="text-sm text-gray-600 mb-2">Total Donasi</div>
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                        <div className="text-3xl font-bold bg-orange-600 bg-clip-text text-transparent">
                           {formatAmount(Number(topThree[0].totalDonations))}
                         </div>
                       </div>
@@ -214,10 +214,10 @@ export default function LeaderboardPage() {
               {/* Rank 3 - Bronze */}
               {topThree[2] && (
                 <div className="relative">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-orange-300 to-orange-400 rounded-full flex items-center justify-center shadow-lg shadow-orange-400/40 border-4 border-white z-10">
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-orange-300 to-orange-400 rounded-full flex items-center justify-center border border-gray-200 shadow-orange-400/40 border-4 border-white z-10">
                     <span className="text-2xl">🥉</span>
                   </div>
-                  <div className="bg-gradient-to-br from-orange-100 to-orange-200 rounded-3xl p-8 pt-12 border-2 border-orange-300 shadow-xl transform hover:-translate-y-2 transition-all duration-300">
+                  <div className="bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg p-8 pt-12 border-2 border-orange-300 border border-gray-200 transform hover:-translate-y-2 transition-all duration-300">
                     <div className="text-center">
                       <div className="text-5xl font-bold text-orange-700 mb-1">#3</div>
                       <div className="h-16 flex items-center justify-center mb-4">
@@ -229,9 +229,9 @@ export default function LeaderboardPage() {
                           {topThree[2].title}
                         </span>
                       </div>
-                      <div className="bg-white rounded-xl p-4 shadow-lg mb-3">
+                      <div className="bg-white rounded-xl p-4 border border-gray-200 mb-3">
                         <div className="text-sm text-gray-600 mb-1">Total Donasi</div>
-                        <div className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">
+                        <div className="text-2xl font-bold bg-orange-600 bg-clip-text text-transparent">
                           {formatAmount(Number(topThree[2].totalDonations))}
                         </div>
                       </div>
@@ -256,10 +256,10 @@ export default function LeaderboardPage() {
             {titles.map((title, index) => (
               <div
                 key={title.title}
-                className="relative bg-white rounded-2xl p-6 border-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                className="relative bg-white rounded-lg p-6 border-2 border border-gray-200 hover:border border-gray-200 transform hover:-translate-y-1 transition-all duration-300"
                 style={{ borderColor: title.color }}
               >
-                <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg"
+                <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white border border-gray-200"
                   style={{ backgroundColor: title.color }}>
                   {index + 1}
                 </div>
@@ -292,7 +292,7 @@ export default function LeaderboardPage() {
                 return (
                   <div
                     key={entry.id}
-                    className="bg-white rounded-2xl p-6 border-2 border-gray-100 shadow-md hover:shadow-xl hover:border-orange-200 transition-all duration-300 transform hover:-translate-y-1"
+                    className="bg-white rounded-lg p-6 border-2 border-gray-100 shadow-md hover:border border-gray-200 hover:border-orange-200 transition-all duration-300 transform hover:-translate-y-1"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4 flex-1">
@@ -336,7 +336,7 @@ export default function LeaderboardPage() {
             <p className="text-gray-600 mb-6">Jadilah yang pertama untuk masuk ke leaderboard</p>
             <Link
               href="/"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transform hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center px-8 py-4 bg-orange-600 text-white font-bold rounded-xl border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transform hover:-translate-y-0.5 transition-all"
             >
               Mulai Berdonasi
             </Link>
@@ -344,10 +344,10 @@ export default function LeaderboardPage() {
         )}
 
         {/* CTA Section */}
-        <div className="mt-20 relative bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl overflow-hidden shadow-2xl">
+        <div className="mt-20 relative bg-orange-600 rounded-lg overflow-hidden border border-gray-200">
           <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,black)]"></div>
           <div className="relative px-8 py-16 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 border border-white/30">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-lg mb-6 border border-white/30">
               <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
@@ -360,7 +360,7 @@ export default function LeaderboardPage() {
             </p>
             <Link
               href="/"
-              className="inline-flex items-center px-10 py-5 bg-white text-orange-600 font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 transition-all"
+              className="inline-flex items-center px-10 py-5 bg-white text-orange-600 font-bold text-lg rounded-xl border border-gray-200 hover:border border-gray-200 transform hover:-translate-y-1 hover:scale-105 transition-all"
             >
               <svg className="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -377,7 +377,7 @@ export default function LeaderboardPage() {
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-1">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-11 h-11 bg-orange-600 rounded-xl flex items-center justify-center border border-gray-200">
                   <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>

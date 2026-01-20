@@ -1,5 +1,6 @@
-import { Controller, Get, Query, Param } from '@nestjs/common';
+import { Controller, Get, Query, Param, UseGuards, Request } from '@nestjs/common';
 import { DonationsService } from './donations.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('donations')
 export class DonationsController {
@@ -8,6 +9,12 @@ export class DonationsController {
     @Get()
     findAll(@Query('programId') programId?: string) {
         return this.donationsService.findAll(programId);
+    }
+
+    @Get('my')
+    @UseGuards(JwtAuthGuard)
+    findMyDonations(@Request() req) {
+        return this.donationsService.findByUserId(req.user.userId);
     }
 
     @Get('stats')

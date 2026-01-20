@@ -51,8 +51,8 @@ api.interceptors.response.use(
 // AUTH API (with 2FA/OTP)
 // ============================================
 export const authApi = {
-  register: (email: string, password: string, name: string) =>
-    api.post('/auth/register', { email, password, name }),
+  register: (email: string, password: string, name: string, phone?: string) =>
+    api.post('/auth/register', { email, password, name, phone }),
 
   login: (email: string, password: string) =>
     api.post('/auth/login', { email, password }),
@@ -139,6 +139,8 @@ export const programsApi = {
 export const donationsApi = {
   getAll: (programId?: string, limit?: number, offset?: number) =>
     api.get('/donations', { params: { programId, limit, offset } }),
+
+  getMyDonations: () => api.get('/donations/my'),
 
   getById: (orderId: string) =>
     api.get(`/donations/${orderId}`),
@@ -250,6 +252,52 @@ export const staticPagesApi = {
 };
 
 // ============================================
+// ROLE UPGRADES API (USER → PENGUSUL, MANAGER, etc.)
+// ============================================
+export const roleUpgradesApi = {
+  // USER: Submit upgrade request to PENGUSUL
+  submitPengusulRequest: (data: {
+    ktpNumber: string;
+    ktpImageUrl: string;
+    phone: string;
+    address: string;
+    institutionName?: string;
+    institutionProfile?: string;
+    supportingDocuments?: string[];
+  }) => api.post('/role-upgrades/pengusul/request', data),
+
+  // USER: Get my upgrade request status
+  getMyRequest: () => api.get('/role-upgrades/my-request'),
+
+  // MANAGER/SUPER_ADMIN: Get pending PENGUSUL requests
+  getPendingPengusulRequests: () =>
+    api.get('/role-upgrades/pengusul/pending'),
+
+  // MANAGER/SUPER_ADMIN: Approve PENGUSUL request
+  approvePengusulRequest: (requestId: string, notes?: string) =>
+    api.patch(`/role-upgrades/pengusul/${requestId}/approve`, { notes }),
+
+  // MANAGER/SUPER_ADMIN: Reject PENGUSUL request
+  rejectPengusulRequest: (requestId: string, notes: string) =>
+    api.patch(`/role-upgrades/pengusul/${requestId}/reject`, { notes }),
+
+  // SUPER_ADMIN: Get all users for role management
+  getAllUsers: () => api.get('/role-upgrades/users'),
+
+  // SUPER_ADMIN: Manually upgrade user role
+  upgradeUserRole: (
+    userId: string,
+    data: { targetRole: string; notes?: string }
+  ) => api.patch(`/role-upgrades/user/${userId}/upgrade`, data),
+
+  // SUPER_ADMIN: Change user role (upgrade or downgrade)
+  changeUserRole: (
+    userId: string,
+    data: { targetRole: string; notes?: string }
+  ) => api.patch(`/role-upgrades/user/${userId}/change-role`, data),
+};
+
+// ============================================
 // GAMIFICATION API
 // ============================================
 export const gamificationApi = {
@@ -262,6 +310,50 @@ export const gamificationApi = {
   getTitles: () => api.get('/gamification/titles'),
 
   getStatistics: () => api.get('/gamification/statistics'),
+};
+
+// ============================================
+// FINANCE API
+// ============================================
+export const financeApi = {
+  // Get overall statistics
+  getStatistics: () => api.get('/finance/statistics'),
+
+  // Get all transactions
+  getAllTransactions: (params?: {
+    status?: string;
+    startDate?: string;
+    endDate?: string;
+    limit?: number;
+    offset?: number;
+  }) => api.get('/finance/transactions', { params }),
+
+  // Get transactions by program
+  getTransactionsByProgram: (programId: string, limit?: number, offset?: number) =>
+    api.get(`/finance/transactions/by-program/${programId}`, {
+      params: { limit, offset },
+    }),
+
+  // Get all programs with fund details
+  getProgramsFunds: () => api.get('/finance/programs/funds'),
+
+  // Get single program fund
+  getProgramFund: (programId: string) =>
+    api.get(`/finance/programs/${programId}/fund`),
+
+  // Get program donors
+  getProgramDonors: (programId: string, limit?: number, offset?: number) =>
+    api.get(`/finance/programs/${programId}/donors`, {
+      params: { limit, offset },
+    }),
+
+  // Get top donors
+  getTopDonors: (limit?: number) =>
+    api.get('/finance/donors/top', { params: { limit } }),
+
+  // Get donation trends
+  getDonationTrends: (period: 'daily' | 'weekly' | 'monthly' = 'daily', days?: number) =>
+    api.get('/finance/trends', { params: { period, days } }),
 };
 
 // ============================================

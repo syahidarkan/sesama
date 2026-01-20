@@ -129,7 +129,7 @@ export default function AdminStaticPagesPage() {
                     onChange={(e) =>
                       setEditingPage({ ...editingPage, title: e.target.value })
                     }
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 </div>
 
@@ -144,7 +144,7 @@ export default function AdminStaticPagesPage() {
                       setEditingPage({ ...editingPage, content: e.target.value })
                     }
                     rows={20}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-transparent font-mono text-sm"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono text-sm"
                     placeholder="Masukkan konten HTML..."
                   />
                   <p className="mt-2 text-sm text-gray-500">

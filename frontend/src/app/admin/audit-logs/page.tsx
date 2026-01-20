@@ -74,7 +74,7 @@ export default function AuditLogsPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Panduan/Legend Box */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
+        <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
           <div className="flex items-start mb-4">
             <div className="text-3xl mr-4">📖</div>
             <div className="flex-1">

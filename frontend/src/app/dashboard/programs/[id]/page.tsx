@@ -1,26 +1,45 @@
 'use client';
 
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { programsApi } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
-import { ArrowLeft, Calendar, Target, TrendingUp, Users } from 'lucide-react';
+import { ArrowLeft, Calendar, Target, TrendingUp, Users, Edit, CheckCircle, XCircle, Loader2, Heart, CreditCard, User, MapPin, Building } from 'lucide-react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function ProgramDetailPage() {
     const params = useParams();
+    const router = useRouter();
     const id = params.id as string;
     const { user } = useAuthStore();
+    const queryClient = useQueryClient();
 
     const { data, isLoading } = useQuery({
         queryKey: ['program', id],
         queryFn: () => programsApi.getOne(id),
     });
 
+    const approveMutation = useMutation({
+        mutationFn: () => programsApi.approve(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['program', id] });
+            alert('Program berhasil disetujui!');
+        },
+    });
+
+    const rejectMutation = useMutation({
+        mutationFn: () => programsApi.reject(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['program', id] });
+            alert('Program ditolak.');
+        },
+    });
+
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-64">
-                <div className="text-gray-500">Loading...</div>
+            <div className="flex flex-col items-center justify-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+                <p className="text-sm text-gray-600">Memuat detail program...</p>
             </div>
         );
     }
@@ -29,190 +48,269 @@ export default function ProgramDetailPage() {
 
     if (!program) {
         return (
-            <div className="text-center py-12">
-                <p className="text-gray-500">Program not found</p>
+            <div className="bg-white rounded-lg border border-gray-200 p-12">
+                <div className="text-center">
+                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <Heart className="w-6 h-6 text-gray-400" />
+                    </div>
+                    <h3 className="text-base font-semibold text-gray-900 mb-2">Program Tidak Ditemukan</h3>
+                    <p className="text-sm text-gray-600 mb-6">Program yang Anda cari tidak tersedia</p>
+                    <Link
+                        href="/dashboard/programs"
+                        className="inline-flex items-center space-x-2 px-6 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        <span>Kembali ke Daftar Program</span>
+                    </Link>
+                </div>
             </div>
         );
     }
 
-    const progress = Math.round(
-        (parseFloat(program.collectedAmount || '0') / parseFloat(program.targetAmount || '1')) * 100
+    const progress = Math.min(
+        Math.round((parseFloat(program.collectedAmount || '0') / parseFloat(program.targetAmount || '1')) * 100),
+        100
     );
-
-    const approveMutation = useMutation({
-        mutationFn: () => programsApi.approve(id),
-        onSuccess: () => {
-            alert('Program berhasil disetujui!');
-            window.location.reload();
-        },
-    });
-
-    const rejectMutation = useMutation({
-        mutationFn: () => programsApi.reject(id),
-        onSuccess: () => {
-            alert('Program ditolak.');
-            window.location.reload();
-        },
-    });
 
     return (
         <div className="space-y-6">
-            {/* Header Actions */}
-            <div className="flex items-center justify-between">
+            {/* Header Navigation */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <Link
                     href="/dashboard/programs"
-                    className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900"
+                    className="inline-flex items-center space-x-2 text-gray-600 hover:text-orange-600 text-sm font-medium transition-colors"
                 >
-                    <ArrowLeft className="w-4 h-4" />
-                    Kembali ke Daftar Program
+                    <div className="w-8 h-8 rounded-md bg-gray-100 hover:bg-orange-50 flex items-center justify-center transition-colors">
+                        <ArrowLeft className="w-4 h-4" />
+                    </div>
+                    <span>Kembali ke Daftar Program</span>
                 </Link>
 
                 <div className="flex gap-3">
-                    {/* Edit Button - Visible to Creator or Admin Lazismu/IT */}
                     {['ADMIN_LAZISMU', 'ADMIN_IT', 'DEVELOPER'].includes(user?.role || '') && (
                         <Link
                             href={`/dashboard/programs/${id}/edit`}
-                            className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+                            className="inline-flex items-center space-x-2 px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50 hover:border-gray-400 transition-colors"
                         >
-                            Edit Program
+                            <Edit className="w-4 h-4" />
+                            <span>Edit Program</span>
                         </Link>
                     )}
 
-                    {/* Approval Actions - Visible to Admin Lazismu/IT for Pending Programs */}
                     {program.status === 'PENDING_APPROVAL' &&
                         ['ADMIN_LAZISMU', 'ADMIN_IT', 'DEVELOPER'].includes(user?.role || '') && (
                             <>
                                 <button
                                     onClick={() => rejectMutation.mutate()}
                                     disabled={rejectMutation.isPending}
-                                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition-colors disabled:opacity-50"
+                                    className="inline-flex items-center space-x-2 px-6 py-2.5 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-50"
                                 >
-                                    {rejectMutation.isPending ? 'Memproses...' : 'Tolak'}
+                                    <XCircle className="w-4 h-4" />
+                                    <span>{rejectMutation.isPending ? 'Memproses...' : 'Tolak'}</span>
                                 </button>
                                 <button
                                     onClick={() => approveMutation.mutate()}
                                     disabled={approveMutation.isPending}
-                                    className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 font-medium transition-colors disabled:opacity-50"
+                                    className="inline-flex items-center space-x-2 px-6 py-2.5 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
                                 >
-                                    {approveMutation.isPending ? 'Memproses...' : 'Setujui'}
+                                    <CheckCircle className="w-4 h-4" />
+                                    <span>{approveMutation.isPending ? 'Memproses...' : 'Setujui'}</span>
                                 </button>
                             </>
                         )}
                 </div>
             </div>
 
-            {/* Program Header */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                {program.imageUrl && (
-                    <img
-                        src={program.imageUrl}
-                        alt={program.title}
-                        className="w-full h-64 object-cover"
-                    />
-                )}
-                <div className="p-8">
-                    <div className="flex items-start justify-between mb-4">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900 mb-2">{program.title}</h1>
-                            <p className="text-gray-600">{program.description}</p>
+            {/* Main Content */}
+            <div className="grid lg:grid-cols-3 gap-6">
+                {/* Left Column - Main Info */}
+                <div className="lg:col-span-2 space-y-6">
+                    {/* Program Header */}
+                    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        {program.imageUrl && (
+                            <div className="relative aspect-video overflow-hidden bg-gray-100">
+                                <img
+                                    src={program.imageUrl}
+                                    alt={program.title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute top-4 right-4">
+                                    <span
+                                        className={`px-3 py-1.5 rounded-md text-xs font-medium ${program.status === 'ACTIVE'
+                                            ? 'bg-green-600 text-white'
+                                            : program.status === 'PENDING_APPROVAL'
+                                                ? 'bg-orange-600 text-white'
+                                                : program.status === 'CLOSED'
+                                                    ? 'bg-gray-600 text-white'
+                                                    : program.status === 'REJECTED'
+                                                        ? 'bg-red-600 text-white'
+                                                        : 'bg-blue-600 text-white'
+                                            }`}
+                                    >
+                                        {program.status?.replace(/_/g, ' ')}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="p-6">
+                            <h1 className="text-2xl font-semibold text-gray-900 mb-4">{program.title}</h1>
+                            <p className="text-gray-600 leading-relaxed mb-6">{program.description}</p>
+
+                            {/* Progress Section */}
+                            <div className="bg-orange-50 rounded-lg p-6 border border-orange-200">
+                                <div className="flex justify-between items-center mb-3">
+                                    <span className="text-sm font-medium text-orange-900">Dana Terkumpul</span>
+                                    <span className="text-xl font-semibold text-orange-600">{progress}%</span>
+                                </div>
+                                <div className="w-full h-2 bg-white rounded-full overflow-hidden mb-4 border border-orange-200">
+                                    <div
+                                        className="h-full bg-orange-600 transition-all duration-500"
+                                        style={{ width: `${progress}%` }}
+                                    ></div>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <div className="text-xs text-orange-700 mb-1">Terkumpul</div>
+                                        <div className="text-lg font-semibold text-orange-900">
+                                            Rp {parseInt(program.collectedAmount || '0').toLocaleString('id-ID')}
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-xs text-orange-700 mb-1">Target</div>
+                                        <div className="text-lg font-semibold text-orange-900">
+                                            Rp {parseInt(program.targetAmount || '0').toLocaleString('id-ID')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <span
-                            className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap ${program.status === 'ACTIVE'
-                                ? 'bg-emerald-100 text-emerald-700'
-                                : program.status === 'PENDING_APPROVAL'
-                                    ? 'bg-orange-100 text-orange-700'
-                                    : program.status === 'CLOSED'
-                                        ? 'bg-gray-100 text-gray-700'
-                                        : program.status === 'REJECTED'
-                                            ? 'bg-red-100 text-red-700'
-                                            : 'bg-blue-100 text-blue-700'
-                                }`}
-                        >
-                            {program.status?.replace(/_/g, ' ')}
-                        </span>
                     </div>
 
-                    {/* Progress */}
-                    <div className="mb-6">
-                        <div className="flex justify-between text-sm mb-2">
-                            <span className="font-semibold text-gray-700">Progress Donasi</span>
-                            <span className="font-bold text-emerald-600">{progress}%</span>
+                    {/* Additional Info */}
+                    {program.location && (
+                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+                            <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                                <MapPin className="w-4 h-4 text-gray-400" />
+                                <span>Lokasi</span>
+                            </h3>
+                            <p className="text-sm text-gray-700">{program.location}</p>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
-                            <div
-                                className="bg-gradient-to-r from-emerald-500 to-blue-500 h-3 rounded-full transition-all"
-                                style={{ width: `${Math.min(progress, 100)}%` }}
-                            ></div>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                            <span className="font-bold text-gray-900">
-                                Rp {parseInt(program.collectedAmount || '0').toLocaleString('id-ID')}
-                            </span>
-                            <span className="text-gray-500">
-                                dari Rp {parseInt(program.targetAmount || '0').toLocaleString('id-ID')}
-                            </span>
-                        </div>
-                    </div>
+                    )}
 
-                    {/* Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="bg-emerald-50 p-4 rounded-lg">
-                            <div className="flex items-center gap-3">
-                                <Users className="w-8 h-8 text-emerald-600" />
-                                <div>
-                                    <div className="text-2xl font-bold text-gray-900">
-                                        {program._count?.donations || 0}
+                    {/* Bank Accounts */}
+                    {program.bankAccounts && Array.isArray(program.bankAccounts) && program.bankAccounts.length > 0 && (
+                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+                            <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                                <CreditCard className="w-4 h-4 text-gray-400" />
+                                <span>Rekening Penerima Dana</span>
+                            </h3>
+                            <div className="space-y-3">
+                                {program.bankAccounts.map((bank: any, idx: number) => (
+                                    <div key={idx} className="bg-gray-50 rounded-md p-4 border border-gray-200">
+                                        <div className="flex items-start justify-between">
+                                            <div className="space-y-1">
+                                                <div className="font-medium text-gray-900">{bank.bank_name}</div>
+                                                <div className="text-sm text-gray-700 font-mono">{bank.account_number}</div>
+                                                <div className="text-sm text-gray-600">{bank.account_name}</div>
+                                            </div>
+                                            <div className="w-10 h-10 bg-gray-200 rounded-md flex items-center justify-center">
+                                                <CreditCard className="w-5 h-5 text-gray-500" />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="text-sm text-gray-600">Total Donatur</div>
-                                </div>
+                                ))}
                             </div>
                         </div>
-                        <div className="bg-blue-50 p-4 rounded-lg">
-                            <div className="flex items-center gap-3">
-                                <Target className="w-8 h-8 text-blue-600" />
-                                <div>
-                                    <div className="text-2xl font-bold text-gray-900">{progress}%</div>
-                                    <div className="text-sm text-gray-600">Tercapai</div>
-                                </div>
+                    )}
+                </div>
+
+                {/* Right Column - Stats & Info */}
+                <div className="space-y-6">
+                    {/* Stats Cards */}
+                    <div className="space-y-4">
+                        <div className="bg-white rounded-lg p-5 border border-gray-200">
+                            <div className="flex items-center justify-between mb-3">
+                                <Users className="w-5 h-5 text-gray-400" />
                             </div>
+                            <div className="text-3xl font-semibold text-green-600 mb-1">
+                                {program._count?.donations || 0}
+                            </div>
+                            <div className="text-sm text-gray-600">Total Donatur</div>
                         </div>
-                        <div className="bg-purple-50 p-4 rounded-lg">
-                            <div className="flex items-center gap-3">
-                                <Calendar className="w-8 h-8 text-purple-600" />
-                                <div>
-                                    <div className="text-sm font-semibold text-gray-900">
-                                        <span suppressHydrationWarning>{new Date(program.createdAt).toLocaleDateString('id-ID')}</span>
-                                    </div>
-                                    <div className="text-sm text-gray-600">Tanggal Dibuat</div>
-                                </div>
+
+                        <div className="bg-white rounded-lg p-5 border border-gray-200">
+                            <div className="flex items-center justify-between mb-3">
+                                <Target className="w-5 h-5 text-gray-400" />
                             </div>
+                            <div className="text-3xl font-semibold text-blue-600 mb-1">{progress}%</div>
+                            <div className="text-sm text-gray-600">Target Tercapai</div>
+                        </div>
+
+                        <div className="bg-white rounded-lg p-5 border border-gray-200">
+                            <div className="flex items-center justify-between mb-3">
+                                <Calendar className="w-5 h-5 text-gray-400" />
+                            </div>
+                            <div className="text-base font-semibold text-gray-900 mb-1" suppressHydrationWarning>
+                                {new Date(program.createdAt).toLocaleDateString('id-ID', {
+                                    day: 'numeric',
+                                    month: 'short',
+                                    year: 'numeric'
+                                })}
+                            </div>
+                            <div className="text-sm text-gray-600">Tanggal Dibuat</div>
                         </div>
                     </div>
 
                     {/* Creator Info */}
-                    <div className="border-t pt-4">
-                        <p className="text-sm text-gray-600">
-                            Dibuat oleh: <span className="font-semibold">{program.creator?.name}</span>
-                        </p>
+                    <div className="bg-white rounded-lg border border-gray-200 p-6">
+                        <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                            <User className="w-4 h-4 text-gray-400" />
+                            <span>Pembuat Program</span>
+                        </h3>
+                        <div className="flex items-center space-x-4">
+                            <div className="w-12 h-12 rounded-lg bg-orange-600 flex items-center justify-center text-white font-medium text-lg">
+                                {program.creator?.name?.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <div className="font-medium text-gray-900">{program.creator?.name}</div>
+                                <div className="text-sm text-gray-600">{program.creator?.email}</div>
+                                <div className="text-xs text-orange-600 font-medium mt-1">
+                                    {program.creator?.role?.replace(/_/g, ' ')}
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    {/* Category & Type */}
+                    {(program.category || program.programType) && (
+                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+                            <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                                <Building className="w-4 h-4 text-gray-400" />
+                                <span>Informasi Program</span>
+                            </h3>
+                            <div className="space-y-3">
+                                {program.category && (
+                                    <div>
+                                        <div className="text-xs text-gray-500 mb-1">Kategori</div>
+                                        <div className="px-3 py-1.5 bg-orange-50 text-orange-700 border border-orange-200 rounded-md font-medium text-sm inline-block">
+                                            {program.category}
+                                        </div>
+                                    </div>
+                                )}
+                                {program.programType && (
+                                    <div>
+                                        <div className="text-xs text-gray-500 mb-1">Tipe Program</div>
+                                        <div className="px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-md font-medium text-sm inline-block">
+                                            {program.programType}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
-
-            {/* Bank Accounts */}
-            {program.bankAccounts && Array.isArray(program.bankAccounts) && program.bankAccounts.length > 0 && (
-                <div className="bg-white rounded-xl shadow-lg p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">Rekening Penerima</h2>
-                    <div className="space-y-3">
-                        {program.bankAccounts.map((bank: any, idx: number) => (
-                            <div key={idx} className="bg-gray-50 p-4 rounded-lg">
-                                <div className="font-semibold text-gray-900">{bank.bank_name}</div>
-                                <div className="text-gray-600">{bank.account_number}</div>
-                                <div className="text-sm text-gray-500">{bank.account_name}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

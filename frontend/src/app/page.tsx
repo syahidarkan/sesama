@@ -66,7 +66,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-xl">S</span>
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
@@ -109,7 +109,7 @@ export default function HomePage() {
                   href={user?.role && ['MANAGER', 'CONTENT_MANAGER', 'SUPERVISOR', 'SUPER_ADMIN', 'PENGUSUL'].includes(user.role)
                     ? '/admin/dashboard'
                     : '/dashboard'}
-                  className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-semibold shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-0.5"
+                  className="px-6 py-3 bg-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-semibold border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-0.5"
                 >
                   Dashboard
                 </Link>
@@ -123,7 +123,7 @@ export default function HomePage() {
                   </Link>
                   <Link
                     href="/register"
-                    className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-semibold shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-0.5"
+                    className="px-6 py-3 bg-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-semibold border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-0.5"
                   >
                     Daftar
                   </Link>
@@ -149,7 +149,7 @@ export default function HomePage() {
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-[1.1] tracking-tight">
                 Setiap Rupiah,
                 <br />
-                <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                <span className="bg-orange-600 bg-clip-text text-transparent">
                   Jadi Harapan Baru
                 </span>
               </h1>
@@ -161,7 +161,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/programs"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-semibold text-lg shadow-xl shadow-orange-500/30 hover:shadow-2xl hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-1"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-semibold text-lg border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-1"
                 >
                   Mulai Berdonasi
                   <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -199,18 +199,18 @@ export default function HomePage() {
 
             {/* Hero Image/Visual */}
             <div className="relative">
-              <div className="relative bg-gradient-to-br from-orange-100 to-orange-50 rounded-3xl p-8 shadow-2xl border border-orange-100">
-                <div className="absolute -top-6 -right-6 w-32 h-32 bg-orange-500 rounded-3xl opacity-20 blur-2xl" />
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-600 rounded-3xl opacity-20 blur-2xl" />
+              <div className="relative bg-orange-50 rounded-lg p-8 border border-gray-200 border border-orange-100">
+                <div className="absolute -top-6 -right-6 w-32 h-32 bg-orange-500 rounded-lg opacity-20 blur-2xl" />
+                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-600 rounded-lg opacity-20 blur-2xl" />
 
-                <div className="relative bg-white rounded-2xl p-6 shadow-lg space-y-4">
+                <div className="relative bg-white rounded-lg p-6 border border-gray-200 space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-semibold text-gray-600">Total Dana Tersalurkan</span>
                     <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
                       ✓ Terverifikasi
                     </span>
                   </div>
-                  <div className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                  <div className="text-4xl font-bold bg-orange-600 bg-clip-text text-transparent">
                     {formatCurrency(totalCollected)}
                   </div>
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -263,7 +263,7 @@ export default function HomePage() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+                <div key={i} className="bg-white rounded-lg overflow-hidden border border-gray-200 border border-gray-100">
                   <div className="aspect-[4/3] bg-gray-200 animate-pulse" />
                   <div className="p-6 space-y-4">
                     <div className="h-6 bg-gray-200 rounded animate-pulse" />
@@ -283,7 +283,7 @@ export default function HomePage() {
                   <Link
                     key={program.id}
                     href={`/programs/${program.slug}`}
-                    className="group bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl hover:border-orange-200 transition-all duration-300 transform hover:-translate-y-2"
+                    className="group bg-white rounded-lg overflow-hidden border border-gray-200 border border-gray-100 hover:border border-gray-200 hover:border-orange-200 transition-all duration-300 transform hover:-translate-y-2"
                   >
                     <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
                       {program.imageUrl ? (
@@ -293,7 +293,7 @@ export default function HomePage() {
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50">
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
                           <svg className="w-20 h-20 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
@@ -301,14 +301,14 @@ export default function HomePage() {
                       )}
 
                       <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1.5 bg-white/95 backdrop-blur-sm text-gray-900 text-xs font-bold rounded-full shadow-lg">
+                        <span className="px-3 py-1.5 bg-white/95 backdrop-blur-sm text-gray-900 text-xs font-bold rounded-full border border-gray-200">
                           {program.category}
                         </span>
                       </div>
 
                       {daysLeft > 0 && daysLeft <= 7 && (
                         <div className="absolute top-4 right-4">
-                          <span className="px-3 py-1.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
+                          <span className="px-3 py-1.5 bg-red-500 text-white text-xs font-bold rounded-full border border-gray-200">
                             {daysLeft} hari lagi
                           </span>
                         </div>
@@ -333,7 +333,7 @@ export default function HomePage() {
 
                           <div className="relative w-full h-3 bg-gray-100 rounded-full overflow-hidden">
                             <div
-                              className="absolute inset-y-0 left-0 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full transition-all duration-1000 ease-out"
+                              className="absolute inset-y-0 left-0 bg-orange-600 rounded-full transition-all duration-1000 ease-out"
                               style={{ width: `${progress}%` }}
                             />
                           </div>
@@ -375,7 +375,7 @@ export default function HomePage() {
               })}
             </div>
           ) : (
-            <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200">
+            <div className="text-center py-20 bg-white rounded-lg border-2 border-dashed border-gray-200">
               <svg className="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
               </svg>
@@ -410,8 +410,8 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="group p-8 bg-gradient-to-br from-orange-50 to-orange-50/50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-orange-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+            <div className="group p-8 bg-orange-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-orange-100">
+              <div className="w-14 h-14 bg-orange-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
                 <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
@@ -424,8 +424,8 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="group p-8 bg-gradient-to-br from-blue-50 to-blue-50/50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-blue-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+            <div className="group p-8 bg-blue-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-blue-100">
+              <div className="w-14 h-14 bg-blue-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
                 <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -439,8 +439,8 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="group p-8 bg-gradient-to-br from-green-50 to-green-50/50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-green-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+            <div className="group p-8 bg-green-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-green-100">
+              <div className="w-14 h-14 bg-green-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
                 <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
@@ -469,7 +469,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200 border border-gray-100 overflow-hidden">
               {leaderboard.slice(0, 5).map((entry, index) => (
                 <div
                   key={entry.id}
@@ -478,9 +478,9 @@ export default function HomePage() {
                   }`}
                 >
                   <div className="flex items-center space-x-6">
-                    <div className={`relative w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg ${
+                    <div className={`relative w-16 h-16 rounded-lg flex items-center justify-center font-bold text-xl border border-gray-200 ${
                       index === 0
-                        ? 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white'
+                        ? 'bg-yellow-500 text-white'
                         : index === 1
                         ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white'
                         : index === 2
@@ -509,7 +509,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="text-right">
-                    <div className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                    <div className="text-2xl font-bold bg-orange-600 bg-clip-text text-transparent">
                       {formatCurrency(Number(entry.totalDonations))}
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
@@ -523,7 +523,7 @@ export default function HomePage() {
             <div className="text-center mt-8">
               <Link
                 href="/leaderboard"
-                className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 rounded-xl font-semibold border-2 border-gray-200 hover:border-gray-300 transition-all shadow-lg hover:shadow-xl"
+                className="inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 rounded-xl font-semibold border-2 border-gray-200 hover:border-gray-300 transition-all border border-gray-200 hover:border border-gray-200"
               >
                 Lihat Seluruh Leaderboard
                 <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -536,7 +536,7 @@ export default function HomePage() {
       )}
 
       {/* CTA Section */}
-      <section className="py-24 px-6 lg:px-8 bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 relative overflow-hidden">
+      <section className="py-24 px-6 lg:px-8 bg-orange-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.3))]" />
 
         <div className="max-w-4xl mx-auto text-center relative">
@@ -552,7 +552,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/pengusul/register"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-orange-600 rounded-xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-orange-600 rounded-xl font-bold text-lg border border-gray-200 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
             >
               Daftar Sebagai Pengusul
               <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -590,7 +590,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-xl">S</span>
                 </div>
                 <span className="text-2xl font-bold">sesama</span>

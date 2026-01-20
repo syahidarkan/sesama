@@ -42,7 +42,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-xl">S</span>
               </div>
               <span className="text-2xl font-bold text-gray-900">sesama</span>
@@ -62,7 +62,7 @@ export default function AboutPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 overflow-hidden">
+      <section className="relative bg-orange-600 overflow-hidden">
         <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.3))]" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
@@ -89,7 +89,7 @@ export default function AboutPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/programs"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-orange-600 rounded-xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-orange-600 rounded-xl font-bold text-lg border border-gray-200 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
               >
                 Lihat Program Kami
                 <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -112,25 +112,25 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent mb-2">
+              <div className="text-5xl font-bold bg-orange-600 bg-clip-text text-transparent mb-2">
                 100K+
               </div>
               <div className="text-gray-600 font-medium">Donatur Terdaftar</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent mb-2">
+              <div className="text-5xl font-bold bg-orange-600 bg-clip-text text-transparent mb-2">
                 500+
               </div>
               <div className="text-gray-600 font-medium">Program Tersalurkan</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent mb-2">
+              <div className="text-5xl font-bold bg-orange-600 bg-clip-text text-transparent mb-2">
                 100%
               </div>
               <div className="text-gray-600 font-medium">Dana Tersalurkan</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent mb-2">
+              <div className="text-5xl font-bold bg-orange-600 bg-clip-text text-transparent mb-2">
                 24/7
               </div>
               <div className="text-gray-600 font-medium">Layanan Aktif</div>
@@ -194,12 +194,12 @@ export default function AboutPage() {
             </div>
 
             <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-orange-100 to-orange-50 rounded-3xl shadow-2xl border border-orange-100 p-8">
-                <div className="absolute -top-6 -right-6 w-32 h-32 bg-orange-500 rounded-3xl opacity-20 blur-2xl" />
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-600 rounded-3xl opacity-20 blur-2xl" />
+              <div className="aspect-square bg-orange-50 rounded-lg border border-gray-200 border border-orange-100 p-8">
+                <div className="absolute -top-6 -right-6 w-32 h-32 bg-orange-500 rounded-lg opacity-20 blur-2xl" />
+                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-600 rounded-lg opacity-20 blur-2xl" />
 
                 <div className="relative h-full flex flex-col justify-center space-y-6">
-                  <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <div className="bg-white rounded-lg p-6 border border-gray-200">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm font-semibold text-gray-600">Tingkat Kepercayaan</span>
                       <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
@@ -219,17 +219,17 @@ export default function AboutPage() {
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <div className="bg-white rounded-lg p-6 border border-gray-200">
                     <div className="text-sm font-semibold text-gray-600 mb-3">Total Dana Tersalurkan</div>
-                    <div className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                    <div className="text-3xl font-bold bg-orange-600 bg-clip-text text-transparent">
                       Rp 50+ Miliar
                     </div>
                     <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full" style={{width: '100%'}} />
+                      <div className="h-full bg-orange-600 rounded-full" style={{width: '100%'}} />
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <div className="bg-white rounded-lg p-6 border border-gray-200">
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="text-sm text-gray-600">Waktu Respons</div>
@@ -265,8 +265,8 @@ export default function AboutPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="group p-8 bg-gradient-to-br from-orange-50 to-orange-50/50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-orange-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+            <div className="group p-8 bg-orange-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-orange-100">
+              <div className="w-14 h-14 bg-orange-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
                 <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
@@ -279,8 +279,8 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="group p-8 bg-gradient-to-br from-blue-50 to-blue-50/50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-blue-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+            <div className="group p-8 bg-blue-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-blue-100">
+              <div className="w-14 h-14 bg-blue-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
                 <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
@@ -293,8 +293,8 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="group p-8 bg-gradient-to-br from-green-50 to-green-50/50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-green-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+            <div className="group p-8 bg-green-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-green-100">
+              <div className="w-14 h-14 bg-green-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
                 <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                 </svg>
@@ -307,8 +307,8 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="group p-8 bg-gradient-to-br from-purple-50 to-purple-50/50 rounded-2xl hover:shadow-xl transition-all duration-300 border border-purple-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+            <div className="group p-8 bg-purple-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-purple-100">
+              <div className="w-14 h-14 bg-purple-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
                 <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
@@ -337,7 +337,7 @@ export default function AboutPage() {
       )}
 
       {/* CTA Section */}
-      <section className="py-24 px-6 lg:px-8 bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 relative overflow-hidden">
+      <section className="py-24 px-6 lg:px-8 bg-orange-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.3))]" />
 
         <div className="max-w-4xl mx-auto text-center relative">
@@ -353,7 +353,7 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/programs"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-orange-600 rounded-xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-orange-600 rounded-xl font-bold text-lg border border-gray-200 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
             >
               Mulai Berdonasi
               <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -376,7 +376,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-xl">S</span>
                 </div>
                 <span className="text-2xl font-bold">sesama</span>

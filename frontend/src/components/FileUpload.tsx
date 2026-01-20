@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { uploadsApi } from '@/lib/api';
+import { FileImage, Video, FileText, FileSpreadsheet, File, Upload, Loader2, Eye, Download, X } from 'lucide-react';
 
 interface UploadedFile {
   id: string;
@@ -121,30 +122,30 @@ export default function FileUpload({
   };
 
   const getFileIcon = (mimeType: string) => {
-    if (mimeType.startsWith('image/')) return '🖼️';
-    if (mimeType.startsWith('video/')) return '🎥';
-    if (mimeType === 'application/pdf') return '📄';
-    if (mimeType.includes('word') || mimeType.includes('.doc')) return '📝';
-    if (mimeType.includes('excel') || mimeType.includes('.xls')) return '📊';
-    if (mimeType.includes('powerpoint') || mimeType.includes('.ppt')) return '📑';
-    return '📎';
+    if (mimeType.startsWith('image/')) return <FileImage className="w-6 h-6 text-orange-600" />;
+    if (mimeType.startsWith('video/')) return <Video className="w-6 h-6 text-orange-600" />;
+    if (mimeType === 'application/pdf') return <FileText className="w-6 h-6 text-red-600" />;
+    if (mimeType.includes('word') || mimeType.includes('.doc')) return <FileText className="w-6 h-6 text-blue-600" />;
+    if (mimeType.includes('excel') || mimeType.includes('.xls')) return <FileSpreadsheet className="w-6 h-6 text-green-600" />;
+    if (mimeType.includes('powerpoint') || mimeType.includes('.ppt')) return <FileText className="w-6 h-6 text-orange-600" />;
+    return <File className="w-6 h-6 text-gray-600" />;
   };
 
   const isImageFile = (mimeType: string) => mimeType.startsWith('image/');
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-700">
-        {label} {required && <span className="text-red-500">*</span>}
+      <label className="block text-sm font-medium text-gray-900">
+        {label} {required && <span className="text-red-600">*</span>}
       </label>
 
       {/* Drop zone */}
       <div
-        className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+        className={`border-2 border-dashed rounded-md p-6 text-center transition-all group ${
           disabled
             ? 'bg-gray-100 border-gray-300 cursor-not-allowed'
-            : 'border-gray-300 hover:border-green-500 cursor-pointer'
-        } ${uploading ? 'bg-blue-50 border-blue-300' : ''}`}
+            : 'border-gray-300 hover:border-orange-500 hover:bg-orange-50/30 cursor-pointer'
+        } ${uploading ? 'bg-orange-50 border-orange-300' : ''}`}
         onClick={() => !disabled && fileInputRef.current?.click()}
       >
         <input
@@ -158,13 +159,13 @@ export default function FileUpload({
         />
 
         {uploading ? (
-          <div className="space-y-2">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto"></div>
+          <div className="space-y-3 animate-fadeIn">
+            <Loader2 className="w-8 h-8 text-orange-600 mx-auto animate-spin" />
             <p className="text-sm text-gray-600">Mengupload file...</p>
             {progress > 0 && (
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                 <div
-                  className="bg-green-600 h-2 rounded-full transition-all"
+                  className="bg-orange-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
@@ -172,8 +173,8 @@ export default function FileUpload({
           </div>
         ) : (
           <div className="space-y-2">
-            <div className="text-4xl">📁</div>
-            <p className="text-sm text-gray-600">
+            <Upload className="w-10 h-10 text-gray-400 mx-auto transition-all group-hover:text-orange-600 group-hover:scale-110 group-hover:animate-bounce-slow" />
+            <p className="text-sm text-gray-600 transition-colors group-hover:text-gray-900">
               {multiple
                 ? 'Klik atau drag & drop file di sini'
                 : 'Klik atau drag & drop file di sini'}
@@ -195,23 +196,24 @@ export default function FileUpload({
 
       {/* Uploaded files list */}
       {uploadedFiles.length > 0 && (
-        <div className="space-y-2 mt-4">
-          <p className="text-sm font-medium text-gray-700">File yang diupload:</p>
+        <div className="space-y-2 mt-4 animate-fadeIn">
+          <p className="text-sm font-medium text-gray-900">File yang diupload:</p>
           <div className="grid grid-cols-1 gap-2">
-            {uploadedFiles.map((file) => (
+            {uploadedFiles.map((file, index) => (
               <div
                 key={file.id}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200 hover:border-orange-300 transition-all hover:shadow-sm group animate-fadeIn"
+                style={{ animationDelay: `${0.05 * index}s` }}
               >
                 <div className="flex items-center gap-3 overflow-hidden">
                   {isImageFile(file.mimeType) ? (
                     <img
                       src={uploadsApi.getFileUrl(file.storedFilename)}
                       alt={file.filename}
-                      className="w-12 h-12 object-cover rounded"
+                      className="w-10 h-10 object-cover rounded transition-transform group-hover:scale-110"
                     />
                   ) : (
-                    <span className="text-2xl">{getFileIcon(file.mimeType)}</span>
+                    <div className="shrink-0 transition-transform group-hover:scale-110">{getFileIcon(file.mimeType)}</div>
                   )}
                   <div className="overflow-hidden">
                     <p className="text-sm font-medium text-gray-900 truncate">
@@ -222,20 +224,22 @@ export default function FileUpload({
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   <a
                     href={uploadsApi.getFileUrl(file.storedFilename)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm"
+                    className="p-1.5 text-orange-600 hover:bg-orange-50 rounded transition-all hover:scale-110"
+                    title="Lihat"
                   >
-                    Lihat
+                    <Eye className="w-4 h-4" />
                   </a>
                   <a
                     href={uploadsApi.getDownloadUrl(file.storedFilename)}
-                    className="text-green-600 hover:text-green-800 text-sm"
+                    className="p-1.5 text-orange-600 hover:bg-orange-50 rounded transition-all hover:scale-110"
+                    title="Download"
                   >
-                    Download
+                    <Download className="w-4 h-4" />
                   </a>
                   {!disabled && (
                     <button
@@ -244,9 +248,10 @@ export default function FileUpload({
                         e.stopPropagation();
                         handleRemoveFile(file);
                       }}
-                      className="text-red-600 hover:text-red-800 text-sm"
+                      className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-all hover:scale-110"
+                      title="Hapus"
                     >
-                      Hapus
+                      <X className="w-4 h-4" />
                     </button>
                   )}
                 </div>

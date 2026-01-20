@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store/auth';
 import { programsApi } from '@/lib/api';
 import Link from 'next/link';
 import FileUpload from '@/components/FileUpload';
+import { FileText, Building2, FileCheck, BarChart3, User, Edit3, CreditCard, Image, Camera, File } from 'lucide-react';
 
 interface UploadedFile {
   id: string;
@@ -19,29 +20,29 @@ type ProgramType = 'INDIVIDU' | 'LEMBAGA' | null;
 
 // Steps untuk CONTENT_MANAGER (3 langkah - sederhana)
 const CONTENT_MANAGER_STEPS = [
-  { id: 1, name: 'Informasi Program', icon: '📋' },
-  { id: 2, name: 'Detail & Target', icon: '📝' },
-  { id: 3, name: 'Rekening Bank', icon: '🏦' },
+  { id: 1, name: 'Informasi Program', icon: FileText },
+  { id: 2, name: 'Detail & Target', icon: Edit3 },
+  { id: 3, name: 'Rekening Bank', icon: CreditCard },
 ];
 
 // Steps untuk LEMBAGA (7 langkah)
 const LEMBAGA_STEPS = [
-  { id: 1, name: 'Informasi Dasar', icon: '📋' },
-  { id: 2, name: 'Profil Lembaga', icon: '🏢' },
-  { id: 3, name: 'Dokumen Legalitas', icon: '📄' },
-  { id: 4, name: 'Proposal & RAB', icon: '📊' },
-  { id: 5, name: 'Contact Person', icon: '👤' },
-  { id: 6, name: 'Detail Program', icon: '📝' },
-  { id: 7, name: 'Rekening Bank', icon: '🏦' },
+  { id: 1, name: 'Informasi Dasar', icon: FileText },
+  { id: 2, name: 'Profil Lembaga', icon: Building2 },
+  { id: 3, name: 'Dokumen Legalitas', icon: File },
+  { id: 4, name: 'Proposal & RAB', icon: BarChart3 },
+  { id: 5, name: 'Contact Person', icon: User },
+  { id: 6, name: 'Detail Program', icon: Edit3 },
+  { id: 7, name: 'Rekening Bank', icon: CreditCard },
 ];
 
 // Steps untuk INDIVIDU (5 langkah)
 const INDIVIDU_STEPS = [
-  { id: 1, name: 'Informasi Dasar', icon: '📋' },
-  { id: 2, name: 'Data Pengaju', icon: '👤' },
-  { id: 3, name: 'Bukti Kondisi', icon: '📸' },
-  { id: 4, name: 'Surat Keterangan', icon: '📄' },
-  { id: 5, name: 'Rekening Penerima', icon: '🏦' },
+  { id: 1, name: 'Informasi Dasar', icon: FileText },
+  { id: 2, name: 'Data Pengaju', icon: User },
+  { id: 3, name: 'Bukti Kondisi', icon: Camera },
+  { id: 4, name: 'Surat Keterangan', icon: FileCheck },
+  { id: 5, name: 'Rekening Penerima', icon: CreditCard },
 ];
 
 export default function CreateProgramPage() {
@@ -431,17 +432,17 @@ export default function CreateProgramPage() {
   // For PENGUSUL - Show program type selection first
   if (isPengusul && !programType) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
-        <div className="bg-white shadow-sm border-b">
-          <div className="max-w-4xl mx-auto px-4 py-4">
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-white border-b border-gray-200">
+          <div className="max-w-4xl mx-auto px-4 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Buat Program Donasi</h1>
-                <p className="text-sm text-gray-600">Pilih jenis program yang ingin Anda ajukan</p>
+                <h1 className="text-2xl font-semibold text-gray-900">Buat Program Donasi</h1>
+                <p className="text-sm text-gray-600 mt-1">Pilih jenis program yang ingin Anda ajukan</p>
               </div>
               <Link
                 href="/admin/dashboard"
-                className="text-gray-600 hover:text-gray-700 font-medium"
+                className="text-sm text-gray-600 hover:text-gray-900 font-medium"
               >
                 ← Kembali
               </Link>
@@ -454,36 +455,38 @@ export default function CreateProgramPage() {
             {/* INDIVIDU Card */}
             <button
               onClick={() => setProgramType('INDIVIDU')}
-              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all border-2 border-transparent hover:border-blue-500 text-left"
+              className="bg-white rounded-lg border border-gray-200 p-8 hover:border-orange-500 transition-colors text-left group"
             >
-              <div className="text-5xl mb-4">👤</div>
-              <h2 className="text-2xl font-bold text-blue-600 mb-3">Program Individu</h2>
-              <p className="text-gray-600 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
+                <User className="w-6 h-6 text-orange-600" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Program Individu</h2>
+              <p className="text-sm text-gray-600 mb-6">
                 Untuk membantu individu/perorangan yang membutuhkan bantuan mendesak
               </p>
-              <div className="space-y-2 text-sm text-gray-500">
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+              <div className="space-y-2 text-sm text-gray-600">
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Tetangga yang sakit parah</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Korban bencana/kebakaran</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Kebutuhan pendidikan anak</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Biaya pengobatan mendesak</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Kebutuhan mendesak lainnya</span>
                 </div>
               </div>
-              <div className="mt-6 px-4 py-2 rounded-lg bg-blue-100 text-blue-700 text-sm font-medium">
+              <div className="mt-6 px-3 py-1.5 rounded-md bg-orange-50 text-orange-700 text-xs font-medium inline-block">
                 Form Sederhana (5 Langkah)
               </div>
             </button>
@@ -491,47 +494,49 @@ export default function CreateProgramPage() {
             {/* LEMBAGA Card */}
             <button
               onClick={() => setProgramType('LEMBAGA')}
-              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all border-2 border-transparent hover:border-green-500 text-left"
+              className="bg-white rounded-lg border border-gray-200 p-8 hover:border-orange-500 transition-colors text-left group"
             >
-              <div className="text-5xl mb-4">🏢</div>
-              <h2 className="text-2xl font-bold text-green-600 mb-3">Program Lembaga</h2>
-              <p className="text-gray-600 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
+                <Building2 className="w-6 h-6 text-orange-600" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Program Lembaga</h2>
+              <p className="text-sm text-gray-600 mb-6">
                 Untuk program dari lembaga/organisasi yang terverifikasi
               </p>
-              <div className="space-y-2 text-sm text-gray-500">
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+              <div className="space-y-2 text-sm text-gray-600">
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Yayasan pendidikan</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Pondok pesantren</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Masjid & musholla</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>LAZ dan lembaga sosial</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="mr-2">✓</span>
+                <div className="flex items-start">
+                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
                   <span>Organisasi kemasyarakatan</span>
                 </div>
               </div>
-              <div className="mt-6 px-4 py-2 rounded-lg bg-green-100 text-green-700 text-sm font-medium">
+              <div className="mt-6 px-3 py-1.5 rounded-md bg-orange-50 text-orange-700 text-xs font-medium inline-block">
                 Form Lengkap (7 Langkah)
               </div>
             </button>
           </div>
 
-          <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+          <div className="mt-8 bg-amber-50 border border-amber-200 rounded-lg p-6">
             <div className="flex items-start">
-              <div className="text-2xl mr-4">⚠️</div>
+              <div className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0 mt-0.5">!</div>
               <div>
-                <h3 className="font-semibold text-yellow-900 mb-2">Penting untuk Diperhatikan</h3>
-                <ul className="text-sm text-yellow-800 space-y-1">
+                <h3 className="font-semibold text-gray-900 mb-2">Penting untuk Diperhatikan</h3>
+                <ul className="text-sm text-gray-700 space-y-1">
                   <li>• Pastikan semua data yang diisi adalah <strong>benar dan valid</strong></li>
                   <li>• Upload dokumen langsung melalui form ini (max 100MB per file)</li>
                   <li>• Dokumen yang diupload akan otomatis tersimpan dan terverifikasi</li>
@@ -549,20 +554,20 @@ export default function CreateProgramPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-semibold text-gray-900">
                 {isSimpleForm ? 'Buat Program Donasi' : `Buat Program ${programType}`}
               </h1>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 mt-1">
                 {isSimpleForm
                   ? 'Form sederhana untuk Content Manager'
                   : `Isi formulir lengkap untuk program ${programType?.toLowerCase()}`}
               </p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               {isPengusul && programType && (
                 <button
                   onClick={() => {
@@ -570,14 +575,14 @@ export default function CreateProgramPage() {
                     setCurrentStep(1);
                     setError('');
                   }}
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-sm text-orange-600 hover:text-orange-700 font-medium"
                 >
                   Ganti Tipe
                 </button>
               )}
               <Link
                 href="/admin/dashboard"
-                className="text-gray-600 hover:text-gray-700 font-medium"
+                className="text-sm text-gray-600 hover:text-gray-900 font-medium"
               >
                 ← Kembali
               </Link>
@@ -590,53 +595,53 @@ export default function CreateProgramPage() {
         {/* Progress Steps */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
-            {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center">
-                <div className="flex flex-col items-center">
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
-                      currentStep === step.id
-                        ? isSimpleForm ? 'bg-purple-600 text-white scale-110' :
-                          programType === 'INDIVIDU' ? 'bg-blue-600 text-white scale-110' : 'bg-green-600 text-white scale-110'
-                        : currentStep > step.id
-                        ? isSimpleForm ? 'bg-purple-100 text-purple-600' :
-                          programType === 'INDIVIDU' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
-                        : 'bg-gray-100 text-gray-400'
-                    }`}
-                  >
-                    {step.icon}
+            {steps.map((step, index) => {
+              const StepIcon = step.icon;
+              return (
+                <div key={step.id} className="flex items-center">
+                  <div className="flex flex-col items-center">
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                        currentStep === step.id
+                          ? 'bg-orange-600 text-white'
+                          : currentStep > step.id
+                          ? 'bg-orange-100 text-orange-600'
+                          : 'bg-gray-100 text-gray-400'
+                      }`}
+                    >
+                      <StepIcon className="w-5 h-5" />
+                    </div>
+                    <span
+                      className={`mt-2 text-xs font-medium text-center max-w-[80px] ${
+                        currentStep === step.id
+                          ? 'text-gray-900'
+                          : currentStep > step.id
+                          ? 'text-gray-600'
+                          : 'text-gray-400'
+                      }`}
+                    >
+                      {step.name}
+                    </span>
                   </div>
-                  <span
-                    className={`mt-2 text-xs font-medium text-center ${
-                      currentStep === step.id
-                        ? 'text-gray-900'
-                        : currentStep > step.id
-                        ? 'text-gray-600'
-                        : 'text-gray-400'
-                    }`}
-                  >
-                    {step.name}
-                  </span>
+                  {index < steps.length - 1 && (
+                    <div
+                      className={`h-0.5 w-12 mx-2 transition-all ${
+                        currentStep > step.id
+                          ? 'bg-orange-600'
+                          : 'bg-gray-200'
+                      }`}
+                    />
+                  )}
                 </div>
-                {index < steps.length - 1 && (
-                  <div
-                    className={`h-1 w-12 mx-2 transition-all ${
-                      currentStep > step.id
-                        ? isSimpleForm ? 'bg-purple-600' :
-                          programType === 'INDIVIDU' ? 'bg-blue-600' : 'bg-green-600'
-                        : 'bg-gray-200'
-                    }`}
-                  />
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="bg-white rounded-lg border border-gray-200 p-8">
           {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
               {error}
             </div>
           )}
@@ -644,10 +649,10 @@ export default function CreateProgramPage() {
           {/* CONTENT_MANAGER Forms */}
           {isSimpleForm && currentStep === 1 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Informasi Program</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Informasi Program</h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Judul Program <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -656,20 +661,20 @@ export default function CreateProgramPage() {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Contoh: Bantuan Pendidikan Anak Yatim 2024"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Kategori <span className="text-red-600">*</span>
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 >
                   <option value="">Pilih Kategori</option>
@@ -684,7 +689,7 @@ export default function CreateProgramPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Target Donasi (Rp) <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -693,14 +698,14 @@ export default function CreateProgramPage() {
                   value={formData.targetAmount}
                   onChange={handleChange}
                   placeholder="10000000"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                   min="0"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Lokasi Program
                 </label>
                 <input
@@ -709,7 +714,7 @@ export default function CreateProgramPage() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Contoh: Jakarta Selatan"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
@@ -728,7 +733,7 @@ export default function CreateProgramPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Tanggal Mulai
                   </label>
                   <input
@@ -736,11 +741,11 @@ export default function CreateProgramPage() {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Tanggal Berakhir
                   </label>
                   <input
@@ -748,7 +753,7 @@ export default function CreateProgramPage() {
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
               </div>
@@ -757,10 +762,10 @@ export default function CreateProgramPage() {
 
           {isSimpleForm && currentStep === 2 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Detail & Target</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Detail & Target</h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Deskripsi Program <span className="text-red-600">*</span>
                 </label>
                 <textarea
@@ -769,13 +774,13 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Jelaskan program donasi ini secara detail..."
                   rows={6}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Tujuan Program <span className="text-red-600">*</span>
                 </label>
                 <textarea
@@ -784,13 +789,13 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Apa tujuan dari program ini?"
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Jumlah Penerima Manfaat (estimasi)
                 </label>
                 <input
@@ -799,13 +804,13 @@ export default function CreateProgramPage() {
                   value={formData.beneficiaryCount}
                   onChange={handleChange}
                   placeholder="100"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   min="0"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Rencana Pelaksanaan
                 </label>
                 <textarea
@@ -814,12 +819,12 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Bagaimana program ini akan dilaksanakan?"
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Output yang Diharapkan
                 </label>
                 <textarea
@@ -828,7 +833,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Apa hasil yang diharapkan dari program ini?"
                   rows={3}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
             </div>
@@ -836,23 +841,23 @@ export default function CreateProgramPage() {
 
           {isSimpleForm && currentStep === 3 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Rekening Bank</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Rekening Bank</h2>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-blue-800">
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+                <p className="text-sm text-gray-700">
                   Masukkan informasi rekening bank yang akan digunakan untuk menerima dana donasi.
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama Bank <span className="text-red-600">*</span>
                 </label>
                 <select
                   name="bankName"
                   value={formData.bankName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 >
                   <option value="">Pilih Bank</option>
@@ -872,7 +877,7 @@ export default function CreateProgramPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nomor Rekening <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -881,13 +886,13 @@ export default function CreateProgramPage() {
                   value={formData.bankAccountNumber}
                   onChange={handleChange}
                   placeholder="1234567890"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama Pemilik Rekening <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -896,7 +901,7 @@ export default function CreateProgramPage() {
                   value={formData.bankAccountName}
                   onChange={handleChange}
                   placeholder="Nama sesuai rekening bank"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
                 <p className="mt-1 text-sm text-gray-500">
@@ -909,10 +914,10 @@ export default function CreateProgramPage() {
           {/* PENGUSUL - LEMBAGA Forms */}
           {isPengusul && programType === 'LEMBAGA' && currentStep === 1 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Informasi Dasar Program</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Informasi Dasar Program</h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Judul Program <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -921,20 +926,20 @@ export default function CreateProgramPage() {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Contoh: Bantuan Pendidikan Anak Yatim 2024"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Kategori <span className="text-red-600">*</span>
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 >
                   <option value="">Pilih Kategori</option>
@@ -949,7 +954,7 @@ export default function CreateProgramPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Target Donasi (Rp) <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -958,14 +963,14 @@ export default function CreateProgramPage() {
                   value={formData.targetAmount}
                   onChange={handleChange}
                   placeholder="10000000"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                   min="0"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Lokasi Program
                 </label>
                 <input
@@ -974,7 +979,7 @@ export default function CreateProgramPage() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Contoh: Jakarta Selatan"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
@@ -993,7 +998,7 @@ export default function CreateProgramPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Tanggal Mulai
                   </label>
                   <input
@@ -1001,11 +1006,11 @@ export default function CreateProgramPage() {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
                     Tanggal Berakhir
                   </label>
                   <input
@@ -1013,7 +1018,7 @@ export default function CreateProgramPage() {
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   />
                 </div>
               </div>
@@ -1022,10 +1027,10 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'LEMBAGA' && currentStep === 2 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Profil Lembaga</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Profil Lembaga</h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama Lembaga <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1034,20 +1039,20 @@ export default function CreateProgramPage() {
                   value={formData.institutionName}
                   onChange={handleChange}
                   placeholder="Contoh: Yayasan Pendidikan Al-Ikhlas"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Jenis Lembaga <span className="text-red-600">*</span>
                 </label>
                 <select
                   name="institutionType"
                   value={formData.institutionType}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 >
                   <option value="">Pilih Jenis Lembaga</option>
@@ -1063,7 +1068,7 @@ export default function CreateProgramPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Alamat Lengkap Lembaga <span className="text-red-600">*</span>
                 </label>
                 <textarea
@@ -1072,13 +1077,13 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Jalan, Kelurahan, Kecamatan, Kota/Kabupaten, Provinsi"
                   rows={3}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nomor Telepon Lembaga
                 </label>
                 <input
@@ -1087,12 +1092,12 @@ export default function CreateProgramPage() {
                   value={formData.institutionPhone}
                   onChange={handleChange}
                   placeholder="021-12345678"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Email Lembaga
                 </label>
                 <input
@@ -1101,12 +1106,12 @@ export default function CreateProgramPage() {
                   value={formData.institutionEmail}
                   onChange={handleChange}
                   placeholder="info@lembaga.org"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Tahun Berdiri
                 </label>
                 <input
@@ -1115,12 +1120,12 @@ export default function CreateProgramPage() {
                   value={formData.institutionEstablished}
                   onChange={handleChange}
                   placeholder="2020"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Profil Singkat Lembaga
                 </label>
                 <textarea
@@ -1129,7 +1134,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Ceritakan tentang lembaga Anda..."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
             </div>
@@ -1137,10 +1142,10 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'LEMBAGA' && currentStep === 3 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Dokumen Legalitas</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Dokumen Legalitas</h2>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-blue-800">
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+                <p className="text-sm text-gray-700">
                   Upload dokumen langsung melalui form di bawah ini. File akan tersimpan otomatis.
                 </p>
               </div>
@@ -1216,10 +1221,10 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'LEMBAGA' && currentStep === 4 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Proposal & RAB</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Proposal & RAB</h2>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-blue-800">
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+                <p className="text-sm text-gray-700">
                   Upload proposal lengkap dan Rencana Anggaran Biaya (RAB) dalam format PDF
                 </p>
               </div>
@@ -1268,10 +1273,10 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'LEMBAGA' && currentStep === 5 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Contact Person (PIC)</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Contact Person (PIC)</h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama PIC <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1280,13 +1285,13 @@ export default function CreateProgramPage() {
                   value={formData.picName}
                   onChange={handleChange}
                   placeholder="Nama lengkap PIC"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Jabatan PIC
                 </label>
                 <input
@@ -1295,12 +1300,12 @@ export default function CreateProgramPage() {
                   value={formData.picPosition}
                   onChange={handleChange}
                   placeholder="Contoh: Ketua Yayasan"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   No. HP/WhatsApp PIC <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1309,13 +1314,13 @@ export default function CreateProgramPage() {
                   value={formData.picPhone}
                   onChange={handleChange}
                   placeholder="08123456789"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Email PIC
                 </label>
                 <input
@@ -1324,7 +1329,7 @@ export default function CreateProgramPage() {
                   value={formData.picEmail}
                   onChange={handleChange}
                   placeholder="pic@email.com"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
             </div>
@@ -1332,10 +1337,10 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'LEMBAGA' && currentStep === 6 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Detail Program</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Detail Program</h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Deskripsi Program <span className="text-red-600">*</span>
                 </label>
                 <textarea
@@ -1344,13 +1349,13 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Jelaskan program donasi ini secara detail..."
                   rows={6}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Tujuan Program <span className="text-red-600">*</span>
                 </label>
                 <textarea
@@ -1359,13 +1364,13 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Apa tujuan dari program ini?"
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Jumlah Penerima Manfaat (estimasi)
                 </label>
                 <input
@@ -1374,13 +1379,13 @@ export default function CreateProgramPage() {
                   value={formData.beneficiaryCount}
                   onChange={handleChange}
                   placeholder="100"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   min="0"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Rencana Pelaksanaan
                 </label>
                 <textarea
@@ -1389,12 +1394,12 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Bagaimana program ini akan dilaksanakan?"
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Output yang Diharapkan
                 </label>
                 <textarea
@@ -1403,12 +1408,12 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Apa hasil yang diharapkan dari program ini?"
                   rows={3}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Rencana Keberlanjutan
                 </label>
                 <textarea
@@ -1417,7 +1422,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Bagaimana keberlanjutan program ini setelah selesai?"
                   rows={3}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
             </div>
@@ -1425,23 +1430,23 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'LEMBAGA' && currentStep === 7 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Rekening Bank</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Rekening Bank</h2>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-blue-800">
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+                <p className="text-sm text-gray-700">
                   Masukkan informasi rekening lembaga yang akan digunakan untuk menerima dana donasi.
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama Bank <span className="text-red-600">*</span>
                 </label>
                 <select
                   name="bankName"
                   value={formData.bankName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 >
                   <option value="">Pilih Bank</option>
@@ -1461,7 +1466,7 @@ export default function CreateProgramPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nomor Rekening <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1470,13 +1475,13 @@ export default function CreateProgramPage() {
                   value={formData.bankAccountNumber}
                   onChange={handleChange}
                   placeholder="1234567890"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama Pemilik Rekening <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1485,7 +1490,7 @@ export default function CreateProgramPage() {
                   value={formData.bankAccountName}
                   onChange={handleChange}
                   placeholder="Nama lembaga sesuai rekening bank"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
                 <p className="mt-1 text-sm text-gray-500">
@@ -1498,10 +1503,10 @@ export default function CreateProgramPage() {
           {/* PENGUSUL - INDIVIDU Forms */}
           {isPengusul && programType === 'INDIVIDU' && currentStep === 1 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Informasi Dasar Program</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Informasi Dasar Program</h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Judul Program <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1510,13 +1515,13 @@ export default function CreateProgramPage() {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Contoh: Bantu Pak RT Terkena Stroke"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Deskripsi Singkat <span className="text-red-600">*</span>
                 </label>
                 <textarea
@@ -1525,20 +1530,20 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Ceritakan kondisi penerima bantuan..."
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Kategori <span className="text-red-600">*</span>
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 >
                   <option value="">Pilih Kategori</option>
@@ -1552,7 +1557,7 @@ export default function CreateProgramPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Target Donasi (Rp) <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1561,14 +1566,14 @@ export default function CreateProgramPage() {
                   value={formData.targetAmount}
                   onChange={handleChange}
                   placeholder="5000000"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                   min="0"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Lokasi
                 </label>
                 <input
@@ -1577,7 +1582,7 @@ export default function CreateProgramPage() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Contoh: Jakarta Timur"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
@@ -1598,10 +1603,10 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'INDIVIDU' && currentStep === 2 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Data Pengaju</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Data Pengaju</h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama Lengkap Pengaju <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1610,13 +1615,13 @@ export default function CreateProgramPage() {
                   value={formData.applicantName}
                   onChange={handleChange}
                   placeholder="Nama Anda sebagai pengaju"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nomor KTP Pengaju
                 </label>
                 <input
@@ -1625,13 +1630,13 @@ export default function CreateProgramPage() {
                   value={formData.applicantKtpNumber}
                   onChange={handleChange}
                   placeholder="16 digit nomor KTP"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   maxLength={16}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   No. HP/WhatsApp Pengaju <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1640,13 +1645,13 @@ export default function CreateProgramPage() {
                   value={formData.applicantPhone}
                   onChange={handleChange}
                   placeholder="08123456789"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Alamat Lengkap Pengaju
                 </label>
                 <textarea
@@ -1655,7 +1660,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Alamat lengkap Anda"
                   rows={3}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
@@ -1677,10 +1682,10 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'INDIVIDU' && currentStep === 3 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Bukti Kondisi</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Bukti Kondisi</h2>
 
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-yellow-800">
+              <div className="bg-amber-50 border border-amber-200 rounded-md p-4 mb-6">
+                <p className="text-sm text-gray-700">
                   Upload foto/video yang menunjukkan kondisi penerima bantuan
                 </p>
               </div>
@@ -1700,7 +1705,7 @@ export default function CreateProgramPage() {
               />
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Deskripsi Kondisi Detail
                 </label>
                 <textarea
@@ -1709,7 +1714,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Jelaskan kondisi penerima bantuan secara detail..."
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
             </div>
@@ -1717,10 +1722,10 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'INDIVIDU' && currentStep === 4 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Surat Keterangan RT/RW</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Surat Keterangan RT/RW</h2>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-blue-800">
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+                <p className="text-sm text-gray-700">
                   Surat keterangan dari RT/RW/Kelurahan untuk memvalidasi kondisi penerima bantuan
                 </p>
               </div>
@@ -1740,7 +1745,7 @@ export default function CreateProgramPage() {
               />
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama RT/RW/Kepala Desa
                 </label>
                 <input
@@ -1749,12 +1754,12 @@ export default function CreateProgramPage() {
                   value={formData.rtRwName}
                   onChange={handleChange}
                   placeholder="Nama yang menandatangani surat"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   No. HP RT/RW/Kepala Desa
                 </label>
                 <input
@@ -1763,7 +1768,7 @@ export default function CreateProgramPage() {
                   value={formData.rtRwPhone}
                   onChange={handleChange}
                   placeholder="08123456789"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 />
                 <p className="mt-1 text-sm text-gray-500">
                   Nomor ini bisa dihubungi untuk verifikasi
@@ -1774,23 +1779,23 @@ export default function CreateProgramPage() {
 
           {isPengusul && programType === 'INDIVIDU' && currentStep === 5 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Rekening Penerima</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Rekening Penerima</h2>
 
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-red-800">
+              <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+                <p className="text-sm text-gray-700">
                   <strong>PENTING:</strong> Rekening harus atas nama penerima manfaat atau keluarga terdekat
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama Bank <span className="text-red-600">*</span>
                 </label>
                 <select
                   name="beneficiaryBankName"
                   value={formData.beneficiaryBankName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 >
                   <option value="">Pilih Bank</option>
@@ -1810,7 +1815,7 @@ export default function CreateProgramPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nomor Rekening <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1819,13 +1824,13 @@ export default function CreateProgramPage() {
                   value={formData.beneficiaryBankAccount}
                   onChange={handleChange}
                   placeholder="1234567890"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Nama Pemilik Rekening <span className="text-red-600">*</span>
                 </label>
                 <input
@@ -1834,7 +1839,7 @@ export default function CreateProgramPage() {
                   value={formData.beneficiaryAccountName}
                   onChange={handleChange}
                   placeholder="Nama sesuai rekening bank"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                   required
                 />
                 <p className="mt-1 text-sm text-gray-500">
@@ -1845,12 +1850,12 @@ export default function CreateProgramPage() {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8">
+          <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
             <button
               type="button"
               onClick={handlePrev}
               disabled={currentStep === 1}
-              className="px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2.5 text-sm rounded-md border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               ← Kembali
             </button>
@@ -1859,13 +1864,7 @@ export default function CreateProgramPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className={`px-6 py-3 rounded-lg font-semibold text-white transition-all ${
-                  isSimpleForm
-                    ? 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
-                    : programType === 'INDIVIDU'
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
-                    : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800'
-                }`}
+                className="px-6 py-2.5 text-sm rounded-md bg-orange-600 text-white font-medium hover:bg-orange-700 transition-colors"
               >
                 Lanjut →
               </button>
@@ -1874,15 +1873,9 @@ export default function CreateProgramPage() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading}
-                className={`px-8 py-3 rounded-lg font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                  isSimpleForm
-                    ? 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
-                    : programType === 'INDIVIDU'
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
-                    : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800'
-                }`}
+                className="px-8 py-2.5 text-sm rounded-md bg-orange-600 text-white font-semibold hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                {loading ? 'Menyimpan...' : isSimpleForm ? '✓ Buat Program' : '✓ Simpan Program'}
+                {loading ? 'Menyimpan...' : isSimpleForm ? 'Buat Program' : 'Simpan Program'}
               </button>
             )}
           </div>

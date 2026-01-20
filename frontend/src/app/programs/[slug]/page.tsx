@@ -176,7 +176,7 @@ export default function ProgramDetailPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-xl">S</span>
               </div>
               <span className="text-2xl font-bold text-gray-900">sesama</span>
@@ -262,7 +262,7 @@ export default function ProgramDetailPage() {
           {/* Left Column - Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Progress Stats Card */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg">
+            <div className="bg-white rounded-lg border border-gray-200 p-8 border border-gray-200">
               <div className="grid grid-cols-3 gap-6 mb-8">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-orange-600 mb-1">
@@ -291,7 +291,7 @@ export default function ProgramDetailPage() {
                 </div>
                 <div className="relative w-full h-4 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className="absolute inset-y-0 left-0 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full transition-all duration-1000 ease-out shadow-lg"
+                    className="absolute inset-y-0 left-0 bg-orange-600 rounded-full transition-all duration-1000 ease-out border border-gray-200"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -303,7 +303,7 @@ export default function ProgramDetailPage() {
             </div>
 
             {/* Tabs */}
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200 border border-gray-200 overflow-hidden">
               <div className="border-b border-gray-200 bg-gray-50">
                 <div className="flex">
                   <button
@@ -404,7 +404,7 @@ export default function ProgramDetailPage() {
                           className="flex items-center justify-between p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
                         >
                           <div className="flex items-center space-x-4">
-                            <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                            <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold border border-gray-200">
                               {donation.donorName.charAt(0)}
                             </div>
                             <div>
@@ -442,7 +442,7 @@ export default function ProgramDetailPage() {
 
           {/* Right Column - Donation Card */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl border-2 border-orange-200 shadow-2xl sticky top-28">
+            <div className="bg-white rounded-lg border-2 border-orange-200 border border-gray-200 sticky top-28">
               <div className="p-6 bg-gradient-to-br from-orange-50 to-white border-b-2 border-orange-100">
                 <h3 className="text-lg font-bold text-gray-900 mb-2">
                   Salurkan Kebaikan Anda
@@ -456,7 +456,7 @@ export default function ProgramDetailPage() {
                 {program.status === 'ACTIVE' ? (
                   <button
                     onClick={() => setShowDonationModal(true)}
-                    className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-0.5"
+                    className="w-full py-4 bg-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-bold text-lg border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transition-all duration-300 transform hover:-translate-y-0.5"
                   >
                     Donasi Sekarang
                   </button>
@@ -512,8 +512,8 @@ export default function ProgramDetailPage() {
       {/* Donation Modal */}
       {showDonationModal && (
         <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-6 rounded-t-3xl">
+          <div className="bg-white rounded-lg border border-gray-200 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-orange-600 px-8 py-6 rounded-t-3xl">
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-bold text-white">Form Donasi</h3>
                 <button
@@ -558,7 +558,7 @@ export default function ProgramDetailPage() {
                       }}
                       className={`px-4 py-4 border-2 rounded-xl font-bold text-sm transition-all ${
                         donationAmount === amount.toString()
-                          ? 'border-orange-600 bg-orange-50 text-orange-700 shadow-lg shadow-orange-500/20'
+                          ? 'border-orange-600 bg-orange-50 text-orange-700 border border-gray-200 shadow-orange-500/20'
                           : 'border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'
                       }`}
                     >
@@ -571,7 +571,7 @@ export default function ProgramDetailPage() {
                   onClick={() => setDonationAmount('custom')}
                   className={`w-full mt-3 px-4 py-4 border-2 rounded-xl font-bold text-sm transition-all ${
                     donationAmount === 'custom'
-                      ? 'border-orange-600 bg-orange-50 text-orange-700 shadow-lg shadow-orange-500/20'
+                      ? 'border-orange-600 bg-orange-50 text-orange-700 border border-gray-200 shadow-orange-500/20'
                       : 'border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'
                   }`}
                 >
@@ -651,7 +651,7 @@ export default function ProgramDetailPage() {
               <button
                 type="submit"
                 disabled={donationLoading || !donationAmount}
-                className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
+                className="w-full py-4 bg-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl font-bold text-lg border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
               >
                 {donationLoading ? (
                   <span className="flex items-center justify-center">

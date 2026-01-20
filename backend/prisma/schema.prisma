@@ -20,6 +20,7 @@ enum UserRole {
   MANAGER           // Main gatekeeper (approves all)
   CONTENT_MANAGER   // Internal admin (creates content, needs approval)
   SUPERVISOR        // Read-only access to all data
+  FINANCE           // Finance team (manages funds, views all transactions)
   SUPER_ADMIN       // Full access (emergency & setup)
 }
 
@@ -96,6 +97,8 @@ model User {
   auditLogs             AuditLog[]
   sessions              UserSession[]
   uploadedFiles         UploadedFile[]   @relation("FileUploader")
+  upgradeRequests       RoleUpgradeRequest[] @relation("UpgradeRequester")
+  reviewedUpgrades      RoleUpgradeRequest[] @relation("UpgradeReviewer")
 
   @@index([email])
   @@index([ktpNumber])
@@ -122,6 +125,56 @@ model UserSession {
   @@index([userId])
   @@index([token])
   @@map("user_sessions")
+}
+
+// ============================================
+// ROLE UPGRADE REQUESTS
+// ============================================
+
+enum UpgradeRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum UpgradeRequestType {
+  USER_TO_PENGUSUL           // User registrasi upgrade ke Pengusul
+  USER_TO_MANAGER            // Super Admin upgrade User ke Manager
+  USER_TO_CONTENT_MANAGER    // Super Admin upgrade User ke Content Manager
+  USER_TO_SUPERVISOR         // Super Admin upgrade User ke Supervisor
+}
+
+model RoleUpgradeRequest {
+  id              String                @id @default(uuid())
+  userId          String                @map("user_id")
+  requestType     UpgradeRequestType    @map("request_type")
+  status          UpgradeRequestStatus  @default(PENDING)
+
+  // Data for PENGUSUL upgrade (submitted by user)
+  ktpNumber       String?               @map("ktp_number")
+  ktpImageUrl     String?               @map("ktp_image_url")
+  phone           String?
+  address         String?               @db.Text
+  institutionName String?               @map("institution_name")
+  institutionProfile String?            @map("institution_profile") @db.Text
+  supportingDocuments Json?             @map("supporting_documents")
+
+  // Approval/Rejection
+  reviewedBy      String?               @map("reviewed_by")
+  reviewedAt      DateTime?             @map("reviewed_at")
+  reviewNotes     String?               @map("review_notes") @db.Text
+
+  createdAt       DateTime              @default(now()) @map("created_at")
+  updatedAt       DateTime              @updatedAt @map("updated_at")
+
+  // Relations
+  user            User                  @relation("UpgradeRequester", fields: [userId], references: [id], onDelete: Cascade)
+  reviewer        User?                 @relation("UpgradeReviewer", fields: [reviewedBy], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([requestType])
+  @@map("role_upgrade_requests")
 }
 
 // ============================================
@@ -454,6 +507,7 @@ enum AuditAction {
   DONATION_SUCCESS
   OTP_SENT
   SESSION_EXPIRED
+  UPGRADE_USER_ROLE
 }
 
 model AuditLog {

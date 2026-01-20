@@ -64,14 +64,14 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="text-center mb-10">
             <Link href="/" className="inline-flex items-center space-x-2 mb-10">
-              <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-11 h-11 bg-orange-600 rounded-xl flex items-center justify-center border border-gray-200">
                 <span className="text-white font-bold text-xl">S</span>
               </div>
               <span className="text-2xl font-bold text-gray-900">sesama</span>
             </Link>
 
             <div className="mt-10">
-              <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-6">
                 <svg className="w-8 h-8 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -83,11 +83,11 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+          <div className="bg-white rounded-lg border border-gray-200 border border-gray-200 p-8">
             {(error || authError) && (
               <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
                 <div className="flex items-start">
-                  <svg className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-red-500 mt-0.5 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <p className="text-sm text-red-700 font-medium">{error || authError}</p>
@@ -118,7 +118,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading || otp.length !== 6}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg transform hover:-translate-y-0.5"
+                className="w-full py-4 rounded-xl bg-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border border-gray-200 transform hover:-translate-y-0.5"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
@@ -180,7 +180,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="mb-10">
             <Link href="/" className="inline-flex items-center space-x-2 group">
-              <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+              <div className="w-11 h-11 bg-orange-600 rounded-xl flex items-center justify-center border border-gray-200 group-hover:border border-gray-200 transition-shadow">
                 <span className="text-white font-bold text-xl">S</span>
               </div>
               <span className="text-2xl font-bold text-gray-900">sesama</span>
@@ -194,11 +194,11 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+          <div className="bg-white rounded-lg border border-gray-200 border border-gray-200 p-8">
             {(error || authError) && (
               <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
                 <div className="flex items-start">
-                  <svg className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-red-500 mt-0.5 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <p className="text-sm text-red-700 font-medium">{error || authError}</p>
@@ -268,7 +268,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
+                className="w-full py-4 rounded-xl bg-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
@@ -320,7 +320,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Side - Visual */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 p-12 items-center justify-center relative overflow-hidden">
+      <div className="hidden lg:flex flex-1 bg-orange-600 p-12 items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.3))]" />
 
         <div className="relative z-10 max-w-lg text-white">
@@ -342,8 +342,8 @@ export default function LoginPage() {
           </p>
 
           <div className="space-y-6">
-            <div className="flex items-start space-x-4 bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <div className="flex-shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+            <div className="flex items-start space-x-4 bg-white/10 backdrop-blur-sm rounded-lg p-6">
+              <div className="shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
@@ -356,8 +356,8 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="flex items-start space-x-4 bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <div className="flex-shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+            <div className="flex items-start space-x-4 bg-white/10 backdrop-blur-sm rounded-lg p-6">
+              <div className="shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
@@ -370,8 +370,8 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="flex items-start space-x-4 bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <div className="flex-shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+            <div className="flex items-start space-x-4 bg-white/10 backdrop-blur-sm rounded-lg p-6">
+              <div className="shrink-0 w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>

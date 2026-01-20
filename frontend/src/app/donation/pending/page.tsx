@@ -13,7 +13,7 @@ function DonationPendingContent() {
       <div className="max-w-2xl w-full">
         {/* Pending Icon with Animation */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-28 h-28 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full mb-6 shadow-2xl shadow-yellow-500/40 relative">
+          <div className="inline-flex items-center justify-center w-28 h-28 bg-yellow-500 rounded-full mb-6 border border-gray-200 shadow-yellow-500/40 relative">
             <div className="absolute inset-0 rounded-full bg-yellow-400 animate-ping opacity-30"></div>
             <svg className="w-14 h-14 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -28,7 +28,7 @@ function DonationPendingContent() {
         </div>
 
         {/* Main Card */}
-        <div className="bg-white rounded-3xl shadow-2xl border-2 border-gray-100 overflow-hidden mb-6">
+        <div className="bg-white rounded-lg border border-gray-200 border-2 border-gray-100 overflow-hidden mb-6">
           {/* Header */}
           <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 px-8 py-6">
             <div className="flex items-center justify-between">
@@ -43,7 +43,7 @@ function DonationPendingContent() {
           {/* Content */}
           <div className="p-8 space-y-6">
             {orderId && (
-              <div className="bg-yellow-50 rounded-2xl p-6 border-2 border-yellow-200">
+              <div className="bg-yellow-50 rounded-lg p-6 border-2 border-yellow-200">
                 <div className="text-sm text-yellow-700 font-semibold mb-2">Order ID</div>
                 <div className="font-mono text-sm font-bold text-yellow-900 break-all">
                   {orderId}
@@ -51,7 +51,7 @@ function DonationPendingContent() {
               </div>
             )}
 
-            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100/50 rounded-2xl p-6 border-2 border-yellow-200">
+            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100/50 rounded-lg p-6 border-2 border-yellow-200">
               <div className="flex items-start space-x-4">
                 <div className="shrink-0 w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,7 +70,7 @@ function DonationPendingContent() {
         </div>
 
         {/* Timeline */}
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-100 p-6 mb-6">
+        <div className="bg-white rounded-lg border border-gray-200 border-2 border-gray-100 p-6 mb-6">
           <h3 className="font-bold text-gray-900 mb-6">Estimasi Waktu Verifikasi</h3>
           <div className="space-y-4">
             <div className="flex items-start space-x-4">
@@ -110,7 +110,7 @@ function DonationPendingContent() {
         </div>
 
         {/* Instructions */}
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl shadow-lg border-2 border-blue-200 p-6 mb-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-lg border border-gray-200 border-2 border-blue-200 p-6 mb-6">
           <div className="flex items-start space-x-4">
             <div className="shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
               <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -150,7 +150,7 @@ function DonationPendingContent() {
         </div>
 
         {/* Help Contact */}
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-100 p-6 mb-6">
+        <div className="bg-white rounded-lg border border-gray-200 border-2 border-gray-100 p-6 mb-6">
           <div className="flex items-start space-x-4">
             <div className="shrink-0 w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
               <svg className="w-6 h-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,7 +189,7 @@ function DonationPendingContent() {
         {/* Action Button */}
         <Link
           href="/"
-          className="block w-full text-center px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transform hover:-translate-y-0.5 transition-all"
+          className="block w-full text-center px-8 py-4 bg-orange-600 text-white font-bold rounded-xl border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transform hover:-translate-y-0.5 transition-all"
         >
           Kembali ke Beranda
         </Link>
@@ -202,7 +202,7 @@ export default function DonationPendingPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-yellow-50 flex items-center justify-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full shadow-lg shadow-yellow-500/30">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full border border-gray-200 shadow-yellow-500/30">
           <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
         </div>
       </div>

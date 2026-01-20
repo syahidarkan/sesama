@@ -15,6 +15,7 @@ export class AuthService {
     UserRole.MANAGER,
     UserRole.CONTENT_MANAGER,
     UserRole.SUPERVISOR,
+    UserRole.FINANCE,
     UserRole.SUPER_ADMIN,
   ];
 
@@ -35,7 +36,7 @@ export class AuthService {
   /**
    * Register new user (default role: USER)
    */
-  async register(email: string, password: string, name: string) {
+  async register(email: string, password: string, name: string, phone?: string) {
     // Check if user exists
     const existingUser = await this.prisma.user.findUnique({
       where: { email },
@@ -51,6 +52,7 @@ export class AuthService {
       data: {
         email,
         name,
+        phone,
         passwordHash: hashedPassword,
         role: UserRole.USER,
       },
@@ -114,10 +116,14 @@ export class AuthService {
         userAgent,
       });
 
+      // In development mode, include OTP in response for easier testing
+      const isDevelopment = this.configService.get('NODE_ENV') === 'development';
+
       return {
         requiresOTP: true,
         userId: user.id,
         message: 'OTP has been sent to your email',
+        ...(isDevelopment && { otp }), // Include OTP in development mode
       };
     }
 
@@ -272,7 +278,7 @@ export class AuthService {
       throw new BadRequestException('OTP is only for admin users');
     }
 
-    await this.generateAndSendOTP(user.id, user.email, user.name);
+    const otp = await this.generateAndSendOTP(user.id, user.email, user.name);
 
     await this.auditLogService.log({
       userId: user.id,
@@ -281,7 +287,13 @@ export class AuthService {
       metadata: { reason: 'resend' },
     });
 
-    return { message: 'New OTP has been sent to your email' };
+    // In development mode, include OTP in response for easier testing
+    const isDevelopment = this.configService.get('NODE_ENV') === 'development';
+
+    return {
+      message: 'New OTP has been sent to your email',
+      ...(isDevelopment && { otp }), // Include OTP in development mode
+    };
   }
 
   /**

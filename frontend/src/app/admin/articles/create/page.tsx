@@ -94,16 +94,16 @@ export default function CreateArticlePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Tulis Pelaporan Baru</h1>
-              <p className="text-sm text-gray-600">Buat laporan penyaluran atau pelaporan informatif</p>
+              <h1 className="text-2xl font-semibold text-gray-900">Tulis Pelaporan Baru</h1>
+              <p className="text-sm text-gray-600 mt-1">Buat laporan penyaluran atau pelaporan informatif</p>
             </div>
             <Link
               href="/admin/dashboard"
-              className="text-gray-600 hover:text-gray-700 font-medium"
+              className="text-sm text-gray-600 hover:text-gray-900 font-medium"
             >
               ← Kembali
             </Link>
@@ -112,9 +112,9 @@ export default function CreateArticlePage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="bg-white rounded-lg border border-gray-200 p-8">
           {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
               {error}
             </div>
           )}
@@ -122,7 +122,7 @@ export default function CreateArticlePage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Judul Pelaporan <span className="text-red-600">*</span>
               </label>
               <input
@@ -131,21 +131,21 @@ export default function CreateArticlePage() {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Contoh: Laporan Penyaluran Bantuan Pendidikan Bulan Januari 2024"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 required
               />
             </div>
 
             {/* Program Link */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Terkait Program (Opsional)
               </label>
               <select
                 name="programId"
                 value={formData.programId}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
               >
                 <option value="">Tidak terkait program tertentu</option>
                 {programs.map((program) => (
@@ -154,14 +154,14 @@ export default function CreateArticlePage() {
                   </option>
                 ))}
               </select>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-2 text-xs text-gray-500">
                 Pilih program jika pelaporan ini merupakan laporan penyaluran
               </p>
             </div>
 
             {/* Excerpt */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Ringkasan Singkat
               </label>
               <textarea
@@ -170,17 +170,17 @@ export default function CreateArticlePage() {
                 onChange={handleChange}
                 placeholder="Ringkasan pelaporan dalam 1-2 kalimat..."
                 rows={3}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
                 maxLength={200}
               />
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-2 text-xs text-gray-500">
                 Maksimal 200 karakter - akan ditampilkan di preview pelaporan
               </p>
             </div>
 
             {/* Content */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2">
                 Konten Pelaporan <span className="text-red-600">*</span>
               </label>
               <textarea
@@ -196,7 +196,7 @@ Anda bisa menulis:
 - Dampak program
 - Dan informasi lainnya"
                 rows={15}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono text-sm"
+                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-mono"
                 required
               />
             </div>
@@ -216,19 +216,19 @@ Anda bisa menulis:
             />
 
             {/* Submit for Approval Checkbox */}
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="bg-orange-50 border border-orange-200 rounded-md p-4">
               <label className="flex items-start cursor-pointer">
                 <input
                   type="checkbox"
                   checked={submitForApproval}
                   onChange={(e) => setSubmitForApproval(e.target.checked)}
-                  className="mt-1 mr-3 w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                  className="mt-1 mr-3 w-4 h-4 text-orange-600 rounded focus:ring-1 focus:ring-orange-500"
                 />
                 <div className="flex-1">
-                  <div className="font-semibold text-green-900 mb-1">
-                    ✅ Langsung submit untuk approval (Recommended)
+                  <div className="font-medium text-gray-900 mb-1 text-sm">
+                    Langsung submit untuk approval (Recommended)
                   </div>
-                  <p className="text-sm text-green-800">
+                  <p className="text-xs text-gray-700">
                     Pelaporan akan otomatis disubmit ke Manager untuk approval setelah dibuat.
                     Jika tidak dicentang, pelaporan akan tersimpan sebagai DRAFT dan perlu
                     disubmit manual nanti.
@@ -238,11 +238,11 @@ Anda bisa menulis:
             </div>
 
             {/* Info Box */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
               <div className="flex items-start">
-                <div className="text-xl mr-3">ℹ️</div>
-                <div className="text-sm text-blue-800">
-                  <p className="font-semibold mb-1">Alur Approval:</p>
+                <div className="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0 mt-0.5">i</div>
+                <div className="text-sm text-gray-700">
+                  <p className="font-medium mb-1 text-gray-900">Alur Approval:</p>
                   <ul className="list-disc list-inside space-y-1">
                     <li>Pelaporan dibuat → Status: <strong>DRAFT</strong></li>
                     <li>Pelaporan disubmit → Status: <strong>PENDING_APPROVAL</strong></li>
@@ -253,17 +253,17 @@ Anda bisa menulis:
             </div>
 
             {/* Submit Button */}
-            <div className="flex gap-4">
+            <div className="flex gap-3 pt-6 border-t border-gray-200">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-600 to-blue-600 text-white font-bold hover:from-green-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-2.5 text-sm rounded-md bg-orange-600 text-white font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Menyimpan...' : 'Buat Pelaporan'}
               </button>
               <Link
                 href="/admin/dashboard"
-                className="px-8 py-3 rounded-lg border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
+                className="px-6 py-2.5 text-sm rounded-md border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
               >
                 Batal
               </Link>

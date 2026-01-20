@@ -9,11 +9,11 @@ function DonationFailedContent() {
   const orderId = searchParams.get('order_id');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-red-50 flex items-center justify-center p-6">
       <div className="max-w-2xl w-full">
         {/* Error Icon with Animation */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-28 h-28 bg-gradient-to-br from-red-400 to-red-500 rounded-full mb-6 shadow-2xl shadow-red-500/40">
+          <div className="inline-flex items-center justify-center w-28 h-28 bg-red-500 rounded-full mb-6 border border-gray-200 shadow-red-500/40">
             <svg className="w-14 h-14 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -27,7 +27,7 @@ function DonationFailedContent() {
         </div>
 
         {/* Main Card */}
-        <div className="bg-white rounded-3xl shadow-2xl border-2 border-gray-100 overflow-hidden mb-6">
+        <div className="bg-white rounded-lg border border-gray-200 border-2 border-gray-100 overflow-hidden mb-6">
           {/* Header */}
           <div className="bg-gradient-to-r from-red-500 to-red-600 px-8 py-6">
             <div className="flex items-center justify-between">
@@ -41,7 +41,7 @@ function DonationFailedContent() {
           {/* Content */}
           <div className="p-8 space-y-6">
             {orderId && (
-              <div className="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200">
+              <div className="bg-gray-50 rounded-lg p-6 border-2 border-gray-200">
                 <div className="text-sm text-gray-600 font-semibold mb-2">Order ID</div>
                 <div className="font-mono text-sm font-bold text-gray-900 break-all">
                   {orderId}
@@ -49,7 +49,7 @@ function DonationFailedContent() {
               </div>
             )}
 
-            <div className="bg-red-50 rounded-2xl p-6 border-2 border-red-200">
+            <div className="bg-red-50 rounded-lg p-6 border-2 border-red-200">
               <div className="flex items-start space-x-4">
                 <div className="shrink-0 w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,7 +68,7 @@ function DonationFailedContent() {
         </div>
 
         {/* Possible Causes */}
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-100 p-6 mb-6">
+        <div className="bg-white rounded-lg border border-gray-200 border-2 border-gray-100 p-6 mb-6">
           <h3 className="font-bold text-gray-900 mb-4">Kemungkinan Penyebab</h3>
           <ul className="space-y-3">
             <li className="flex items-start space-x-3">
@@ -99,7 +99,7 @@ function DonationFailedContent() {
         </div>
 
         {/* Help Section */}
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl shadow-lg border-2 border-blue-200 p-6 mb-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-lg border border-gray-200 border-2 border-blue-200 p-6 mb-6">
           <div className="flex items-start space-x-4">
             <div className="shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
               <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -139,7 +139,7 @@ function DonationFailedContent() {
         <div className="grid md:grid-cols-2 gap-4">
           <Link
             href="/"
-            className="flex items-center justify-center space-x-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transform hover:-translate-y-0.5 transition-all"
+            className="flex items-center justify-center space-x-2 px-8 py-4 bg-orange-600 text-white font-bold rounded-xl border border-gray-200 shadow-orange-500/30 hover:border border-gray-200 hover:shadow-orange-500/40 transform hover:-translate-y-0.5 transition-all"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -148,7 +148,7 @@ function DonationFailedContent() {
           </Link>
           <Link
             href="/"
-            className="flex items-center justify-center space-x-2 px-8 py-4 bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:border-gray-300 hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
+            className="flex items-center justify-center space-x-2 px-8 py-4 bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:border-gray-300 hover:border border-gray-200 transform hover:-translate-y-0.5 transition-all"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -164,8 +164,8 @@ function DonationFailedContent() {
 export default function DonationFailedPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 flex items-center justify-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full shadow-lg shadow-red-500/30">
+      <div className="min-h-screen bg-red-50 flex items-center justify-center">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-red-600 rounded-full border border-gray-200 shadow-red-500/30">
           <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
         </div>
       </div>

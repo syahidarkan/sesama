@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { pengusulApi } from '@/lib/api';
+import { roleUpgradesApi } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
 import Link from 'next/link';
 import FileUpload from '@/components/FileUpload';
@@ -49,8 +49,8 @@ export default function PengusulRegisterPage() {
       return;
     }
 
-    if (user?.role === 'PENGUSUL') {
-      router.push('/admin/dashboard');
+    if (user?.role !== 'USER') {
+      router.push('/dashboard');
       return;
     }
   }, [isAuthenticated, user, router]);
@@ -124,7 +124,7 @@ export default function PengusulRegisterPage() {
         (file) => `${process.env.NEXT_PUBLIC_API_URL}/uploads/file/${file.storedFilename}`
       );
 
-      await pengusulApi.register({
+      await roleUpgradesApi.submitPengusulRequest({
         ktpNumber: formData.ktpNumber,
         ktpImageUrl,
         phone: formData.phone,
@@ -136,7 +136,7 @@ export default function PengusulRegisterPage() {
 
       setSuccess(true);
       setTimeout(() => {
-        router.push('/');
+        router.push('/dashboard');
       }, 3000);
     } catch (err: any) {
       setError(
@@ -249,7 +249,7 @@ export default function PengusulRegisterPage() {
                     onChange={handleChange}
                     maxLength={16}
                     placeholder="Masukkan 16 digit nomor KTP"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     required
                   />
                 </div>
@@ -264,7 +264,7 @@ export default function PengusulRegisterPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Contoh: 081234567890"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     required
                   />
                 </div>
@@ -279,7 +279,7 @@ export default function PengusulRegisterPage() {
                     onChange={handleChange}
                     rows={4}
                     placeholder="Masukkan alamat lengkap termasuk RT/RW, Kelurahan, Kecamatan, Kota/Kabupaten, Provinsi"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     required
                   />
                 </div>
@@ -305,7 +305,7 @@ export default function PengusulRegisterPage() {
                     value={formData.institutionName}
                     onChange={handleChange}
                     placeholder="Contoh: Yayasan Peduli Sesama"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 </div>
 
@@ -319,7 +319,7 @@ export default function PengusulRegisterPage() {
                     onChange={handleChange}
                     rows={4}
                     placeholder="Deskripsikan profil lembaga, visi misi, dan bidang kegiatan"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
                 </div>
               </div>

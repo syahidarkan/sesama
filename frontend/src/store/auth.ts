@@ -19,7 +19,7 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   verifyOTP: (otp: string) => Promise<void>;
   resendOTP: () => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (email: string, password: string, name: string, phone?: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
   setAuth: (user: User, accessToken: string, sessionToken?: string) => void;
@@ -58,6 +58,12 @@ export const useAuthStore = create<AuthState>()(
               otpUserId: data.userId,
               isLoading: false,
             });
+
+            // In development, log OTP to console if included in response
+            if (data.otp) {
+              console.log('\n🔑 Development Mode - OTP Code:', data.otp, '\n');
+              alert(`🔑 Development Mode\n\nYour OTP Code: ${data.otp}\n\nCheck browser console for details.`);
+            }
           } else {
             // Regular user - direct login
             set({
@@ -131,8 +137,14 @@ export const useAuthStore = create<AuthState>()(
 
         set({ isLoading: true, error: null });
         try {
-          await authApi.resendOTP(otpUserId);
+          const response = await authApi.resendOTP(otpUserId);
           set({ isLoading: false });
+
+          // In development, log OTP to console if included in response
+          if (response.data?.otp) {
+            console.log('\n🔑 Development Mode - New OTP Code:', response.data.otp, '\n');
+            alert(`🔑 Development Mode\n\nYour New OTP Code: ${response.data.otp}\n\nCheck browser console for details.`);
+          }
         } catch (error: any) {
           set({
             error: error.response?.data?.message || 'Failed to resend OTP',
@@ -143,10 +155,10 @@ export const useAuthStore = create<AuthState>()(
       },
 
       // Register
-      register: async (email: string, password: string, name: string) => {
+      register: async (email: string, password: string, name: string, phone?: string) => {
         set({ isLoading: true, error: null });
         try {
-          await authApi.register(email, password, name);
+          await authApi.register(email, password, name, phone);
           set({ isLoading: false });
         } catch (error: any) {
           set({

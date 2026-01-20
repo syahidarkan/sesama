@@ -48,6 +48,22 @@ export class DonationsService {
         });
     }
 
+    async findByUserId(userId: string) {
+        return this.prisma.donation.findMany({
+            where: { userId },
+            include: {
+                program: {
+                    select: {
+                        id: true,
+                        title: true,
+                        slug: true,
+                    },
+                },
+            },
+            orderBy: { createdAt: 'desc' },
+        });
+    }
+
     async updateStatus(id: string, data: any) {
         return this.prisma.donation.update({
             where: { id },

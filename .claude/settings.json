@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(where:*)",
-      "Bash(if exist dist rmdir /s /q dist)"
+      "Bash(if exist dist rmdir /s /q dist)",
+      "Bash(python:*)"
     ]
   }
 }

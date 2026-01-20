@@ -22,6 +22,8 @@ import { StaticPagesModule } from './static-pages/static-pages.module';
 import { FormFieldConfigModule } from './form-field-config/form-field-config.module';
 import { PelaporanModule } from './pelaporan/pelaporan.module';
 import { UploadsModule } from './uploads/uploads.module';
+import { RoleUpgradesModule } from './role-upgrades/role-upgrades.module';
+import { FinanceModule } from './finance/finance.module';
 
 @Module({
   imports: [
@@ -42,6 +44,8 @@ import { UploadsModule } from './uploads/uploads.module';
     PrismaModule,
     AuthModule,
     UsersModule,
+    RoleUpgradesModule,
+    FinanceModule,
 
     // Feature Modules
     ProgramsModule,

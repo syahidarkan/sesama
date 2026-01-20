@@ -112,9 +112,9 @@ export default function CreatePelaporanPage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="bg-white rounded-xl border border-gray-200 p-8">
           {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-2.5 rounded-md">
               {error}
             </div>
           )}
@@ -131,7 +131,7 @@ export default function CreatePelaporanPage() {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Contoh: Laporan Penyaluran Bantuan Pendidikan Bulan Januari 2024"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
                 required
               />
             </div>
@@ -145,7 +145,7 @@ export default function CreatePelaporanPage() {
                 name="programId"
                 value={formData.programId}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
               >
                 <option value="">Tidak terkait program tertentu</option>
                 {programs.map((program) => (
@@ -170,7 +170,7 @@ export default function CreatePelaporanPage() {
                 onChange={handleChange}
                 placeholder="Ringkasan pelaporan dalam 1-2 kalimat..."
                 rows={3}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
                 maxLength={200}
               />
               <p className="mt-1 text-sm text-gray-500">
@@ -196,7 +196,7 @@ Anda bisa menulis:
 - Dampak program
 - Dan informasi lainnya"
                 rows={15}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono text-sm"
+                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 font-mono text-sm"
                 required
               />
             </div>
@@ -222,7 +222,7 @@ Anda bisa menulis:
                   type="checkbox"
                   checked={submitForApproval}
                   onChange={(e) => setSubmitForApproval(e.target.checked)}
-                  className="mt-1 mr-3 w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                  className="mt-1 mr-3 w-5 h-5 text-green-600 rounded focus:ring-1 focus:ring-orange-500"
                 />
                 <div className="flex-1">
                   <div className="font-semibold text-green-900 mb-1">
@@ -256,7 +256,7 @@ Anda bisa menulis:
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-600 to-blue-600 text-white font-bold hover:from-green-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-3 rounded-lg bg-orange-600 text-white font-bold hover:bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Menyimpan...' : 'Buat Pelaporan'}
               </button>

@@ -11,7 +11,7 @@ COPY prisma ./prisma
 RUN npx prisma generate
 
 COPY . .
-RUN npx tsc -p tsconfig.build.json && ls -la dist/
+RUN npx tsc -p tsconfig.prod.json && echo "=== dist contents ===" && ls -la dist/ && ls dist/main*
 
 EXPOSE 3001
 

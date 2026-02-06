@@ -27,6 +27,7 @@
     "db:setup": "npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed"
   },
   "dependencies": {
+    "@nestjs/cli": "^10.0.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.0",
@@ -52,6 +53,8 @@
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "slugify": "^1.6.6",
+    "prisma": "^5.22.0",
+    "typescript": "^5.1.3",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

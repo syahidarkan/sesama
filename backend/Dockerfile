@@ -11,7 +11,7 @@ COPY prisma ./prisma
 RUN npx prisma generate
 
 COPY . .
-RUN npx nest build
+RUN npx tsc -p tsconfig.build.json && ls -la dist/
 
 EXPOSE 3001
 

@@ -8,6 +8,7 @@ export type UserRole =
   | 'MANAGER'
   | 'CONTENT_MANAGER'
   | 'SUPERVISOR'
+  | 'FINANCE'
   | 'SUPER_ADMIN';
 
 export type PengusulStatus =
@@ -60,14 +61,19 @@ export interface Program {
   description: string;
   targetAmount: number;
   collectedAmount: number;
+  currentAmount?: number;
+  donorCount?: number;
   status: ProgramStatus;
   category?: string;
   imageUrl?: string;
+  institutionName?: string;
+  beneficiaryName?: string;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
   publishedAt?: string;
   closedAt?: string;
+  endDate?: string;
   creator?: {
     id: string;
     name: string;
@@ -141,6 +147,7 @@ export interface LeaderboardEntry {
   totalDonations: number;
   donationCount: number;
   title: DonorTitle;
+  rank?: number;
   lastDonationAt?: string;
 }
 
@@ -207,6 +214,25 @@ export interface AuditLog {
   ipAddress?: string;
   userAgent?: string;
   createdAt: string;
+}
+
+// ============================================
+// COMMENT TYPES
+// ============================================
+
+export interface Comment {
+  id: string;
+  programId: string;
+  userId: string;
+  content: string;
+  isHidden: boolean;
+  createdAt: string;
+  updatedAt: string;
+  user?: {
+    id: string;
+    name: string;
+    role: UserRole;
+  };
 }
 
 // ============================================

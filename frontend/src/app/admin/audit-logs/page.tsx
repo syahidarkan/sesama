@@ -38,11 +38,11 @@ export default function AuditLogsPage() {
     const styles: Record<string, string> = {
       LOGIN: 'bg-blue-100 text-blue-800',
       LOGOUT: 'bg-gray-100 text-gray-800',
-      CREATE: 'bg-orange-100 text-orange-800',
+      CREATE: 'bg-primary-100 text-primary-800',
       UPDATE: 'bg-yellow-100 text-yellow-800',
       DELETE: 'bg-red-100 text-red-800',
-      APPROVE: 'bg-teal-100 text-teal-800',
-      REJECT: 'bg-orange-100 text-orange-800',
+      APPROVE: 'bg-primary-100 text-primary-800',
+      REJECT: 'bg-primary-100 text-primary-800',
     };
 
     return (
@@ -74,7 +74,7 @@ export default function AuditLogsPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Panduan/Legend Box */}
-        <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
+        <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-6">
           <div className="flex items-start mb-4">
             <div className="text-3xl mr-4">📖</div>
             <div className="flex-1">
@@ -127,7 +127,7 @@ export default function AuditLogsPage() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
           <div className="flex flex-wrap gap-2">
             {['ALL', 'LOGIN', 'LOGOUT', 'CREATE', 'UPDATE', 'DELETE', 'APPROVE', 'REJECT'].map((action) => (
               <button
@@ -135,7 +135,7 @@ export default function AuditLogsPage() {
                 onClick={() => setFilter(action)}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   filter === action
-                    ? 'bg-orange-600 text-white'
+                    ? 'bg-primary-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -152,7 +152,7 @@ export default function AuditLogsPage() {
             <p className="mt-4 text-gray-600">Memuat data...</p>
           </div>
         ) : logs.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
             <div className="text-6xl mb-4">📊</div>
             <p className="text-gray-600">Tidak ada log ditemukan</p>
           </div>
@@ -205,12 +205,12 @@ export default function AuditLogsPage() {
                           {log.ipAddress}
                         </span>
                         {log.ipAddress === '::1' && (
-                          <span className="text-xs text-orange-600 font-medium">
+                          <span className="text-xs text-primary-600 font-medium">
                             (localhost - komputer sendiri)
                           </span>
                         )}
                         {log.ipAddress === '127.0.0.1' && (
-                          <span className="text-xs text-orange-600 font-medium">
+                          <span className="text-xs text-primary-600 font-medium">
                             (localhost - komputer sendiri)
                           </span>
                         )}
@@ -224,7 +224,7 @@ export default function AuditLogsPage() {
         )}
 
         {/* Info */}
-        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-6">
+        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-6">
           <div className="flex items-start">
             <div className="text-2xl mr-4">ℹ️</div>
             <div>

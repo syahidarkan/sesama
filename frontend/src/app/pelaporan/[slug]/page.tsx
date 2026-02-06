@@ -52,7 +52,7 @@ export default function PelaporanDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -62,7 +62,7 @@ export default function PelaporanDetailPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Pelaporan Tidak Ditemukan</h2>
-          <Link href="/pelaporan" className="text-orange-600 hover:text-orange-700 font-medium">
+          <Link href="/pelaporan" className="text-primary-600 hover:text-primary-700 font-medium">
             Kembali ke Daftar Pelaporan
           </Link>
         </div>
@@ -79,10 +79,13 @@ export default function PelaporanDetailPage() {
               sesama
             </Link>
             <Link
-              href="/pelaporan"
-              className="text-gray-600 hover:text-gray-900 font-medium"
+              href="/"
+              className="inline-flex items-center px-5 py-2.5 bg-white border-2 border-gray-200 text-gray-700 font-semibold rounded-lg hover:border-gray-300 hover:shadow-md transition-all"
             >
-              Kembali
+              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Kembali ke Beranda
             </Link>
           </div>
         </div>
@@ -91,7 +94,7 @@ export default function PelaporanDetailPage() {
       <article className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white">
           {pelaporan.coverImageUrl && (
-            <div className="aspect-video bg-gray-100 rounded-xl overflow-hidden mb-8">
+            <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden mb-8">
               <img
                 src={pelaporan.coverImageUrl}
                 alt={pelaporan.title}
@@ -109,7 +112,7 @@ export default function PelaporanDetailPage() {
                 <span>•</span>
                 <Link
                   href={`/programs/${pelaporan.program.slug}`}
-                  className="text-orange-600 hover:text-orange-700 font-medium"
+                  className="text-primary-600 hover:text-primary-700 font-medium"
                 >
                   {pelaporan.program.title}
                 </Link>
@@ -128,11 +131,11 @@ export default function PelaporanDetailPage() {
         </div>
 
         {pelaporan.program && (
-          <div className="mt-12 bg-orange-50 rounded-xl border border-orange-200 p-8">
+          <div className="mt-12 bg-primary-50 rounded-lg border border-primary-200 p-8">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Program Terkait</h3>
             <Link
               href={`/programs/${pelaporan.program.slug}`}
-              className="text-orange-600 hover:text-orange-700 font-semibold text-lg inline-flex items-center gap-2"
+              className="text-primary-600 hover:text-primary-700 font-semibold text-lg inline-flex items-center gap-2"
             >
               {pelaporan.program.title}
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

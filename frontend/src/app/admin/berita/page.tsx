@@ -20,7 +20,7 @@ export default function AdminBeritaPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('ALL');
 
-  const allowedRoles = ['CONTENT_MANAGER', 'MANAGER', 'SUPER_ADMIN'];
+  const allowedRoles = ['CONTENT_MANAGER', 'MANAGER', 'SUPERVISOR', 'SUPER_ADMIN'];
   if (!user || !allowedRoles.includes(user.role)) {
     router.push('/admin');
     return null;
@@ -71,7 +71,7 @@ export default function AdminBeritaPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
           <p className="text-sm text-gray-600">Memuat berita...</p>
         </div>
       </div>
@@ -114,7 +114,7 @@ export default function AdminBeritaPage() {
               placeholder="Cari berita berdasarkan judul..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
             />
           </div>
 
@@ -128,8 +128,8 @@ export default function AdminBeritaPage() {
                   onClick={() => setFilterCategory(category)}
                   className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                     filterCategory === category
-                      ? 'bg-orange-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-orange-50'
+                      ? 'bg-primary-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
                   }`}
                 >
                   <Tag className="w-3.5 h-3.5" />
@@ -154,7 +154,7 @@ export default function AdminBeritaPage() {
           {!searchQuery && (
             <Link
               href="/admin/berita/create"
-              className="inline-flex items-center space-x-2 px-6 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+              className="inline-flex items-center space-x-2 px-6 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
             >
               <Plus className="w-4 h-4" />
               <span>Buat Berita Pertama</span>
@@ -201,7 +201,7 @@ export default function AdminBeritaPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-orange-50 border-orange-200 text-orange-700">
+                      <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-md text-xs font-medium border bg-primary-50 border-primary-200 text-primary-700">
                         <Tag className="w-3 h-3" />
                         <span>{item.category}</span>
                       </span>

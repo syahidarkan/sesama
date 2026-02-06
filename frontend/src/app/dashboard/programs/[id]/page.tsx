@@ -38,7 +38,7 @@ export default function ProgramDetailPage() {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
                 <p className="text-sm text-gray-600">Memuat detail program...</p>
             </div>
         );
@@ -57,7 +57,7 @@ export default function ProgramDetailPage() {
                     <p className="text-sm text-gray-600 mb-6">Program yang Anda cari tidak tersedia</p>
                     <Link
                         href="/dashboard/programs"
-                        className="inline-flex items-center space-x-2 px-6 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+                        className="inline-flex items-center space-x-2 px-6 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         <span>Kembali ke Daftar Program</span>
@@ -78,9 +78,9 @@ export default function ProgramDetailPage() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <Link
                     href="/dashboard/programs"
-                    className="inline-flex items-center space-x-2 text-gray-600 hover:text-orange-600 text-sm font-medium transition-colors"
+                    className="inline-flex items-center space-x-2 text-gray-600 hover:text-primary-600 text-sm font-medium transition-colors"
                 >
-                    <div className="w-8 h-8 rounded-md bg-gray-100 hover:bg-orange-50 flex items-center justify-center transition-colors">
+                    <div className="w-8 h-8 rounded-md bg-gray-100 hover:bg-primary-50 flex items-center justify-center transition-colors">
                         <ArrowLeft className="w-4 h-4" />
                     </div>
                     <span>Kembali ke Daftar Program</span>
@@ -139,7 +139,7 @@ export default function ProgramDetailPage() {
                                         className={`px-3 py-1.5 rounded-md text-xs font-medium ${program.status === 'ACTIVE'
                                             ? 'bg-green-600 text-white'
                                             : program.status === 'PENDING_APPROVAL'
-                                                ? 'bg-orange-600 text-white'
+                                                ? 'bg-primary-600 text-white'
                                                 : program.status === 'CLOSED'
                                                     ? 'bg-gray-600 text-white'
                                                     : program.status === 'REJECTED'
@@ -158,27 +158,27 @@ export default function ProgramDetailPage() {
                             <p className="text-gray-600 leading-relaxed mb-6">{program.description}</p>
 
                             {/* Progress Section */}
-                            <div className="bg-orange-50 rounded-lg p-6 border border-orange-200">
+                            <div className="bg-primary-50 rounded-lg p-6 border border-primary-200">
                                 <div className="flex justify-between items-center mb-3">
-                                    <span className="text-sm font-medium text-orange-900">Dana Terkumpul</span>
-                                    <span className="text-xl font-semibold text-orange-600">{progress}%</span>
+                                    <span className="text-sm font-medium text-primary-900">Dana Terkumpul</span>
+                                    <span className="text-xl font-semibold text-primary-600">{progress}%</span>
                                 </div>
-                                <div className="w-full h-2 bg-white rounded-full overflow-hidden mb-4 border border-orange-200">
+                                <div className="w-full h-2 bg-white rounded-full overflow-hidden mb-4 border border-primary-200">
                                     <div
-                                        className="h-full bg-orange-600 transition-all duration-500"
+                                        className="h-full bg-primary-600 transition-all duration-200"
                                         style={{ width: `${progress}%` }}
                                     ></div>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        <div className="text-xs text-orange-700 mb-1">Terkumpul</div>
-                                        <div className="text-lg font-semibold text-orange-900">
+                                        <div className="text-xs text-primary-700 mb-1">Terkumpul</div>
+                                        <div className="text-lg font-semibold text-primary-900">
                                             Rp {parseInt(program.collectedAmount || '0').toLocaleString('id-ID')}
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-xs text-orange-700 mb-1">Target</div>
-                                        <div className="text-lg font-semibold text-orange-900">
+                                        <div className="text-xs text-primary-700 mb-1">Target</div>
+                                        <div className="text-lg font-semibold text-primary-900">
                                             Rp {parseInt(program.targetAmount || '0').toLocaleString('id-ID')}
                                         </div>
                                     </div>
@@ -269,13 +269,13 @@ export default function ProgramDetailPage() {
                             <span>Pembuat Program</span>
                         </h3>
                         <div className="flex items-center space-x-4">
-                            <div className="w-12 h-12 rounded-lg bg-orange-600 flex items-center justify-center text-white font-medium text-lg">
+                            <div className="w-12 h-12 rounded-lg bg-primary-600 flex items-center justify-center text-white font-medium text-lg">
                                 {program.creator?.name?.charAt(0).toUpperCase()}
                             </div>
                             <div>
                                 <div className="font-medium text-gray-900">{program.creator?.name}</div>
                                 <div className="text-sm text-gray-600">{program.creator?.email}</div>
-                                <div className="text-xs text-orange-600 font-medium mt-1">
+                                <div className="text-xs text-primary-600 font-medium mt-1">
                                     {program.creator?.role?.replace(/_/g, ' ')}
                                 </div>
                             </div>
@@ -293,7 +293,7 @@ export default function ProgramDetailPage() {
                                 {program.category && (
                                     <div>
                                         <div className="text-xs text-gray-500 mb-1">Kategori</div>
-                                        <div className="px-3 py-1.5 bg-orange-50 text-orange-700 border border-orange-200 rounded-md font-medium text-sm inline-block">
+                                        <div className="px-3 py-1.5 bg-primary-50 text-primary-700 border border-primary-200 rounded-md font-medium text-sm inline-block">
                                             {program.category}
                                         </div>
                                     </div>

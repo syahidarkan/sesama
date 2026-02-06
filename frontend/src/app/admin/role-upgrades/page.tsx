@@ -101,7 +101,7 @@ export default function RoleUpgradesPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fadeIn animate-stagger-1">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fadeIn ">
         <div className="bg-white rounded-lg border border-gray-200 p-5">
           <div className="flex items-center justify-between mb-2">
             <Clock className="w-5 h-5 text-amber-600" />
@@ -115,7 +115,7 @@ export default function RoleUpgradesPage() {
       </div>
 
       {/* Requests List */}
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-fadeIn animate-stagger-2">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-fadeIn ">
         <div className="px-6 py-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">Permintaan Pending</h2>
           <p className="text-sm text-gray-600 mt-0.5">
@@ -127,7 +127,7 @@ export default function RoleUpgradesPage() {
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
-                <Loader2 className="w-8 h-8 animate-spin text-orange-600 mx-auto mb-3" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-600 mx-auto mb-3" />
                 <p className="text-sm text-gray-600">Memuat data...</p>
               </div>
             </div>
@@ -141,8 +141,8 @@ export default function RoleUpgradesPage() {
                   <div className="flex-1">
                     {/* User Info */}
                     <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                        <User className="w-6 h-6 text-orange-600" />
+                      <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                        <User className="w-6 h-6 text-primary-600" />
                       </div>
                       <div>
                         <h3 className="text-base font-semibold text-gray-900">
@@ -214,7 +214,7 @@ export default function RoleUpgradesPage() {
                           href={request.ktpImageUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-md text-sm text-orange-700 hover:bg-orange-100 transition-colors"
+                          className="inline-flex items-center px-3 py-1.5 bg-primary-50 border border-primary-200 rounded-md text-sm text-primary-700 hover:bg-primary-100 transition-colors"
                         >
                           <FileText className="w-4 h-4 mr-2" />
                           Lihat Foto KTP
@@ -284,7 +284,7 @@ export default function RoleUpgradesPage() {
                     ? 'Catatan tambahan (opsional)'
                     : 'Jelaskan alasan penolakan'
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 required={actionType === 'reject'}
               />
             </div>

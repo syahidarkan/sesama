@@ -32,7 +32,10 @@
       "Bash(npx prisma db push:*)",
       "Bash(cmd /c \"cd c:\\\\Users\\\\User\\\\kita-bisa\\\\backend && npx prisma db push\")",
       "Bash(cmd /c \"taskkill /F /PID 19800\")",
-      "Bash(dir /s /b \"c:\\\\Users\\\\User\\\\kita-bisa\\\\frontend\\\\src\\\\app\\\\dashboard\")"
+      "Bash(dir /s /b \"c:\\\\Users\\\\User\\\\kita-bisa\\\\frontend\\\\src\\\\app\\\\dashboard\")",
+      "Bash(node:*)",
+      "Bash(npx next build:*)",
+      "Bash(find:*)"
     ]
   }
 }

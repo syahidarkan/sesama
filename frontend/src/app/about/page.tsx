@@ -26,10 +26,10 @@ export default function AboutPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Memuat halaman...</p>
+          <div className="w-10 h-10 border-3 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-500 text-sm">Memuat halaman...</p>
         </div>
       </div>
     );
@@ -38,404 +38,216 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <nav className="sticky top-0 z-50 border-b border-gray-200/80 bg-white/95 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-xl">S</span>
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="w-11 h-11 bg-primary-600 rounded-lg flex items-center justify-center border border-gray-200 shadow-md transform group-hover:scale-105 transition-transform">
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
               </div>
-              <span className="text-2xl font-bold text-gray-900">sesama</span>
+              <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                sesama
+              </span>
             </Link>
-
             <Link
               href="/"
-              className="inline-flex items-center px-5 py-2.5 text-gray-700 hover:text-gray-900 font-medium transition-colors"
+              className="inline-flex items-center px-5 py-2.5 bg-white border-2 border-gray-200 text-gray-700 font-semibold rounded-lg hover:border-gray-300 hover:shadow-md transition-all"
             >
               <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Kembali
+              Kembali ke Beranda
             </Link>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative bg-orange-600 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.3))]" />
-
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
+      <div className="relative bg-primary-600 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,black)]"></div>
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold text-white mb-8">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="inline-flex items-center space-x-2 bg-white/20 px-5 py-2.5 rounded-full mb-6 border border-white/30">
+              <svg className="w-5 h-5 text-primary-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              <span>Platform Donasi Terpercaya</span>
+              <span className="text-white font-bold text-sm tracking-wide">Tentang Platform</span>
             </div>
-
             <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Menghubungkan Kebaikan
-              <br />
-              dengan Mereka yang
-              <br />
-              Membutuhkan
+              Tentang Kami
             </h1>
-
-            <p className="text-xl text-orange-50 leading-relaxed mb-10">
+            <p className="text-xl text-primary-50 leading-relaxed mb-8">
               Kami membangun jembatan antara kepedulian Anda dengan harapan mereka. Setiap rupiah yang Anda salurkan tercatat, terverifikasi, dan tersalurkan 100% tanpa potongan.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/programs"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-orange-600 rounded-xl font-bold text-lg border border-gray-200 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
-              >
-                Lihat Program Kami
-                <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center px-8 py-4 bg-orange-700/50 hover:bg-orange-700/70 text-white rounded-xl font-semibold text-lg backdrop-blur-sm border-2 border-white/30 hover:border-white/50 transition-all"
-              >
-                Hubungi Kami
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-5xl font-bold bg-orange-600 bg-clip-text text-transparent mb-2">
-                100K+
-              </div>
-              <div className="text-gray-600 font-medium">Donatur Terdaftar</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold bg-orange-600 bg-clip-text text-transparent mb-2">
-                500+
-              </div>
-              <div className="text-gray-600 font-medium">Program Tersalurkan</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold bg-orange-600 bg-clip-text text-transparent mb-2">
-                100%
-              </div>
-              <div className="text-gray-600 font-medium">Dana Tersalurkan</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold bg-orange-600 bg-clip-text text-transparent mb-2">
-                24/7
-              </div>
-              <div className="text-gray-600 font-medium">Layanan Aktif</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission Section */}
-      <section className="py-20 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="inline-block px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-bold mb-6">
-                MISI KAMI
-              </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
-                Membangun Ekosistem Donasi yang Transparan dan Terpercaya
-              </h2>
-              <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                Kami percaya bahwa teknologi dapat mempermudah setiap orang untuk berbagi kebaikan. Dengan sistem yang transparan dan mudah diakses, kami ingin menghilangkan hambatan antara niat baik dengan penyaluran bantuan nyata.
-              </p>
-
-              <div className="space-y-4">
-                <div className="flex items-start space-x-4">
-                  <div className="shrink-0 w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-gray-900 mb-1">Transparansi Penuh</h3>
-                    <p className="text-gray-600">Setiap transaksi tercatat dan dapat dilacak. Laporan penyaluran dipublikasikan secara real-time.</p>
-                  </div>
+            <div className="flex flex-wrap items-center gap-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center border border-white/30">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
                 </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-gray-900 mb-1">Verifikasi Ketat</h3>
-                    <p className="text-gray-600">Setiap program melalui proses validasi dokumen dan survey lapangan oleh tim kami.</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="shrink-0 w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-gray-900 mb-1">Pencairan Cepat</h3>
-                    <p className="text-gray-600">Dana otomatis cair dalam 24 jam setelah program mencapai target tanpa biaya admin.</p>
-                  </div>
+                <div>
+                  <div className="text-2xl font-bold text-white">100K+</div>
+                  <div className="text-sm text-primary-100">Donatur Terdaftar</div>
                 </div>
               </div>
-            </div>
-
-            <div className="relative">
-              <div className="aspect-square bg-orange-50 rounded-lg border border-gray-200 border border-orange-100 p-8">
-                <div className="absolute -top-6 -right-6 w-32 h-32 bg-orange-500 rounded-lg opacity-20 blur-2xl" />
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-600 rounded-lg opacity-20 blur-2xl" />
-
-                <div className="relative h-full flex flex-col justify-center space-y-6">
-                  <div className="bg-white rounded-lg p-6 border border-gray-200">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-semibold text-gray-600">Tingkat Kepercayaan</span>
-                      <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
-                        Sangat Tinggi
-                      </span>
-                    </div>
-                    <div className="flex items-baseline">
-                      <span className="text-5xl font-bold text-gray-900">4.9</span>
-                      <span className="text-lg text-gray-500 ml-2">/ 5.0</span>
-                    </div>
-                    <div className="flex text-orange-500 mt-2">
-                      {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-6 border border-gray-200">
-                    <div className="text-sm font-semibold text-gray-600 mb-3">Total Dana Tersalurkan</div>
-                    <div className="text-3xl font-bold bg-orange-600 bg-clip-text text-transparent">
-                      Rp 50+ Miliar
-                    </div>
-                    <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-orange-600 rounded-full" style={{width: '100%'}} />
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-6 border border-gray-200">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-sm text-gray-600">Waktu Respons</div>
-                        <div className="text-2xl font-bold text-gray-900">< 1 jam</div>
-                      </div>
-                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                        <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center border border-white/30">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-white">100%</div>
+                  <div className="text-sm text-primary-100">Dana Tersalurkan</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Values Section */}
-      <section className="py-20 px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-bold mb-6">
-              NILAI KAMI
-            </div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Prinsip yang Kami Pegang Teguh
+      {/* Mission */}
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid lg:grid-cols-2 gap-16">
+          <div>
+            <p className="text-xs font-semibold text-primary-600 uppercase tracking-wide mb-3">Misi Kami</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Membangun Ekosistem Donasi yang Transparan dan Terpercaya
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Nilai-nilai ini menjadi fondasi setiap keputusan dan tindakan kami dalam melayani donatur dan penerima manfaat
+            <p className="text-gray-600 mb-8">
+              Kami percaya bahwa teknologi dapat mempermudah setiap orang untuk berbagi kebaikan. Dengan sistem yang transparan dan mudah diakses, kami ingin menghilangkan hambatan antara niat baik dengan penyaluran bantuan nyata.
             </p>
+
+            <div className="space-y-5">
+              {[
+                { title: 'Transparansi Penuh', desc: 'Setiap transaksi tercatat dan dapat dilacak. Laporan penyaluran dipublikasikan secara real-time.' },
+                { title: 'Verifikasi Ketat', desc: 'Setiap program melalui proses validasi dokumen dan survey lapangan oleh tim kami.' },
+                { title: 'Pencairan Cepat', desc: 'Dana otomatis cair dalam 24 jam setelah program mencapai target tanpa biaya admin.' },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary-600 mt-2 shrink-0" />
+                  <div>
+                    <h3 className="font-medium text-gray-900 text-sm">{item.title}</h3>
+                    <p className="text-sm text-gray-500">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="group p-8 bg-orange-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-orange-100">
-              <div className="w-14 h-14 bg-orange-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
-                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
+          <div className="space-y-4">
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-gray-600">Tingkat Kepercayaan</span>
+                <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded">
+                  Sangat Tinggi
+                </span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                Integritas
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Kami berkomitmen pada kejujuran dan transparansi dalam setiap aspek operasional platform.
-              </p>
+              <div className="flex items-baseline">
+                <span className="text-4xl font-bold text-gray-900">4.9</span>
+                <span className="text-gray-400 ml-1">/ 5.0</span>
+              </div>
             </div>
 
-            <div className="group p-8 bg-blue-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-blue-100">
-              <div className="w-14 h-14 bg-blue-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
-                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <div className="text-sm font-medium text-gray-600 mb-2">Total Dana Tersalurkan</div>
+              <div className="text-2xl font-bold text-gray-900">Rp 50+ Miliar</div>
+              <div className="mt-3 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-full bg-primary-600 rounded-full" style={{width: '100%'}} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                Empati
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Memahami kebutuhan donatur dan penerima manfaat dengan sepenuh hati untuk menciptakan dampak nyata.
-              </p>
             </div>
 
-            <div className="group p-8 bg-green-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-green-100">
-              <div className="w-14 h-14 bg-green-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
-                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                </svg>
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm text-gray-600">Waktu Respons</div>
+                  <div className="text-xl font-bold text-gray-900">&lt; 1 jam</div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                Akuntabilitas
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Bertanggung jawab penuh atas setiap rupiah yang dipercayakan kepada kami untuk disalurkan.
-              </p>
-            </div>
-
-            <div className="group p-8 bg-purple-50 rounded-lg hover:border border-gray-200 transition-all duration-300 border border-purple-100">
-              <div className="w-14 h-14 bg-purple-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-gray-200">
-                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                Inovasi
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Terus berinovasi menghadirkan solusi terbaik untuk mempermudah penyaluran bantuan.
-              </p>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Values */}
+      <div className="border-t border-gray-200 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 py-16">
+          <p className="text-xs font-semibold text-primary-600 uppercase tracking-wide mb-3">Nilai Kami</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Prinsip yang Kami Pegang Teguh</h2>
+          <p className="text-gray-600 mb-10 max-w-2xl">
+            Nilai-nilai ini menjadi fondasi setiap keputusan dan tindakan kami dalam melayani donatur dan penerima manfaat
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { title: 'Integritas', desc: 'Kami berkomitmen pada kejujuran dan transparansi dalam setiap aspek operasional platform.' },
+              { title: 'Empati', desc: 'Memahami kebutuhan donatur dan penerima manfaat dengan sepenuh hati untuk menciptakan dampak nyata.' },
+              { title: 'Akuntabilitas', desc: 'Bertanggung jawab penuh atas setiap rupiah yang dipercayakan kepada kami untuk disalurkan.' },
+              { title: 'Inovasi', desc: 'Terus berinovasi menghadirkan solusi terbaik untuk mempermudah penyaluran bantuan.' },
+            ].map((value) => (
+              <div key={value.title} className="bg-white rounded-lg p-6 border border-gray-200">
+                <h3 className="font-semibold text-gray-900 mb-2">{value.title}</h3>
+                <p className="text-sm text-gray-500">{value.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* CMS Content */}
       {page?.content && (
-        <section className="py-20 px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div
-              className="prose prose-lg max-w-none text-gray-700"
-              dangerouslySetInnerHTML={{ __html: page.content }}
-            />
-          </div>
-        </section>
+        <div className="max-w-4xl mx-auto px-6 py-16">
+          <div
+            className="prose prose-gray max-w-none"
+            dangerouslySetInnerHTML={{ __html: page.content }}
+          />
+        </div>
       )}
 
-      {/* CTA Section */}
-      <section className="py-24 px-6 lg:px-8 bg-orange-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.3))]" />
-
-        <div className="max-w-4xl mx-auto text-center relative">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-            Mari Bersama Ciptakan
-            <br />
-            Dampak Nyata
+      {/* CTA */}
+      <div className="bg-primary-600">
+        <div className="max-w-4xl mx-auto px-6 py-16 text-center">
+          <h2 className="text-2xl font-bold text-white mb-3">
+            Mari bersama ciptakan dampak nyata
           </h2>
-          <p className="text-xl text-orange-50 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Bergabunglah dengan ribuan donatur yang telah mempercayai kami untuk menyalurkan kebaikan mereka kepada yang membutuhkan.
+          <p className="text-primary-100 mb-8 max-w-lg mx-auto">
+            Bergabunglah dengan ribuan donatur yang telah mempercayai kami untuk menyalurkan kebaikan.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex gap-3 justify-center">
             <Link
               href="/programs"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-gray-50 text-orange-600 rounded-xl font-bold text-lg border border-gray-200 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1"
+              className="px-5 py-2.5 bg-white text-primary-700 font-medium text-sm rounded hover:bg-primary-50 transition-colors"
             >
               Mulai Berdonasi
-              <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
             </Link>
             <Link
               href="/pengusul/register"
-              className="inline-flex items-center justify-center px-8 py-4 bg-orange-700/50 hover:bg-orange-700/70 text-white rounded-xl font-semibold text-lg backdrop-blur-sm border-2 border-white/30 hover:border-white/50 transition-all"
+              className="px-5 py-2.5 bg-primary-700 border border-primary-500 text-white font-medium text-sm rounded hover:bg-primary-800 transition-colors"
             >
               Ajukan Program
             </Link>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-            <div className="lg:col-span-1">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">S</span>
-                </div>
-                <span className="text-2xl font-bold">sesama</span>
-              </div>
-              <p className="text-gray-400 leading-relaxed">
-                Platform donasi terpercaya yang menghubungkan kebaikan Anda dengan mereka yang membutuhkan.
-              </p>
+      <footer className="border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-sm text-gray-500">
+              &copy; 2026 sesama. Semua hak dilindungi.
             </div>
-
-            <div>
-              <h3 className="font-bold text-lg mb-4">Program</h3>
-              <ul className="space-y-3">
-                <li><Link href="/programs" className="text-gray-400 hover:text-white transition-colors">Semua Program</Link></li>
-                <li><Link href="/articles" className="text-gray-400 hover:text-white transition-colors">Laporan Penyaluran</Link></li>
-                <li><Link href="/leaderboard" className="text-gray-400 hover:text-white transition-colors">Leaderboard</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-lg mb-4">Perusahaan</h3>
-              <ul className="space-y-3">
-                <li><Link href="/about" className="text-gray-400 hover:text-white transition-colors">Tentang Kami</Link></li>
-                <li><Link href="/contact" className="text-gray-400 hover:text-white transition-colors">Hubungi Kami</Link></li>
-                <li><Link href="/faq" className="text-gray-400 hover:text-white transition-colors">FAQ</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-lg mb-4">Legal</h3>
-              <ul className="space-y-3">
-                <li><Link href="/terms" className="text-gray-400 hover:text-white transition-colors">Syarat & Ketentuan</Link></li>
-                <li><Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">Kebijakan Privasi</Link></li>
-                <li><Link href="/legal" className="text-gray-400 hover:text-white transition-colors">Informasi Legal</Link></li>
-              </ul>
+            <div className="flex items-center gap-6 text-sm text-gray-500">
+              <Link href="/privacy" className="hover:text-gray-700">Privasi</Link>
+              <Link href="/terms" className="hover:text-gray-700">Ketentuan</Link>
+              <Link href="/contact" className="hover:text-gray-700">Kontak</Link>
             </div>
           </div>
-
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-500 text-sm">
-              © 2026 sesama. Seluruh hak cipta dilindungi.
-            </p>
-            <div className="flex items-center space-x-6 text-sm text-gray-500">
-              <span className="flex items-center">
-                <svg className="w-4 h-4 mr-1.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Terdaftar & Diawasi OJK
-              </span>
-              <span className="flex items-center">
-                <svg className="w-4 h-4 mr-1.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                SSL Secure
-              </span>
-            </div>
-          </div>
-
           {page?.lastEditedBy && (
-            <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
+            <div className="mt-6 pt-6 border-t border-gray-100 text-center text-xs text-gray-400">
               Terakhir diperbarui: {new Date(page.updatedAt).toLocaleDateString('id-ID', {
                 day: 'numeric',
                 month: 'long',

@@ -100,7 +100,7 @@ export default function EditProgramPage() {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
                 <p className="text-sm text-gray-600">Memuat data program...</p>
             </div>
         );
@@ -111,7 +111,7 @@ export default function EditProgramPage() {
             <div className="flex items-center gap-4">
                 <Link
                     href={`/dashboard/programs/${id}`}
-                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-orange-50 transition-colors"
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-primary-50 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5 text-gray-600" />
                 </Link>
@@ -125,8 +125,8 @@ export default function EditProgramPage() {
                 {/* Basic Info Section */}
                 <div className="bg-white rounded-lg border border-gray-200 p-8">
                     <div className="flex items-center space-x-3 mb-6">
-                        <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                            <Heart className="w-5 h-5 text-orange-600" />
+                        <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                            <Heart className="w-5 h-5 text-primary-600" />
                         </div>
                         <h2 className="text-lg font-semibold text-gray-900">Informasi Dasar</h2>
                     </div>
@@ -141,7 +141,7 @@ export default function EditProgramPage() {
                                 required
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                                 placeholder="Masukkan judul program"
                             />
                         </div>
@@ -155,7 +155,7 @@ export default function EditProgramPage() {
                                 rows={6}
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none resize-none"
+                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none resize-none"
                                 placeholder="Jelaskan detail program..."
                             />
                         </div>
@@ -170,7 +170,7 @@ export default function EditProgramPage() {
                                 min="10000"
                                 value={formData.targetAmount}
                                 onChange={(e) => setFormData({ ...formData, targetAmount: e.target.value })}
-                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                                 placeholder="10000000"
                             />
                             <p className="text-sm text-gray-500 mt-2">
@@ -292,7 +292,7 @@ export default function EditProgramPage() {
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <div className="flex items-start space-x-3">
-                            <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5 shrink-0" />
+                            <AlertCircle className="w-5 h-5 text-primary-600 mt-0.5 shrink-0" />
                             <div>
                                 <p className="text-sm font-medium text-gray-900">Pastikan semua data sudah benar</p>
                                 <p className="text-xs text-gray-600 mt-1">Perubahan akan langsung tersimpan setelah Anda klik tombol simpan</p>
@@ -308,7 +308,7 @@ export default function EditProgramPage() {
                             <button
                                 type="submit"
                                 disabled={updateMutation.isPending}
-                                className="flex-1 md:flex-none inline-flex items-center justify-center space-x-2 px-8 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors disabled:opacity-50"
+                                className="flex-1 md:flex-none inline-flex items-center justify-center space-x-2 px-8 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors disabled:opacity-50"
                             >
                                 {updateMutation.isPending ? (
                                     <>

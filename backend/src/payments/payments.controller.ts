@@ -14,7 +14,7 @@ export class PaymentsController {
     @Post('create')
     async createPayment(@Body() data: any) {
         try {
-            const { programId, donorName, donorEmail, amount } = data;
+            const { programId, donorName, donorEmail, amount, referralCode } = data;
 
             // Create donation record
             const donation = await this.donationsService.create({
@@ -22,6 +22,7 @@ export class PaymentsController {
                 donorName,
                 donorEmail,
                 amount,
+                referralCode: referralCode || null,
             });
 
             // Create Midtrans Snap transaction

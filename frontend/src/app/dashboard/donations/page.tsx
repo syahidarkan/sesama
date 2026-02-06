@@ -98,7 +98,7 @@ export default function MyDonationsPage() {
       </div>
 
       {/* Stats Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fadeIn animate-stagger-1">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fadeIn ">
         <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg border border-green-200 p-5">
           <div className="flex items-center justify-between mb-2">
             <DollarSign className="w-5 h-5 text-green-600" />
@@ -112,15 +112,15 @@ export default function MyDonationsPage() {
           </p>
         </div>
 
-        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg border border-orange-200 p-5">
+        <div className="bg-primary-50 rounded-lg border border-primary-200 p-5">
           <div className="flex items-center justify-between mb-2">
-            <Heart className="w-5 h-5 text-orange-600" />
+            <Heart className="w-5 h-5 text-primary-600" />
           </div>
-          <div className="text-sm text-orange-800 mb-1">Program Dibantu</div>
-          <div className="text-2xl font-semibold text-orange-900">
+          <div className="text-sm text-primary-800 mb-1">Program Dibantu</div>
+          <div className="text-2xl font-semibold text-primary-900">
             {programsSupported}
           </div>
-          <p className="text-xs text-orange-700 mt-1">
+          <p className="text-xs text-primary-700 mt-1">
             Program berbeda
           </p>
         </div>
@@ -140,7 +140,7 @@ export default function MyDonationsPage() {
       </div>
 
       {/* Donations List */}
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-fadeIn animate-stagger-2">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-fadeIn ">
         <div className="px-6 py-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">Semua Transaksi</h2>
           <p className="text-sm text-gray-600 mt-0.5">
@@ -152,7 +152,7 @@ export default function MyDonationsPage() {
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
-                <Loader2 className="w-8 h-8 animate-spin text-orange-600 mx-auto mb-3" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-600 mx-auto mb-3" />
                 <p className="text-sm text-gray-600">Memuat riwayat...</p>
               </div>
             </div>
@@ -166,8 +166,8 @@ export default function MyDonationsPage() {
                   <div className="flex-1">
                     {/* Program Info */}
                     <div className="flex items-start space-x-4 mb-3">
-                      <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center shrink-0">
-                        <Heart className="w-6 h-6 text-orange-600" />
+                      <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center shrink-0">
+                        <Heart className="w-6 h-6 text-primary-600" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-base font-semibold text-gray-900 mb-1">
@@ -192,7 +192,7 @@ export default function MyDonationsPage() {
                     <div className="ml-16 space-y-2">
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-600">Jumlah Donasi:</span>
-                        <span className="text-lg font-semibold text-orange-600">
+                        <span className="text-lg font-semibold text-primary-600">
                           {formatCurrency(parseFloat(donation.amount))}
                         </span>
                       </div>
@@ -243,7 +243,7 @@ export default function MyDonationsPage() {
               </p>
               <Link
                 href="/programs"
-                className="inline-flex items-center px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-lg hover:bg-orange-700 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-600 transition-colors"
               >
                 Mulai Berdonasi
               </Link>

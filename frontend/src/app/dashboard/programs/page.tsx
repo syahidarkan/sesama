@@ -84,7 +84,7 @@ export default function ProgramsPage() {
                     {canCreate && (
                         <Link
                             href="/dashboard/programs/create"
-                            className="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition-colors"
+                            className="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-medium hover:bg-primary-600 transition-colors"
                         >
                             <Plus className="w-4 h-4" />
                             <span>New Program</span>
@@ -101,7 +101,7 @@ export default function ProgramsPage() {
                             placeholder="Search programs..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-9 pr-3 py-2 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full pl-9 pr-3 py-2 text-sm rounded-md border border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                         />
                     </div>
                     <div className="relative">
@@ -109,7 +109,7 @@ export default function ProgramsPage() {
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="w-full pl-9 pr-3 py-2 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white"
+                            className="w-full pl-9 pr-3 py-2 text-sm rounded-md border border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white"
                         >
                             <option value="">All Status</option>
                             <option value="DRAFT">Draft</option>
@@ -140,7 +140,7 @@ export default function ProgramsPage() {
                             <Link
                                 key={program.id}
                                 href={`/dashboard/programs/${program.id}`}
-                                className="group bg-white rounded-lg border border-gray-200 hover:border-orange-500 transition-colors overflow-hidden"
+                                className="group bg-white rounded-lg border border-gray-200 hover:border-primary-500 transition-colors overflow-hidden"
                             >
                                 {program.imageUrl && (
                                     <div className="relative aspect-video overflow-hidden bg-gray-100">
@@ -154,7 +154,7 @@ export default function ProgramsPage() {
                                                 className={`px-2 py-1 rounded text-xs font-medium ${program.status === 'ACTIVE'
                                                     ? 'bg-green-100 text-green-800'
                                                     : program.status === 'PENDING_APPROVAL'
-                                                        ? 'bg-orange-100 text-orange-800'
+                                                        ? 'bg-primary-100 text-primary-800'
                                                         : program.status === 'CLOSED'
                                                             ? 'bg-gray-100 text-gray-800'
                                                             : program.status === 'REJECTED'
@@ -187,7 +187,7 @@ export default function ProgramsPage() {
                                         </div>
                                         <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                                             <div
-                                                className="h-full bg-orange-600 rounded-full transition-all"
+                                                className="h-full bg-primary-600 rounded-full transition-all"
                                                 style={{ width: `${progress}%` }}
                                             ></div>
                                         </div>
@@ -234,7 +234,7 @@ export default function ProgramsPage() {
                         {canCreate && !searchQuery && (
                             <Link
                                 href="/dashboard/programs/create"
-                                className="inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition-colors"
+                                className="inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-medium hover:bg-primary-600 transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                                 <span>New Program</span>

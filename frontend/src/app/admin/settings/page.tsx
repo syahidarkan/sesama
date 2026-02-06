@@ -34,7 +34,7 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab('dropdowns')}
                 className={`py-4 px-6 text-sm font-medium border-b-2 ${
                   activeTab === 'dropdowns'
-                    ? 'border-orange-600 text-orange-600'
+                    ? 'border-primary-600 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -44,7 +44,7 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab('fields')}
                 className={`py-4 px-6 text-sm font-medium border-b-2 ${
                   activeTab === 'fields'
-                    ? 'border-orange-600 text-orange-600'
+                    ? 'border-primary-600 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -54,7 +54,7 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab('users')}
                 className={`py-4 px-6 text-sm font-medium border-b-2 ${
                   activeTab === 'users'
-                    ? 'border-orange-600 text-orange-600'
+                    ? 'border-primary-600 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -165,7 +165,7 @@ function DropdownManagement() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500"
+            className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500"
           >
             {categoryOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -174,7 +174,7 @@ function DropdownManagement() {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700"
+          className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
         >
           + Tambah Item
         </button>
@@ -210,7 +210,7 @@ function DropdownManagement() {
                     <td className="px-6 py-4 text-center">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         item.isActive !== false
-                          ? 'bg-orange-100 text-orange-800'
+                          ? 'bg-primary-100 text-primary-800'
                           : 'bg-gray-100 text-gray-800'
                       }`}>
                         {item.isActive !== false ? 'Active' : 'Inactive'}
@@ -290,7 +290,7 @@ function DropdownManagement() {
               </button>
               <button
                 onClick={handleAdd}
-                className="flex-1 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700"
+                className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
               >
                 Simpan
               </button>
@@ -355,7 +355,7 @@ function DropdownManagement() {
               </button>
               <button
                 onClick={handleEdit}
-                className="flex-1 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700"
+                className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
               >
                 Simpan
               </button>
@@ -504,7 +504,7 @@ function FormFieldManagement() {
           <select
             value={formType}
             onChange={(e) => setFormType(e.target.value)}
-            className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500"
+            className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500"
           >
             {formTypeOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -513,7 +513,7 @@ function FormFieldManagement() {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700"
+          className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
         >
           + Tambah Field
         </button>
@@ -560,7 +560,7 @@ function FormFieldManagement() {
                         onClick={() => toggleVisibility(fieldName, config.isVisible)}
                         className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                           config.isVisible
-                            ? 'bg-orange-100 text-orange-800 hover:bg-orange-200'
+                            ? 'bg-primary-100 text-primary-800 hover:bg-primary-200'
                             : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                         }`}
                       >
@@ -645,7 +645,7 @@ function FormFieldManagement() {
               </button>
               <button
                 onClick={handleAddField}
-                className="flex-1 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700"
+                className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
               >
                 Simpan
               </button>
@@ -752,7 +752,7 @@ function UserManagement() {
     { value: 'PENGUSUL', label: 'Pengusul', color: 'bg-yellow-100 text-yellow-800' },
     { value: 'CONTENT_MANAGER', label: 'Content Manager', color: 'bg-purple-100 text-purple-800' },
     { value: 'SUPERVISOR', label: 'Supervisor', color: 'bg-blue-100 text-blue-800' },
-    { value: 'MANAGER', label: 'Manager', color: 'bg-orange-100 text-orange-800' },
+    { value: 'MANAGER', label: 'Manager', color: 'bg-primary-100 text-primary-800' },
     { value: 'SUPER_ADMIN', label: 'Super Admin', color: 'bg-red-100 text-red-800' },
   ];
 
@@ -792,7 +792,7 @@ function UserManagement() {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700"
+          className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
         >
           + Tambah User
         </button>
@@ -836,7 +836,7 @@ function UserManagement() {
                         onClick={() => handleToggleActive(user)}
                         className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                           user.isActive
-                            ? 'bg-orange-100 text-orange-800 hover:bg-orange-200'
+                            ? 'bg-primary-100 text-primary-800 hover:bg-primary-200'
                             : 'bg-red-100 text-red-800 hover:bg-red-200'
                         }`}
                       >
@@ -858,7 +858,7 @@ function UserManagement() {
                       </button>
                       <button
                         onClick={() => handleDeleteUser(user.id, false)}
-                        className="text-orange-600 hover:text-orange-900"
+                        className="text-primary-600 hover:text-primary-900"
                       >
                         Nonaktifkan
                       </button>
@@ -939,7 +939,7 @@ function UserManagement() {
               <button
                 onClick={handleCreateUser}
                 disabled={!newUser.email || !newUser.name || !newUser.password}
-                className="flex-1 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Buat User
               </button>
@@ -1007,7 +1007,7 @@ function UserManagement() {
               </button>
               <button
                 onClick={handleUpdateUser}
-                className="flex-1 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700"
+                className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
               >
                 Simpan
               </button>

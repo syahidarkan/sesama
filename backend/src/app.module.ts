@@ -24,6 +24,8 @@ import { PelaporanModule } from './pelaporan/pelaporan.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { RoleUpgradesModule } from './role-upgrades/role-upgrades.module';
 import { FinanceModule } from './finance/finance.module';
+import { ReferralModule } from './referral/referral.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -57,6 +59,8 @@ import { FinanceModule } from './finance/finance.module';
     PelaporanModule,
     BeritaModule,
     GamificationModule,
+    ReferralModule,
+    CommentsModule,
 
     // Utility Modules
     AuditLogModule,

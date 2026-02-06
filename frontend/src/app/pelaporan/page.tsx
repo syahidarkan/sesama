@@ -45,10 +45,23 @@ export default function PelaporanPage() {
     });
   };
 
+  // Placeholder images for pelaporan/reports
+  const getPlaceholderImage = (index: number) => {
+    const images = [
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop', // documents
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop', // analytics
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop', // charts
+      'https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=600&h=400&fit=crop', // reports
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop', // finance
+      'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&h=400&fit=crop', // graphs
+    ];
+    return images[index % images.length];
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -63,9 +76,12 @@ export default function PelaporanPage() {
             </Link>
             <Link
               href="/"
-              className="text-gray-600 hover:text-gray-900 font-medium"
+              className="inline-flex items-center px-5 py-2.5 bg-white border-2 border-gray-200 text-gray-700 font-semibold rounded-lg hover:border-gray-300 hover:shadow-md transition-all"
             >
-              Kembali
+              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Kembali ke Beranda
             </Link>
           </div>
         </div>
@@ -82,23 +98,21 @@ export default function PelaporanPage() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {pelaporan.map((item) => (
+          {pelaporan.map((item, index) => (
             <Link
               key={item.id}
               href={`/pelaporan/${item.slug}`}
-              className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-gray-300 hover:shadow-md transition-all group"
+              className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:border-gray-300 hover:shadow-md transition-all group"
             >
-              {item.coverImageUrl && (
-                <div className="aspect-video bg-gray-100 overflow-hidden">
-                  <img
-                    src={item.coverImageUrl}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              )}
+              <div className="aspect-video bg-gray-100 overflow-hidden">
+                <img
+                  src={item.coverImageUrl || getPlaceholderImage(index)}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                />
+              </div>
               <div className="p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors line-clamp-2">
+                <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
                   {item.title}
                 </h2>
                 {item.excerpt && (
@@ -109,7 +123,7 @@ export default function PelaporanPage() {
                   <span>{formatDate(item.publishedAt || item.createdAt)}</span>
                 </div>
                 {item.program && (
-                  <div className="mt-3 inline-block bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">
+                  <div className="mt-3 inline-block bg-primary-50 text-primary-700 px-3 py-1 rounded-full text-xs font-semibold">
                     {item.program.title}
                   </div>
                 )}
@@ -119,7 +133,7 @@ export default function PelaporanPage() {
         </div>
 
         {pelaporan.length === 0 && (
-          <div className="text-center py-16 bg-gray-50 rounded-xl">
+          <div className="text-center py-16 bg-gray-50 rounded-lg">
             <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>

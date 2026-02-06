@@ -16,6 +16,8 @@ import {
   AlertCircle,
   ArrowUpRight,
   Calendar,
+  Newspaper,
+  Activity,
 } from 'lucide-react';
 
 interface DashboardStats {
@@ -69,9 +71,12 @@ export default function AdminDashboardPage() {
       setLoading(true);
 
       // Fetch data based on user role
+      // For PENGUSUL, only show their own programs
+      const createdByFilter = user?.role === 'PENGUSUL' ? user.id : undefined;
+
       const promises: Promise<any>[] = [
-        programsApi.getAll(undefined, 10, 0),
-        articlesApi.getAll(undefined, undefined, undefined, 10, 0),
+        programsApi.getAll(undefined, 10, 0, createdByFilter),
+        articlesApi.getAll(undefined, undefined, user?.role === 'PENGUSUL' ? user.id : undefined, 10, 0),
       ];
 
       // Only fetch donations and approvals if user has permission
@@ -125,7 +130,7 @@ export default function AdminDashboardPage() {
     return (
       <div className="flex items-center justify-center py-20">
         <div className="text-center">
-          <div className="w-8 h-8 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+          <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
           <p className="text-sm text-gray-600">Loading dashboard...</p>
         </div>
       </div>
@@ -135,27 +140,44 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-6 text-white animate-fadeIn relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -ml-24 -mb-24"></div>
-        <div className="relative z-10">
-          <h1 className="text-2xl font-semibold mb-2 animate-slideInLeft">Welcome back, {user?.name}!</h1>
-          <p className="text-orange-100 animate-slideInLeft" style={{ animationDelay: '0.1s' }}>
-            Here's what's happening with your platform today.
-          </p>
-        </div>
+      <div className="bg-primary-600 rounded-xl p-6 text-white">
+        <h1 className="text-xl font-semibold mb-1">Welcome back, {user?.name}!</h1>
+        <p className="text-primary-100 text-sm">
+          {user?.role === 'PENGUSUL'
+            ? 'Kelola program donasi Anda dan pantau perkembangan dari dashboard ini.'
+            : "Here's what's happening with your platform today."}
+        </p>
       </div>
+
+      {/* Info Banner for PENGUSUL */}
+      {user?.role === 'PENGUSUL' && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
+              <AlertCircle className="w-4 h-4 text-blue-600" />
+            </div>
+            <div>
+              <h3 className="font-medium text-blue-900 text-sm">Tentang Data Dashboard</h3>
+              <p className="text-blue-700 text-xs mt-1">
+                Semua statistik di bawah ini (Total Donasi, Program Aktif, Total Donatur, dan Persetujuan)
+                merupakan data yang berasal dari program-program yang berhasil Anda buat dan kelola.
+                Data akan terupdate secara otomatis ketika ada donasi masuk ke program Anda.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats Grid */}
       <div className={`grid md:grid-cols-2 ${hasAccess(['MANAGER', 'SUPERVISOR', 'SUPER_ADMIN']) ? 'lg:grid-cols-4' : 'lg:grid-cols-2'} gap-6`}>
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn animate-stagger-1">
+        <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn ">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-              <Heart className="w-6 h-6 text-orange-600" />
+            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center group-hover:bg-primary-200 transition-colors">
+              <Heart className="w-6 h-6 text-primary-600" />
             </div>
             <Link
               href="/admin/programs"
-              className="text-orange-600 hover:text-orange-700 transition-transform hover:scale-110"
+              className="text-primary-600 hover:text-primary-700 transition-transform hover:text-current"
             >
               <ArrowUpRight className="w-5 h-5" />
             </Link>
@@ -165,19 +187,19 @@ export default function AdminDashboardPage() {
           </div>
           <p className="text-sm text-gray-600">Total Programs</p>
           <div className="mt-3 flex items-center text-xs text-green-600">
-            <TrendingUp className="w-3 h-3 mr-1 animate-bounce-slow" />
+            <TrendingUp className="w-3 h-3 mr-1 " />
             <span>{stats.activePrograms} active</span>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn animate-stagger-2">
+        <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn ">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
               <FileText className="w-6 h-6 text-green-600" />
             </div>
             <Link
               href="/admin/articles"
-              className="text-green-600 hover:text-green-700 transition-transform hover:scale-110"
+              className="text-green-600 hover:text-green-700 transition-transform hover:text-current"
             >
               <ArrowUpRight className="w-5 h-5" />
             </Link>
@@ -193,14 +215,14 @@ export default function AdminDashboardPage() {
 
         {hasAccess(['MANAGER', 'SUPERVISOR', 'SUPER_ADMIN']) && (
           <>
-            <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn animate-stagger-3">
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn ">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
                   <DollarSign className="w-6 h-6 text-blue-600" />
                 </div>
                 <Link
                   href="/admin/donations"
-                  className="text-blue-600 hover:text-blue-700 transition-transform hover:scale-110"
+                  className="text-blue-600 hover:text-blue-700 transition-transform hover:text-current"
                 >
                   <ArrowUpRight className="w-5 h-5" />
                 </Link>
@@ -214,14 +236,14 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn animate-stagger-4">
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn ">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center group-hover:bg-amber-200 transition-colors">
                   <Clock className="w-6 h-6 text-amber-600" />
                 </div>
                 <Link
                   href="/admin/approvals"
-                  className="text-amber-600 hover:text-amber-700 transition-transform hover:scale-110"
+                  className="text-amber-600 hover:text-amber-700 transition-transform hover:text-current"
                 >
                   <ArrowUpRight className="w-5 h-5" />
                 </Link>
@@ -231,7 +253,7 @@ export default function AdminDashboardPage() {
               </div>
               <p className="text-sm text-gray-600">Pending Approvals</p>
               <div className="mt-3 text-xs text-amber-600">
-                {stats.pendingApprovals > 0 && <span className="inline-block animate-pulse-slow">●</span>} Needs attention
+                {stats.pendingApprovals > 0 && <span className="inline-block ">●</span>} Needs attention
               </div>
             </div>
           </>
@@ -240,12 +262,12 @@ export default function AdminDashboardPage() {
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Recent Programs */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 animate-fadeIn animate-stagger-5">
+        <div className="bg-white rounded-lg border border-gray-200 p-6 animate-fadeIn ">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-gray-900">Recent Programs</h2>
             <Link
               href="/admin/programs"
-              className="text-sm text-orange-600 hover:text-orange-700 font-medium transition-colors"
+              className="text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors"
             >
               View all
             </Link>
@@ -258,11 +280,11 @@ export default function AdminDashboardPage() {
                 <Link
                   key={program.id}
                   href={`/admin/programs/${program.id}`}
-                  className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-all hover-scale border border-transparent hover:border-orange-100"
+                  className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-all  border border-transparent hover:border-primary-100"
                   style={{ animationDelay: `${0.1 * index}s` }}
                 >
-                  <div className="w-10 h-10 bg-orange-100 rounded-md flex items-center justify-center shrink-0 transition-colors group-hover:bg-orange-200">
-                    <Heart className="w-5 h-5 text-orange-600" />
+                  <div className="w-10 h-10 bg-primary-100 rounded-md flex items-center justify-center shrink-0 transition-colors group-hover:bg-primary-200">
+                    <Heart className="w-5 h-5 text-primary-600" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium text-gray-900 truncate">
@@ -292,12 +314,12 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Recent Articles */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 animate-fadeIn animate-stagger-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-6 animate-fadeIn ">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-gray-900">Recent Reports</h2>
             <Link
               href="/admin/articles"
-              className="text-sm text-orange-600 hover:text-orange-700 font-medium transition-colors"
+              className="text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors"
             >
               View all
             </Link>
@@ -310,7 +332,7 @@ export default function AdminDashboardPage() {
                 <Link
                   key={article.id}
                   href={`/admin/articles/${article.id}`}
-                  className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-all hover-scale border border-transparent hover:border-green-100"
+                  className="flex items-start space-x-3 p-3 rounded-md hover:bg-gray-50 transition-all  border border-transparent hover:border-green-100"
                   style={{ animationDelay: `${0.1 * index}s` }}
                 >
                   <div className="w-10 h-10 bg-green-100 rounded-md flex items-center justify-center shrink-0 transition-colors group-hover:bg-green-200">
@@ -351,10 +373,10 @@ export default function AdminDashboardPage() {
           {/* New Program - Available to all */}
           <Link
             href="/admin/programs/create"
-            className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-orange-500 hover:bg-orange-50 transition-all hover-lift group"
+            className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-primary-50 transition-all hover-lift group"
           >
-            <Heart className="w-8 h-8 text-gray-400 group-hover:text-orange-600 mb-2 transition-all group-hover:scale-110" />
-            <span className="text-sm font-medium text-gray-700 group-hover:text-orange-600 transition-colors">
+            <Heart className="w-8 h-8 text-gray-400 group-hover:text-primary-600 mb-2 transition-all group-hover:text-current" />
+            <span className="text-sm font-medium text-gray-700 group-hover:text-primary-600 transition-colors">
               New Program
             </span>
           </Link>
@@ -364,21 +386,34 @@ export default function AdminDashboardPage() {
             href="/admin/articles/create"
             className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-green-500 hover:bg-green-50 transition-all hover-lift group"
           >
-            <FileText className="w-8 h-8 text-gray-400 group-hover:text-green-600 mb-2 transition-all group-hover:scale-110" />
+            <FileText className="w-8 h-8 text-gray-400 group-hover:text-green-600 mb-2 transition-all group-hover:text-current" />
             <span className="text-sm font-medium text-gray-700 group-hover:text-green-600 transition-colors">
               New Report
             </span>
           </Link>
 
-          {/* New Article - Content Manager, Manager, Super Admin only */}
+          {/* New Pelaporan - Available to all with access */}
+          {hasAccess(['CONTENT_MANAGER', 'MANAGER', 'SUPER_ADMIN', 'PENGUSUL']) && (
+            <Link
+              href="/admin/pelaporan/create"
+              className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-teal-500 hover:bg-teal-50 transition-all hover-lift group"
+            >
+              <Activity className="w-8 h-8 text-gray-400 group-hover:text-teal-600 mb-2 transition-all group-hover:text-current" />
+              <span className="text-sm font-medium text-gray-700 group-hover:text-teal-600 transition-colors">
+                Pelaporan
+              </span>
+            </Link>
+          )}
+
+          {/* New Article/Berita - Content Manager, Manager, Super Admin only */}
           {hasAccess(['CONTENT_MANAGER', 'MANAGER', 'SUPER_ADMIN']) && (
             <Link
               href="/admin/berita/create"
               className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all hover-lift group"
             >
-              <FileText className="w-8 h-8 text-gray-400 group-hover:text-blue-600 mb-2 transition-all group-hover:scale-110" />
+              <Newspaper className="w-8 h-8 text-gray-400 group-hover:text-blue-600 mb-2 transition-all group-hover:text-current" />
               <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition-colors">
-                New Article
+                Berita
               </span>
             </Link>
           )}
@@ -389,7 +424,7 @@ export default function AdminDashboardPage() {
               href="/admin/approvals"
               className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-amber-500 hover:bg-amber-50 transition-all hover-lift group"
             >
-              <CheckCircle className="w-8 h-8 text-gray-400 group-hover:text-amber-600 mb-2 transition-all group-hover:scale-110" />
+              <CheckCircle className="w-8 h-8 text-gray-400 group-hover:text-amber-600 mb-2 transition-all group-hover:text-current" />
               <span className="text-sm font-medium text-gray-700 group-hover:text-amber-600 transition-colors">
                 Approvals
               </span>
@@ -402,7 +437,7 @@ export default function AdminDashboardPage() {
               href="/admin/users"
               className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-purple-500 hover:bg-purple-50 transition-all hover-lift group"
             >
-              <Users className="w-8 h-8 text-gray-400 group-hover:text-purple-600 mb-2 transition-all group-hover:scale-110" />
+              <Users className="w-8 h-8 text-gray-400 group-hover:text-purple-600 mb-2 transition-all group-hover:text-current" />
               <span className="text-sm font-medium text-gray-700 group-hover:text-purple-600 transition-colors">
                 Users
               </span>
@@ -415,7 +450,7 @@ export default function AdminDashboardPage() {
               href="/admin/settings"
               className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-gray-500 hover:bg-gray-50 transition-all hover-lift group"
             >
-              <Calendar className="w-8 h-8 text-gray-400 group-hover:text-gray-600 mb-2 transition-all group-hover:scale-110" />
+              <Calendar className="w-8 h-8 text-gray-400 group-hover:text-gray-600 mb-2 transition-all group-hover:text-current" />
               <span className="text-sm font-medium text-gray-700 group-hover:text-gray-600 transition-colors">
                 Settings
               </span>

@@ -37,7 +37,7 @@ export default function BeritaDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -47,7 +47,7 @@ export default function BeritaDetailPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-4 text-lg">{error}</p>
-          <Link href="/berita" className="text-orange-600 hover:text-orange-700 font-medium">
+          <Link href="/berita" className="text-primary-600 hover:text-primary-700 font-medium">
             Kembali ke Berita
           </Link>
         </div>
@@ -64,10 +64,13 @@ export default function BeritaDetailPage() {
               sesama
             </Link>
             <Link
-              href="/berita"
-              className="text-gray-600 hover:text-gray-900 font-medium"
+              href="/"
+              className="inline-flex items-center px-5 py-2.5 bg-white border-2 border-gray-200 text-gray-700 font-semibold rounded-lg hover:border-gray-300 hover:shadow-md transition-all"
             >
-              Kembali
+              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Kembali ke Beranda
             </Link>
           </div>
         </div>
@@ -76,7 +79,7 @@ export default function BeritaDetailPage() {
       <article className="max-w-4xl mx-auto px-4 py-12">
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-4">
-            <span className="px-3 py-1 bg-orange-50 text-orange-700 text-sm font-semibold rounded-full">
+            <span className="px-3 py-1 bg-primary-50 text-primary-700 text-sm font-semibold rounded-full">
               {berita.category}
             </span>
             <span className="text-sm text-gray-500">
@@ -94,7 +97,7 @@ export default function BeritaDetailPage() {
         </div>
 
         {berita.coverImageUrl && (
-          <div className="aspect-video bg-gray-100 rounded-xl overflow-hidden mb-8">
+          <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden mb-8">
             <img
               src={berita.coverImageUrl}
               alt={berita.title}
@@ -104,7 +107,7 @@ export default function BeritaDetailPage() {
         )}
 
         {berita.excerpt && (
-          <div className="bg-gray-50 border-l-4 border-orange-600 p-4 mb-8 rounded">
+          <div className="bg-gray-50 border-l-4 border-primary-600 p-4 mb-8 rounded">
             <p className="text-lg text-gray-700 italic">{berita.excerpt}</p>
           </div>
         )}
@@ -117,7 +120,7 @@ export default function BeritaDetailPage() {
         <div className="mt-12 pt-6 border-t border-gray-200">
           <Link
             href="/berita"
-            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium"
+            className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 font-medium"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

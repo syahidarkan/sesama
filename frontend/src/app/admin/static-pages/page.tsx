@@ -91,7 +91,7 @@ export default function AdminStaticPagesPage() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => handleEdit(page)}
-                    className="flex-1 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 font-medium"
+                    className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-600 font-medium"
                   >
                     Edit Halaman
                   </button>
@@ -129,7 +129,7 @@ export default function AdminStaticPagesPage() {
                     onChange={(e) =>
                       setEditingPage({ ...editingPage, title: e.target.value })
                     }
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -144,7 +144,7 @@ export default function AdminStaticPagesPage() {
                       setEditingPage({ ...editingPage, content: e.target.value })
                     }
                     rows={20}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono text-sm"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-mono text-sm"
                     placeholder="Masukkan konten HTML..."
                   />
                   <p className="mt-2 text-sm text-gray-500">
@@ -181,7 +181,7 @@ export default function AdminStaticPagesPage() {
                 </button>
                 <button
                   onClick={handleSave}
-                  className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium"
+                  className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-600 font-medium"
                 >
                   Simpan Perubahan
                 </button>

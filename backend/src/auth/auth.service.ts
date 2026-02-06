@@ -78,23 +78,42 @@ export class AuthService {
   async login(
     email: string,
     password: string,
+    portal: string = 'public',
     ipAddress?: string,
     userAgent?: string,
   ) {
+    console.log('[LOGIN] Attempt:', { email, portal, hasPassword: !!password });
     const user = await this.prisma.user.findUnique({ where: { email } });
+    console.log('[LOGIN] User found:', user ? { id: user.id, role: user.role, isActive: user.isActive } : 'NOT FOUND');
 
     if (!user || !user.passwordHash) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Email atau password salah');
     }
 
     if (!user.isActive) {
-      throw new UnauthorizedException('Account is inactive');
+      throw new UnauthorizedException('Email atau password salah');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+    console.log('[LOGIN] Password valid:', isPasswordValid);
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Email atau password salah');
+    }
+
+    // Portal-based access control
+    const publicRoles = ['USER', 'PENGUSUL'];
+    const adminRoles = ['MANAGER', 'CONTENT_MANAGER', 'SUPERVISOR', 'FINANCE'];
+    const superAdminRoles = ['SUPER_ADMIN'];
+
+    if (portal === 'public' && !publicRoles.includes(user.role)) {
+      throw new UnauthorizedException('Email atau password salah');
+    }
+    if (portal === 'admin' && !adminRoles.includes(user.role)) {
+      throw new UnauthorizedException('Email atau password salah');
+    }
+    if (portal === 'superadmin' && !superAdminRoles.includes(user.role)) {
+      throw new UnauthorizedException('Email atau password salah');
     }
 
     // Update last login
@@ -116,14 +135,10 @@ export class AuthService {
         userAgent,
       });
 
-      // In development mode, include OTP in response for easier testing
-      const isDevelopment = this.configService.get('NODE_ENV') === 'development';
-
       return {
         requiresOTP: true,
         userId: user.id,
         message: 'OTP has been sent to your email',
-        ...(isDevelopment && { otp }), // Include OTP in development mode
       };
     }
 
@@ -287,12 +302,8 @@ export class AuthService {
       metadata: { reason: 'resend' },
     });
 
-    // In development mode, include OTP in response for easier testing
-    const isDevelopment = this.configService.get('NODE_ENV') === 'development';
-
     return {
       message: 'New OTP has been sent to your email',
-      ...(isDevelopment && { otp }), // Include OTP in development mode
     };
   }
 

@@ -151,8 +151,12 @@ export default function PengusulRegisterPage() {
   if (success) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-xl border border-gray-200 p-8 text-center">
-          <div className="text-6xl mb-4">✅</div>
+        <div className="max-w-md w-full bg-white rounded-lg border border-gray-200 p-8 text-center">
+          <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+            <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Pendaftaran Berhasil
           </h2>
@@ -187,7 +191,7 @@ export default function PengusulRegisterPage() {
       </nav>
 
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="bg-white rounded-xl border border-gray-200 p-8">
+        <div className="bg-white rounded-lg border border-gray-200 p-8">
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
               {[1, 2, 3, 4].map((step) => (
@@ -198,7 +202,7 @@ export default function PengusulRegisterPage() {
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
                       step <= currentStep
-                        ? 'bg-orange-600 text-white'
+                        ? 'bg-primary-600 text-white'
                         : 'bg-gray-200 text-gray-500'
                     }`}
                   >
@@ -207,7 +211,7 @@ export default function PengusulRegisterPage() {
                   {step < 4 && (
                     <div
                       className={`flex-1 h-1 mx-2 ${
-                        step < currentStep ? 'bg-orange-600' : 'bg-gray-200'
+                        step < currentStep ? 'bg-primary-500' : 'bg-gray-200'
                       }`}
                     />
                   )}
@@ -249,7 +253,7 @@ export default function PengusulRegisterPage() {
                     onChange={handleChange}
                     maxLength={16}
                     placeholder="Masukkan 16 digit nomor KTP"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     required
                   />
                 </div>
@@ -264,7 +268,7 @@ export default function PengusulRegisterPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Contoh: 081234567890"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     required
                   />
                 </div>
@@ -279,7 +283,7 @@ export default function PengusulRegisterPage() {
                     onChange={handleChange}
                     rows={4}
                     placeholder="Masukkan alamat lengkap termasuk RT/RW, Kelurahan, Kecamatan, Kota/Kabupaten, Provinsi"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     required
                   />
                 </div>
@@ -288,8 +292,8 @@ export default function PengusulRegisterPage() {
 
             {currentStep === 2 && (
               <div className="space-y-6">
-                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                  <p className="text-sm text-orange-800">
+                <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+                  <p className="text-sm text-primary-800">
                     Jika Anda mewakili lembaga/organisasi, lengkapi data berikut. Jika
                     individu, Anda bisa melewati bagian ini.
                   </p>
@@ -305,7 +309,7 @@ export default function PengusulRegisterPage() {
                     value={formData.institutionName}
                     onChange={handleChange}
                     placeholder="Contoh: Yayasan Peduli Sesama"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -319,7 +323,7 @@ export default function PengusulRegisterPage() {
                     onChange={handleChange}
                     rows={4}
                     placeholder="Deskripsikan profil lembaga, visi misi, dan bidang kegiatan"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>
@@ -358,8 +362,8 @@ export default function PengusulRegisterPage() {
 
             {currentStep === 4 && (
               <div className="space-y-6">
-                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
-                  <p className="text-sm text-orange-800 font-medium">
+                <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-6">
+                  <p className="text-sm text-primary-800 font-medium">
                     Periksa kembali data Anda sebelum mengirim pendaftaran
                   </p>
                 </div>
@@ -391,7 +395,7 @@ export default function PengusulRegisterPage() {
 
                   <div>
                     <h3 className="text-sm font-medium text-gray-500">Foto KTP</h3>
-                    <p className="text-orange-600">
+                    <p className="text-primary-600">
                       {formData.ktpImageFiles.length > 0
                         ? `✓ ${formData.ktpImageFiles[0].filename}`
                         : '✗ Belum diupload'}
@@ -403,7 +407,7 @@ export default function PengusulRegisterPage() {
                       <h3 className="text-sm font-medium text-gray-500">
                         Dokumen Pendukung
                       </h3>
-                      <p className="text-orange-600">
+                      <p className="text-primary-600">
                         ✓ {formData.supportingDocumentFiles.length} dokumen
                       </p>
                     </div>
@@ -427,7 +431,7 @@ export default function PengusulRegisterPage() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="ml-auto px-6 py-3 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors"
+                  className="ml-auto px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors"
                 >
                   Lanjut
                 </button>
@@ -435,7 +439,7 @@ export default function PengusulRegisterPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="ml-auto px-6 py-3 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="ml-auto px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {loading ? 'Mengirim...' : 'Kirim Pendaftaran'}
                 </button>

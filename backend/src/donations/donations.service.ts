@@ -34,8 +34,17 @@ export class DonationsService {
     }
 
     async findAll(programId?: string) {
+        const where: any = {};
+
+        if (programId) {
+            where.programId = programId;
+        }
+
+        // Only show successful donations
+        where.status = 'SUCCESS';
+
         return this.prisma.donation.findMany({
-            where: programId ? { programId } : {},
+            where,
             include: {
                 program: {
                     select: {

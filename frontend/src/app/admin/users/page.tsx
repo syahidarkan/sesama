@@ -49,9 +49,9 @@ export default function AdminUsersPage() {
     const styles: Record<string, { bg: string; text: string; icon: any }> = {
       USER: { bg: 'bg-gray-50 border-gray-200', text: 'text-gray-700', icon: Users },
       PENGUSUL: { bg: 'bg-purple-50 border-purple-200', text: 'text-purple-700', icon: UserCheck },
-      MANAGER: { bg: 'bg-orange-50 border-orange-200', text: 'text-orange-700', icon: Briefcase },
+      MANAGER: { bg: 'bg-primary-50 border-primary-200', text: 'text-primary-700', icon: Briefcase },
       CONTENT_MANAGER: { bg: 'bg-blue-50 border-blue-200', text: 'text-blue-700', icon: Edit },
-      SUPERVISOR: { bg: 'bg-teal-50 border-teal-200', text: 'text-teal-700', icon: Eye },
+      SUPERVISOR: { bg: 'bg-primary-50 border-primary-200', text: 'text-primary-700', icon: Eye },
       FINANCE: { bg: 'bg-green-50 border-green-200', text: 'text-green-700', icon: Wallet },
       SUPER_ADMIN: { bg: 'bg-red-50 border-red-200', text: 'text-red-700', icon: Crown },
     };
@@ -130,7 +130,7 @@ export default function AdminUsersPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
           <p className="text-sm text-gray-600">Loading users...</p>
         </div>
       </div>
@@ -176,7 +176,7 @@ export default function AdminUsersPage() {
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center justify-between mb-2">
             <Briefcase className="w-4 h-4 text-gray-400" />
-            <span className="text-xl font-semibold text-orange-600">{stats.manager}</span>
+            <span className="text-xl font-semibold text-primary-600">{stats.manager}</span>
           </div>
           <p className="text-xs text-gray-600">Managers</p>
         </div>
@@ -201,7 +201,7 @@ export default function AdminUsersPage() {
               placeholder="Search by name or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+              className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
             />
           </div>
 
@@ -217,8 +217,8 @@ export default function AdminUsersPage() {
                     onClick={() => setFilter(item.value)}
                     className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                       filter === item.value
-                        ? 'bg-orange-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-orange-50'
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -275,7 +275,7 @@ export default function AdminUsersPage() {
                   <tr key={u.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center text-white font-medium">
+                        <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white font-medium">
                           {u.name?.charAt(0).toUpperCase()}
                         </div>
                         <div>
@@ -317,7 +317,7 @@ export default function AdminUsersPage() {
                         {u.role !== 'SUPER_ADMIN' && (
                           <button
                             onClick={() => handleUpgradeClick(u)}
-                            className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-orange-600 text-white text-xs font-medium rounded-md hover:bg-orange-700 transition-colors"
+                            className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-primary-600 text-white text-xs font-medium rounded-md hover:bg-primary-600 transition-colors"
                           >
                             <Edit className="w-3.5 h-3.5" />
                             <span>Change Role</span>
@@ -344,7 +344,7 @@ export default function AdminUsersPage() {
               Ubah role untuk <strong>{selectedUser.name}</strong> ({selectedUser.email})
             </p>
             <p className="text-xs text-gray-500 mb-4">
-              Current role: <span className="font-medium text-orange-600">{selectedUser.role}</span>
+              Current role: <span className="font-medium text-primary-600">{selectedUser.role}</span>
             </p>
 
             <div className="mb-4">
@@ -354,7 +354,7 @@ export default function AdminUsersPage() {
               <select
                 value={targetRole}
                 onChange={(e) => setTargetRole(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 required
               >
                 <option value="">Pilih role...</option>
@@ -376,7 +376,7 @@ export default function AdminUsersPage() {
                 onChange={(e) => setUpgradeNotes(e.target.value)}
                 rows={3}
                 placeholder="Catatan tambahan tentang perubahan role ini"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               />
             </div>
 
@@ -395,7 +395,7 @@ export default function AdminUsersPage() {
               <button
                 onClick={handleConfirmUpgrade}
                 disabled={!targetRole || upgradeMutation.isPending}
-                className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {upgradeMutation.isPending ? 'Memproses...' : 'Change Role'}
               </button>

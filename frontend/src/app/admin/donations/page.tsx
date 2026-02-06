@@ -102,7 +102,7 @@ export default function AdminDonationsPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
           <p className="text-sm text-gray-600">Memuat data donasi...</p>
         </div>
       </div>
@@ -119,7 +119,7 @@ export default function AdminDonationsPage() {
               <DollarSign className="w-6 h-6 text-gray-400" />
               <div className="text-right">
                 <p className="text-xs text-gray-600 mb-1">Total Donasi</p>
-                <p className="text-2xl font-semibold text-orange-600">{formatCurrency(stats.totalAmount || 0)}</p>
+                <p className="text-2xl font-semibold text-primary-600">{formatCurrency(stats.totalAmount || 0)}</p>
               </div>
             </div>
             <p className="text-sm font-medium text-gray-700">{stats.totalCount || 0} transaksi</p>
@@ -171,7 +171,7 @@ export default function AdminDonationsPage() {
               placeholder="Cari donor atau program..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
             />
           </div>
 
@@ -181,7 +181,7 @@ export default function AdminDonationsPage() {
             <select
               value={selectedProgram}
               onChange={(e) => setSelectedProgram(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white cursor-pointer"
+              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white cursor-pointer"
             >
               <option value="ALL">Semua Program</option>
               {programs.map((program) => (
@@ -197,7 +197,7 @@ export default function AdminDonationsPage() {
       {/* Donations Table */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
           <p className="text-sm text-gray-600">Memuat data donasi...</p>
         </div>
       ) : filteredDonations.length === 0 ? (
@@ -238,7 +238,7 @@ export default function AdminDonationsPage() {
                   <tr key={donation.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center text-white font-medium">
+                        <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white font-medium">
                           {donation.isAnonymous ? '?' : (donation.donorName?.charAt(0).toUpperCase() || 'D')}
                         </div>
                         <div>
@@ -253,14 +253,14 @@ export default function AdminDonationsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center space-x-2">
-                        <Heart className="w-4 h-4 text-orange-500" fill="currentColor" />
+                        <Heart className="w-4 h-4 text-primary-500" fill="currentColor" />
                         <span className="text-sm font-medium text-gray-900 line-clamp-1 max-w-xs">
                           {donation.program?.title || 'N/A'}
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-orange-600">
+                      <div className="text-sm font-medium text-primary-600">
                         {formatCurrency(donation.amount)}
                       </div>
                     </td>

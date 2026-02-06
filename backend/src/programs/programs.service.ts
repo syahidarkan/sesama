@@ -34,8 +34,14 @@ export class ProgramsService {
         });
     }
 
-    async findAll(status?: string, limit?: number, offset?: number) {
-        const where = status ? { status: status as ProgramStatus } : {};
+    async findAll(status?: string, limit?: number, offset?: number, createdBy?: string) {
+        const where: any = {};
+        if (status) {
+            where.status = status as ProgramStatus;
+        }
+        if (createdBy) {
+            where.createdBy = createdBy;
+        }
 
         const [data, total] = await Promise.all([
             this.prisma.program.findMany({

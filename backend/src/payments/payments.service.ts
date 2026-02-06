@@ -2,6 +2,8 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditLogService } from '../audit-log/audit-log.service';
+import { EmailService } from '../email/email.service';
+import { ReferralService } from '../referral/referral.service';
 import { createHash } from 'crypto';
 import { AuditAction, DonationStatus } from '@prisma/client';
 
@@ -18,6 +20,8 @@ export class PaymentsService {
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
     private readonly auditLogService: AuditLogService,
+    private readonly emailService: EmailService,
+    private readonly referralService: ReferralService,
   ) {
     this.serverKey = this.configService.get('MIDTRANS_SERVER_KEY');
     this.isProduction = this.configService.get('MIDTRANS_IS_PRODUCTION') === 'true';
@@ -216,19 +220,30 @@ export class PaymentsService {
         },
       });
 
-      // If success, update program collected amount
+      // If success, update program collected amount and donor count
       if (donationStatus === DonationStatus.SUCCESS) {
+        // Count unique donors for this program
+        const uniqueDonors = await tx.donation.groupBy({
+          by: ['donorEmail'],
+          where: {
+            programId: donation.programId,
+            status: DonationStatus.SUCCESS,
+          },
+          _count: true,
+        });
+
         await tx.program.update({
           where: { id: donation.programId },
           data: {
             collectedAmount: {
               increment: donation.amount,
             },
+            donorCount: uniqueDonors.length,
           },
         });
 
         console.log(
-          `💰 Program ${donation.program.title} collected amount increased by ${donation.amount}`,
+          `💰 Program ${donation.program.title} collected amount increased by ${donation.amount}, donor count: ${uniqueDonors.length}`,
         );
 
         // Update gamification leaderboard
@@ -254,6 +269,36 @@ export class PaymentsService {
         });
       }
     });
+
+    // Send donation receipt email if SUCCESS and donor has email
+    if (donationStatus === DonationStatus.SUCCESS && donation.donorEmail) {
+      this.emailService.sendDonationReceipt({
+        donorEmail: donation.donorEmail,
+        donorName: donation.donorName,
+        amount: Number(donation.amount),
+        programTitle: donation.program.title,
+        programSlug: donation.program.slug,
+        orderId: donation.actionpayOrderId,
+        paidAt: new Date(),
+      }).catch((err) => {
+        console.error('❌ Failed to send donation receipt:', err.message);
+      });
+    }
+
+    // Track referral donation if referral code exists
+    if (donationStatus === DonationStatus.SUCCESS && donation.referralCode) {
+      this.referralService.trackReferralDonation(
+        donation.referralCode,
+        donation.id,
+        donation.donorName,
+        donation.donorEmail,
+        Number(donation.amount),
+        donation.programId,
+        donation.program.title,
+      ).catch((err) => {
+        console.error('❌ Failed to track referral:', err.message);
+      });
+    }
 
     console.log('✅ Notification processed successfully:', order_id);
     return { message: 'Notification processed successfully' };

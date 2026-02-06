@@ -23,13 +23,14 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async login(@Body() body: { email: string; password: string }, @Req() req) {
+  async login(@Body() body: { email: string; password: string; portal?: string }, @Req() req) {
     const ipAddress = req.ip;
     const userAgent = req.headers['user-agent'];
 
     return this.authService.login(
       body.email,
       body.password,
+      body.portal || 'public',
       ipAddress,
       userAgent,
     );

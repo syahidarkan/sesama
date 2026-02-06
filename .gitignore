@@ -61,3 +61,5 @@ Thumbs.db
 # Windows bug file
 # ======================
 nul
+.vercel
+.env*.local

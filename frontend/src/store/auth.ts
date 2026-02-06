@@ -16,7 +16,7 @@ interface AuthState {
   otpUserId: string | null;
 
   // Actions
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, portal?: string) => Promise<void>;
   verifyOTP: (otp: string) => Promise<void>;
   resendOTP: () => Promise<void>;
   register: (email: string, password: string, name: string, phone?: string) => Promise<void>;
@@ -45,10 +45,10 @@ export const useAuthStore = create<AuthState>()(
       otpUserId: null,
 
       // Login
-      login: async (email: string, password: string) => {
+      login: async (email: string, password: string, portal: string = 'public') => {
         set({ isLoading: true, error: null });
         try {
-          const response = await authApi.login(email, password);
+          const response = await authApi.login(email, password, portal);
           const data = response.data;
 
           if (data.requiresOTP) {

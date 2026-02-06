@@ -6,6 +6,7 @@ export const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true', // Skip ngrok warning page
   },
 });
 
@@ -54,8 +55,8 @@ export const authApi = {
   register: (email: string, password: string, name: string, phone?: string) =>
     api.post('/auth/register', { email, password, name, phone }),
 
-  login: (email: string, password: string) =>
-    api.post('/auth/login', { email, password }),
+  login: (email: string, password: string, portal: string = 'public') =>
+    api.post('/auth/login', { email, password, portal }),
 
   verifyOTP: (userId: string, otp: string) =>
     api.post('/auth/verify-otp', { userId, otp }),
@@ -105,8 +106,8 @@ export const pengusulApi = {
 // PROGRAMS API
 // ============================================
 export const programsApi = {
-  getAll: (status?: string, limit?: number, offset?: number) =>
-    api.get('/programs', { params: { status, limit, offset } }),
+  getAll: (status?: string, limit?: number, offset?: number, createdBy?: string) =>
+    api.get('/programs', { params: { status, limit, offset, createdBy } }),
 
   getOne: (id: string) => api.get(`/programs/${id}`),
 
@@ -166,6 +167,7 @@ export const paymentsApi = {
     amount: number;
     donorName: string;
     donorEmail?: string;
+    referralCode?: string;
   }) => api.post('/payments/create', data),
 
   getStatus: (orderId: string) =>
@@ -536,6 +538,38 @@ export const uploadsApi = {
 
   // Delete file
   delete: (id: string) => api.delete(`/uploads/${id}`),
+};
+
+// ============================================
+// REFERRAL API
+// ============================================
+export const referralApi = {
+  generateCode: () => api.post('/referral/generate'),
+
+  getMyStats: () => api.get('/referral/my'),
+
+  getLeaderboard: (limit?: number, offset?: number) =>
+    api.get('/referral/leaderboard', { params: { limit, offset } }),
+
+  getDetail: (code: string, limit?: number, offset?: number) =>
+    api.get(`/referral/detail/${code}`, { params: { limit, offset } }),
+};
+
+// ============================================
+// COMMENTS API
+// ============================================
+export const commentsApi = {
+  getAll: (programId: string) =>
+    api.get('/comments', { params: { programId } }),
+
+  create: (data: { programId: string; content: string }) =>
+    api.post('/comments', data),
+
+  hide: (id: string) => api.patch(`/comments/${id}/hide`),
+
+  unhide: (id: string) => api.patch(`/comments/${id}/unhide`),
+
+  delete: (id: string) => api.delete(`/comments/${id}`),
 };
 
 // ============================================

@@ -128,7 +128,7 @@ export default function PelaporanListPage() {
         {hasRole(['CONTENT_MANAGER', 'PENGUSUL', 'SUPER_ADMIN']) && (
           <Link
             href="/admin/pelaporan/create"
-            className="inline-flex items-center px-4 py-2 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
           >
             <Plus className="w-4 h-4 mr-2" />
             Buat Pelaporan
@@ -147,7 +147,7 @@ export default function PelaporanListPage() {
                 onClick={() => setFilter(option.value)}
                 className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                   filter === option.value
-                    ? 'bg-orange-100 text-orange-700'
+                    ? 'bg-primary-100 text-primary-700'
                     : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
@@ -163,14 +163,14 @@ export default function PelaporanListPage() {
       {loading ? (
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <div className="w-8 h-8 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
             <p className="text-sm text-gray-600">Memuat data...</p>
           </div>
         </div>
       ) : pelaporan.length === 0 ? (
         <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FileCheck className="w-8 h-8 text-orange-600" />
+          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <FileCheck className="w-8 h-8 text-primary-600" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">
             Tidak ada pelaporan ditemukan
@@ -183,7 +183,7 @@ export default function PelaporanListPage() {
           {hasRole(['CONTENT_MANAGER', 'PENGUSUL', 'SUPER_ADMIN']) && filter === 'ALL' && (
             <Link
               href="/admin/pelaporan/create"
-              className="inline-flex items-center px-6 py-3 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
             >
               <Plus className="w-4 h-4 mr-2" />
               Buat Pelaporan Pertama
@@ -195,13 +195,13 @@ export default function PelaporanListPage() {
           {pelaporan.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 hover:border-orange-300 transition-all duration-200 hover:shadow-sm group"
+              className="bg-white rounded-lg border border-gray-200 p-6 hover:border-primary-300 transition-all duration-200 hover:shadow-sm group"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-start gap-3 mb-3">
-                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-orange-200 transition-colors">
-                      <FileText className="w-5 h-5 text-orange-600" />
+                    <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary-200 transition-colors">
+                      <FileText className="w-5 h-5 text-primary-600" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">

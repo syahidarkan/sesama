@@ -23,14 +23,11 @@ export default function AdminProgramsPage() {
     try {
       setLoading(true);
       const status = filter === 'ALL' ? undefined : filter;
-      const response = await programsApi.getAll(status, 100, 0);
+      // For PENGUSUL, only fetch their own programs
+      const createdBy = hasRole(['PENGUSUL']) ? user?.id : undefined;
+      const response = await programsApi.getAll(status, 100, 0, createdBy);
 
-      let filteredPrograms = response.data.data || [];
-      if (hasRole(['PENGUSUL'])) {
-        filteredPrograms = filteredPrograms.filter((p: any) => p.createdBy === user?.id);
-      }
-
-      setPrograms(filteredPrograms);
+      setPrograms(response.data.data || []);
     } catch (error) {
       console.error('Failed to fetch programs:', error);
     } finally {
@@ -148,7 +145,7 @@ export default function AdminProgramsPage() {
               placeholder="Cari program berdasarkan judul atau deskripsi..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
             />
           </div>
 
@@ -171,8 +168,8 @@ export default function AdminProgramsPage() {
                     onClick={() => setFilter(item.value)}
                     className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                       filter === item.value
-                        ? 'bg-orange-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-orange-50'
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -188,7 +185,7 @@ export default function AdminProgramsPage() {
       {/* Programs List */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
           <p className="text-sm text-gray-600">Memuat data program...</p>
         </div>
       ) : filteredPrograms.length === 0 ? (
@@ -203,7 +200,7 @@ export default function AdminProgramsPage() {
           {hasRole(['CONTENT_MANAGER', 'SUPER_ADMIN', 'PENGUSUL', 'MANAGER']) && !searchQuery && (
             <Link
               href="/admin/programs/create"
-              className="inline-flex items-center space-x-2 px-6 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+              className="inline-flex items-center space-x-2 px-6 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
             >
               <Plus className="w-4 h-4" />
               <span>Buat Program Baru</span>
@@ -215,7 +212,7 @@ export default function AdminProgramsPage() {
           {filteredPrograms.map((program) => (
             <div
               key={program.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 hover:border-orange-500 transition-colors"
+              className="bg-white rounded-lg border border-gray-200 p-6 hover:border-primary-500 transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -233,15 +230,15 @@ export default function AdminProgramsPage() {
                       <span className="text-xs text-gray-600">Progress Donasi</span>
                       <span className="text-xs font-medium text-gray-900">
                         {program.targetAmount > 0
-                          ? Math.round(((program.currentAmount || 0) / program.targetAmount) * 100)
+                          ? Math.round(((program.collectedAmount || 0) / program.targetAmount) * 100)
                           : 0}%
                       </span>
                     </div>
                     <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-orange-600 rounded-full transition-all"
+                        className="h-full bg-primary-600 rounded-full transition-all"
                         style={{
-                          width: `${program.targetAmount > 0 ? Math.min(((program.currentAmount || 0) / program.targetAmount) * 100, 100) : 0}%`,
+                          width: `${program.targetAmount > 0 ? Math.min(((program.collectedAmount || 0) / program.targetAmount) * 100, 100) : 0}%`,
                         }}
                       />
                     </div>
@@ -255,7 +252,7 @@ export default function AdminProgramsPage() {
                     </div>
                     <div className="bg-gray-50 rounded-md p-3 border border-gray-200">
                       <p className="text-xs text-gray-600 mb-1">Terkumpul</p>
-                      <p className="text-sm font-medium text-gray-900">{formatCurrency(program.currentAmount || 0)}</p>
+                      <p className="text-sm font-medium text-gray-900">{formatCurrency(program.collectedAmount || 0)}</p>
                     </div>
                     {program.category && (
                       <div className="bg-gray-50 rounded-md p-3 border border-gray-200">
@@ -281,7 +278,7 @@ export default function AdminProgramsPage() {
                     <Eye className="w-4 h-4" />
                     <span>Lihat</span>
                   </Link>
-                  {hasRole(['CONTENT_MANAGER', 'SUPER_ADMIN', 'MANAGER']) && program.status === 'DRAFT' && (
+                  {(hasRole(['SUPER_ADMIN', 'MANAGER']) || (hasRole(['PENGUSUL']) && program.createdBy === user?.id)) && program.status === 'DRAFT' && (
                     <button
                       onClick={async () => {
                         try {
@@ -292,7 +289,7 @@ export default function AdminProgramsPage() {
                           alert(err.response?.data?.message || 'Gagal submit program');
                         }
                       }}
-                      className="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition-colors"
+                      className="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors"
                     >
                       <CheckCircle className="w-4 h-4" />
                       <span>Submit</span>

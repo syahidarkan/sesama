@@ -65,7 +65,7 @@ export default function HelpPage() {
       </div>
 
       {/* Search */}
-      <div className="max-w-2xl mx-auto animate-fadeIn animate-stagger-1">
+      <div className="max-w-2xl mx-auto animate-fadeIn ">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
@@ -73,7 +73,7 @@ export default function HelpPage() {
             placeholder="Search for answers..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all hover:border-gray-400"
+            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition-all hover:border-gray-400"
           />
         </div>
       </div>
@@ -84,10 +84,10 @@ export default function HelpPage() {
           href="https://docs.example.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-start space-x-3 p-6 bg-white rounded-lg border border-gray-200 hover:border-orange-500 transition-all hover-lift group animate-fadeIn animate-stagger-2"
+          className="flex items-start space-x-3 p-6 bg-white rounded-lg border border-gray-200 hover:border-primary-500 transition-all hover-lift group animate-fadeIn "
         >
-          <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-orange-200 transition-all group-hover:scale-110">
-            <Book className="w-5 h-5 text-orange-600" />
+          <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary-200 transition-all group-">
+            <Book className="w-5 h-5 text-primary-600" />
           </div>
           <div>
             <h3 className="font-medium text-gray-900 mb-1">Documentation</h3>
@@ -100,9 +100,9 @@ export default function HelpPage() {
           href="https://youtube.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-start space-x-3 p-6 bg-white rounded-lg border border-gray-200 hover:border-orange-500 transition-all hover-lift group animate-fadeIn animate-stagger-3"
+          className="flex items-start space-x-3 p-6 bg-white rounded-lg border border-gray-200 hover:border-primary-500 transition-all hover-lift group animate-fadeIn "
         >
-          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-blue-200 transition-all group-hover:scale-110">
+          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-blue-200 transition-all group-">
             <Video className="w-5 h-5 text-blue-600" />
           </div>
           <div>
@@ -112,8 +112,8 @@ export default function HelpPage() {
           <ExternalLink className="w-4 h-4 text-gray-400 ml-auto transition-transform group-hover:translate-x-1" />
         </a>
 
-        <button className="flex items-start space-x-3 p-6 bg-white rounded-lg border border-gray-200 hover:border-orange-500 transition-all hover-lift group text-left animate-fadeIn animate-stagger-4">
-          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-green-200 transition-all group-hover:scale-110">
+        <button className="flex items-start space-x-3 p-6 bg-white rounded-lg border border-gray-200 hover:border-primary-500 transition-all hover-lift group text-left animate-fadeIn ">
+          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-green-200 transition-all group-">
             <MessageCircle className="w-5 h-5 text-green-600" />
           </div>
           <div>
@@ -124,7 +124,7 @@ export default function HelpPage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="max-w-4xl mx-auto animate-fadeIn animate-stagger-5">
+      <div className="max-w-4xl mx-auto animate-fadeIn ">
         <h2 className="text-xl font-semibold text-gray-900 mb-6">
           Frequently Asked Questions
         </h2>
@@ -152,9 +152,9 @@ export default function HelpPage() {
                           {faq.question}
                         </span>
                         {isExpanded ? (
-                          <ChevronDown className="w-5 h-5 text-orange-600 shrink-0 transition-transform" />
+                          <ChevronDown className="w-5 h-5 text-primary-600 shrink-0 transition-transform" />
                         ) : (
-                          <ChevronRight className="w-5 h-5 text-gray-400 shrink-0 transition-all group-hover:text-orange-600 group-hover:translate-x-1" />
+                          <ChevronRight className="w-5 h-5 text-gray-400 shrink-0 transition-all group-hover:text-primary-600 group-hover:translate-x-1" />
                         )}
                       </button>
                       {isExpanded && (
@@ -171,14 +171,14 @@ export default function HelpPage() {
       </div>
 
       {/* Contact Support */}
-      <div className="max-w-4xl mx-auto bg-orange-50 rounded-lg border border-orange-200 p-6 animate-fadeIn animate-stagger-6">
+      <div className="max-w-4xl mx-auto bg-primary-50 rounded-lg border border-primary-200 p-6 animate-fadeIn ">
         <h3 className="font-semibold text-gray-900 mb-4">Still need help?</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <a
             href="mailto:support@sesama.com"
-            className="flex items-center space-x-3 p-4 bg-white rounded-lg border border-gray-200 hover:border-orange-500 transition-all hover-lift group"
+            className="flex items-center space-x-3 p-4 bg-white rounded-lg border border-gray-200 hover:border-primary-500 transition-all hover-lift group"
           >
-            <Mail className="w-5 h-5 text-orange-600 transition-transform group-hover:scale-110" />
+            <Mail className="w-5 h-5 text-primary-600 transition-transform group-" />
             <div>
               <div className="font-medium text-gray-900">Email Support</div>
               <div className="text-sm text-gray-600">support@sesama.com</div>
@@ -187,9 +187,9 @@ export default function HelpPage() {
 
           <a
             href="tel:+628123456789"
-            className="flex items-center space-x-3 p-4 bg-white rounded-lg border border-gray-200 hover:border-orange-500 transition-all hover-lift group"
+            className="flex items-center space-x-3 p-4 bg-white rounded-lg border border-gray-200 hover:border-primary-500 transition-all hover-lift group"
           >
-            <Phone className="w-5 h-5 text-orange-600 transition-transform group-hover:scale-110" />
+            <Phone className="w-5 h-5 text-primary-600 transition-transform group-" />
             <div>
               <div className="font-medium text-gray-900">Phone Support</div>
               <div className="text-sm text-gray-600">+62 812-3456-7890</div>

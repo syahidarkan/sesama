@@ -52,23 +52,23 @@ function ApprovalsPageContent() {
       return;
     }
 
-    fetchApprovals();
-  }, [activeTab]);
+    fetchAllApprovals();
+  }, []);
 
-  const fetchApprovals = async () => {
+  const fetchAllApprovals = async () => {
     try {
       setLoading(true);
 
-      if (activeTab === 'pengusul') {
-        const response = await pengusulApi.getPending(50, 0);
-        setPengusulList(response.data.data || []);
-      } else if (activeTab === 'program') {
-        const response = await programsApi.getAll('PENDING_APPROVAL', 50, 0);
-        setProgramList(response.data.data || []);
-      } else if (activeTab === 'article') {
-        const response = await articlesApi.getAll('PENDING_APPROVAL', undefined, undefined, 50, 0);
-        setArticleList(response.data.data || []);
-      }
+      // Fetch all pending items in parallel to show correct counts
+      const [pengusulRes, programRes, articleRes] = await Promise.all([
+        pengusulApi.getPending(50, 0),
+        programsApi.getAll('PENDING_APPROVAL', 50, 0),
+        articlesApi.getAll('PENDING_APPROVAL', undefined, undefined, 50, 0),
+      ]);
+
+      setPengusulList(pengusulRes.data.data || []);
+      setProgramList(programRes.data.data || []);
+      setArticleList(articleRes.data.data || []);
     } catch (error) {
       console.error('Failed to fetch approvals:', error);
     } finally {
@@ -113,7 +113,7 @@ function ApprovalsPageContent() {
         }
       }
 
-      await fetchApprovals();
+      await fetchAllApprovals();
 
       setShowReauth(false);
       setPendingAction(null);
@@ -147,7 +147,7 @@ function ApprovalsPageContent() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
           <p className="text-sm text-gray-600">Memuat data approval...</p>
         </div>
       </div>
@@ -188,8 +188,8 @@ function ApprovalsPageContent() {
               onClick={() => setActiveTab(tab.value)}
               className={`cursor-pointer rounded-lg border p-5 transition-colors ${
                 isActive
-                  ? 'bg-orange-600 border-orange-600 text-white'
-                  : 'bg-white border-gray-200 hover:border-orange-500'
+                  ? 'bg-primary-600 border-primary-600 text-white'
+                  : 'bg-white border-gray-200 hover:border-primary-500'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -222,14 +222,14 @@ function ApprovalsPageContent() {
                   onClick={() => setActiveTab(tab.value)}
                   className={`flex-1 flex items-center justify-center space-x-2 px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
                     isActive
-                      ? 'border-orange-600 text-orange-600 bg-orange-50/50'
+                      ? 'border-primary-600 text-primary-600 bg-primary-50/50'
                       : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{tab.label}</span>
                   <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                    isActive ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-700'
+                    isActive ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-700'
                   }`}>
                     {tab.count}
                   </span>
@@ -255,7 +255,7 @@ function ApprovalsPageContent() {
                 pengusulList.map((pengusul) => (
                   <div
                     key={pengusul.id}
-                    className="bg-white rounded-lg p-6 border border-gray-200 hover:border-orange-500 transition-colors"
+                    className="bg-white rounded-lg p-6 border border-gray-200 hover:border-primary-500 transition-colors"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-start space-x-4">
@@ -344,7 +344,7 @@ function ApprovalsPageContent() {
                 programList.map((program) => (
                   <div
                     key={program.id}
-                    className="bg-white rounded-lg p-6 border border-gray-200 hover:border-orange-500 transition-colors"
+                    className="bg-white rounded-lg p-6 border border-gray-200 hover:border-primary-500 transition-colors"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
@@ -425,7 +425,7 @@ function ApprovalsPageContent() {
                 articleList.map((article) => (
                   <div
                     key={article.id}
-                    className="bg-white rounded-lg p-6 border border-gray-200 hover:border-orange-500 transition-colors"
+                    className="bg-white rounded-lg p-6 border border-gray-200 hover:border-primary-500 transition-colors"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
@@ -507,7 +507,7 @@ function ApprovalsPageContent() {
       {showReauth && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-md w-full p-8 border border-gray-200">
-            <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center mx-auto mb-6">
+            <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mx-auto mb-6">
               <Shield className="w-6 h-6 text-white" />
             </div>
             <h2 className="text-xl font-semibold text-gray-900 mb-2 text-center">
@@ -522,7 +522,7 @@ function ApprovalsPageContent() {
               value={reauthPassword}
               onChange={(e) => setReauthPassword(e.target.value)}
               placeholder="Masukkan password"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none mb-6"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none mb-6"
               onKeyPress={(e) => {
                 if (e.key === 'Enter') executeAction();
               }}
@@ -532,7 +532,7 @@ function ApprovalsPageContent() {
               <button
                 onClick={executeAction}
                 disabled={!reauthPassword || !!actionLoading}
-                className="flex-1 px-6 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-6 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {actionLoading ? (
                   <span className="flex items-center justify-center space-x-2">
@@ -565,7 +565,7 @@ export default function ApprovalsPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-orange-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
       </div>
     }>
       <ApprovalsPageContent />

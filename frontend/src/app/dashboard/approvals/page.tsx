@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { approvalsApi } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
@@ -8,9 +9,17 @@ import { CheckCircle, XCircle, Clock, Loader2, AlertCircle, Filter, FileCheck, F
 import Link from 'next/link';
 
 export default function ApprovalsPage() {
-    const user = useAuthStore((state) => state.user);
+    const router = useRouter();
+    const { user, hasRole } = useAuthStore();
     const queryClient = useQueryClient();
     const [statusFilter, setStatusFilter] = useState<string>('PENDING');
+
+    // Only MANAGER and SUPER_ADMIN can access this page
+    useEffect(() => {
+        if (user && !hasRole(['MANAGER', 'SUPER_ADMIN'])) {
+            router.push('/dashboard');
+        }
+    }, [user, hasRole, router]);
 
     const { data: approvals, isLoading } = useQuery({
         queryKey: ['approvals', statusFilter],
@@ -48,7 +57,7 @@ export default function ApprovalsPage() {
                 <div className="bg-white rounded-lg p-5 border border-gray-200">
                     <div className="flex items-center justify-between mb-3">
                         <FileClock className="w-5 h-5 text-gray-400" />
-                        <div className="text-2xl font-semibold text-orange-600">{stats.pending}</div>
+                        <div className="text-2xl font-semibold text-primary-600">{stats.pending}</div>
                     </div>
                     <div className="text-sm text-gray-600">Menunggu Approval</div>
                 </div>
@@ -85,7 +94,7 @@ export default function ApprovalsPage() {
                     <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
-                        className="w-full md:w-auto pl-9 pr-8 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white"
+                        className="w-full md:w-auto pl-9 pr-8 py-2.5 text-sm rounded-md border border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white"
                     >
                         <option value="">Semua Status</option>
                         <option value="PENDING">Menunggu Approval</option>
@@ -98,7 +107,7 @@ export default function ApprovalsPage() {
             {/* Approvals List */}
             {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-20">
-                    <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+                    <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
                     <p className="text-sm text-gray-600">Memuat data persetujuan...</p>
                 </div>
             ) : approvalsList && approvalsList.length > 0 ? (
@@ -106,7 +115,7 @@ export default function ApprovalsPage() {
                     {approvalsList.map((approval: any) => (
                         <div
                             key={approval.id}
-                            className="bg-white rounded-lg border border-gray-200 hover:border-orange-500 transition-colors overflow-hidden"
+                            className="bg-white rounded-lg border border-gray-200 hover:border-primary-500 transition-colors overflow-hidden"
                         >
                             <div className="p-6">
                                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
@@ -114,13 +123,13 @@ export default function ApprovalsPage() {
                                         <div className="flex items-center gap-3 mb-3">
                                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                                                 approval.status === 'PENDING'
-                                                    ? 'bg-orange-100'
+                                                    ? 'bg-primary-100'
                                                     : approval.status === 'APPROVED'
                                                     ? 'bg-green-100'
                                                     : 'bg-red-100'
                                             }`}>
                                                 {approval.status === 'PENDING' ? (
-                                                    <Clock className="w-5 h-5 text-orange-600" />
+                                                    <Clock className="w-5 h-5 text-primary-600" />
                                                 ) : approval.status === 'APPROVED' ? (
                                                     <CheckCircle className="w-5 h-5 text-green-600" />
                                                 ) : (
@@ -134,7 +143,7 @@ export default function ApprovalsPage() {
                                                 <span
                                                     className={`inline-block mt-1 px-2 py-0.5 rounded-md text-xs font-medium ${
                                                         approval.status === 'PENDING'
-                                                            ? 'bg-orange-100 text-orange-700 border border-orange-200'
+                                                            ? 'bg-primary-100 text-primary-700 border border-primary-200'
                                                             : approval.status === 'APPROVED'
                                                             ? 'bg-green-100 text-green-700 border border-green-200'
                                                             : 'bg-red-100 text-red-700 border border-red-200'
@@ -186,7 +195,7 @@ export default function ApprovalsPage() {
                                         <div className="flex gap-3">
                                             <Link
                                                 href={`/dashboard/approvals/${approval.id}`}
-                                                className="px-6 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+                                                className="px-6 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
                                             >
                                                 Tinjau
                                             </Link>

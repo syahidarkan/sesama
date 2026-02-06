@@ -33,6 +33,32 @@ export class PelaporanService {
       programId?: string;
     },
   ) {
+    // Validate program if programId is provided
+    if (data.programId) {
+      const program = await this.prisma.program.findUnique({
+        where: { id: data.programId },
+      });
+
+      if (!program) {
+        throw new BadRequestException('Program tidak ditemukan');
+      }
+
+      // Validate that program is completed (CLOSED or endDate has passed)
+      const isClosed = program.status === 'CLOSED';
+      const hasEndDatePassed = program.endDate && new Date(program.endDate) < new Date();
+
+      if (!isClosed && !hasEndDatePassed) {
+        throw new BadRequestException(
+          'Pelaporan hanya dapat dibuat untuk program yang sudah selesai (CLOSED atau timeline sudah lewat)',
+        );
+      }
+
+      // If PENGUSUL, validate they own the program
+      if (authorRole === UserRole.PENGUSUL && program.createdBy !== authorId) {
+        throw new ForbiddenException('Anda hanya dapat membuat pelaporan untuk program yang Anda buat');
+      }
+    }
+
     const slug = slugify(data.title, { lower: true, strict: true }) + '-' + Date.now();
 
     // MANAGER and SUPER_ADMIN bypass approval (auto-publish)
@@ -64,7 +90,58 @@ export class PelaporanService {
       metadata: { title: pelaporan.title, autoPublished: status === ArticleStatus.PUBLISHED },
     });
 
+    // If auto-published and linked to a program, notify all donors
+    if (status === ArticleStatus.PUBLISHED && data.programId) {
+      this.notifyDonorsOfPelaporan(pelaporan).catch((err) =>
+        console.error('Failed to notify donors:', err.message),
+      );
+    }
+
     return pelaporan;
+  }
+
+  /**
+   * Notify all donors of a program about a published pelaporan
+   */
+  private async notifyDonorsOfPelaporan(pelaporan: any) {
+    if (!pelaporan.programId || !pelaporan.program) return;
+
+    // Get unique donors with email for this program
+    const donations = await this.prisma.donation.findMany({
+      where: {
+        programId: pelaporan.programId,
+        status: 'SUCCESS',
+        donorEmail: { not: null },
+      },
+      select: {
+        donorEmail: true,
+        donorName: true,
+      },
+    });
+
+    // Deduplicate by email
+    const uniqueDonors = new Map<string, string>();
+    for (const d of donations) {
+      if (d.donorEmail && !uniqueDonors.has(d.donorEmail)) {
+        uniqueDonors.set(d.donorEmail, d.donorName);
+      }
+    }
+
+    console.log(`📧 Sending pelaporan notification to ${uniqueDonors.size} donors for program "${pelaporan.program.title}"`);
+
+    for (const [email, name] of uniqueDonors) {
+      this.emailService.sendPelaporanNotification({
+        donorEmail: email,
+        donorName: name,
+        programTitle: pelaporan.program.title,
+        programSlug: pelaporan.program.slug,
+        pelaporanTitle: pelaporan.title,
+        pelaporanSlug: pelaporan.slug,
+        pelaporanExcerpt: pelaporan.excerpt || undefined,
+      }).catch((err) =>
+        console.error(`Failed to notify ${email}:`, err.message),
+      );
+    }
   }
 
   /**
@@ -238,6 +315,19 @@ export class PelaporanService {
       entityId: updated.id,
       metadata: { title: updated.title, comment },
     });
+
+    // If approved and linked to a program, notify all donors
+    if (action === 'approve' && pelaporan.programId) {
+      const fullPelaporan = await this.prisma.pelaporan.findUnique({
+        where: { id: updated.id },
+        include: { program: true },
+      });
+      if (fullPelaporan) {
+        this.notifyDonorsOfPelaporan(fullPelaporan).catch((err) =>
+          console.error('Failed to notify donors:', err.message),
+        );
+      }
+    }
 
     return updated;
   }

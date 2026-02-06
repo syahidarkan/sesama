@@ -455,10 +455,10 @@ export default function CreateProgramPage() {
             {/* INDIVIDU Card */}
             <button
               onClick={() => setProgramType('INDIVIDU')}
-              className="bg-white rounded-lg border border-gray-200 p-8 hover:border-orange-500 transition-colors text-left group"
+              className="bg-white rounded-lg border border-gray-200 p-8 hover:border-primary-500 transition-colors text-left group"
             >
-              <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
-                <User className="w-6 h-6 text-orange-600" />
+              <div className="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center mb-4 group-hover:bg-primary-200 transition-colors">
+                <User className="w-6 h-6 text-primary-600" />
               </div>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Program Individu</h2>
               <p className="text-sm text-gray-600 mb-6">
@@ -466,27 +466,27 @@ export default function CreateProgramPage() {
               </p>
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Tetangga yang sakit parah</span>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Korban bencana/kebakaran</span>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Kebutuhan pendidikan anak</span>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Biaya pengobatan mendesak</span>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Kebutuhan mendesak lainnya</span>
                 </div>
               </div>
-              <div className="mt-6 px-3 py-1.5 rounded-md bg-orange-50 text-orange-700 text-xs font-medium inline-block">
+              <div className="mt-6 px-3 py-1.5 rounded-md bg-primary-50 text-primary-700 text-xs font-medium inline-block">
                 Form Sederhana (5 Langkah)
               </div>
             </button>
@@ -494,10 +494,10 @@ export default function CreateProgramPage() {
             {/* LEMBAGA Card */}
             <button
               onClick={() => setProgramType('LEMBAGA')}
-              className="bg-white rounded-lg border border-gray-200 p-8 hover:border-orange-500 transition-colors text-left group"
+              className="bg-white rounded-lg border border-gray-200 p-8 hover:border-primary-500 transition-colors text-left group"
             >
-              <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
-                <Building2 className="w-6 h-6 text-orange-600" />
+              <div className="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center mb-4 group-hover:bg-primary-200 transition-colors">
+                <Building2 className="w-6 h-6 text-primary-600" />
               </div>
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Program Lembaga</h2>
               <p className="text-sm text-gray-600 mb-6">
@@ -505,27 +505,27 @@ export default function CreateProgramPage() {
               </p>
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Yayasan pendidikan</span>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Pondok pesantren</span>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Masjid & musholla</span>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>LAZ dan lembaga sosial</span>
                 </div>
                 <div className="flex items-start">
-                  <span className="text-orange-600 mr-2 mt-0.5">•</span>
+                  <span className="text-primary-600 mr-2 mt-0.5">•</span>
                   <span>Organisasi kemasyarakatan</span>
                 </div>
               </div>
-              <div className="mt-6 px-3 py-1.5 rounded-md bg-orange-50 text-orange-700 text-xs font-medium inline-block">
+              <div className="mt-6 px-3 py-1.5 rounded-md bg-primary-50 text-primary-700 text-xs font-medium inline-block">
                 Form Lengkap (7 Langkah)
               </div>
             </button>
@@ -575,7 +575,7 @@ export default function CreateProgramPage() {
                     setCurrentStep(1);
                     setError('');
                   }}
-                  className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+                  className="text-sm text-primary-600 hover:text-primary-700 font-medium"
                 >
                   Ganti Tipe
                 </button>
@@ -603,9 +603,9 @@ export default function CreateProgramPage() {
                     <div
                       className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
                         currentStep === step.id
-                          ? 'bg-orange-600 text-white'
+                          ? 'bg-primary-600 text-white'
                           : currentStep > step.id
-                          ? 'bg-orange-100 text-orange-600'
+                          ? 'bg-primary-100 text-primary-600'
                           : 'bg-gray-100 text-gray-400'
                       }`}
                     >
@@ -627,7 +627,7 @@ export default function CreateProgramPage() {
                     <div
                       className={`h-0.5 w-12 mx-2 transition-all ${
                         currentStep > step.id
-                          ? 'bg-orange-600'
+                          ? 'bg-primary-500'
                           : 'bg-gray-200'
                       }`}
                     />
@@ -661,7 +661,7 @@ export default function CreateProgramPage() {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Contoh: Bantuan Pendidikan Anak Yatim 2024"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -674,7 +674,7 @@ export default function CreateProgramPage() {
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 >
                   <option value="">Pilih Kategori</option>
@@ -698,7 +698,7 @@ export default function CreateProgramPage() {
                   value={formData.targetAmount}
                   onChange={handleChange}
                   placeholder="10000000"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                   min="0"
                 />
@@ -714,7 +714,7 @@ export default function CreateProgramPage() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Contoh: Jakarta Selatan"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -741,7 +741,7 @@ export default function CreateProgramPage() {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
                 <div>
@@ -753,7 +753,7 @@ export default function CreateProgramPage() {
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
               </div>
@@ -774,7 +774,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Jelaskan program donasi ini secara detail..."
                   rows={6}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -789,7 +789,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Apa tujuan dari program ini?"
                   rows={4}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -804,7 +804,7 @@ export default function CreateProgramPage() {
                   value={formData.beneficiaryCount}
                   onChange={handleChange}
                   placeholder="100"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   min="0"
                 />
               </div>
@@ -819,7 +819,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Bagaimana program ini akan dilaksanakan?"
                   rows={4}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -833,7 +833,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Apa hasil yang diharapkan dari program ini?"
                   rows={3}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
             </div>
@@ -857,7 +857,7 @@ export default function CreateProgramPage() {
                   name="bankName"
                   value={formData.bankName}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 >
                   <option value="">Pilih Bank</option>
@@ -886,7 +886,7 @@ export default function CreateProgramPage() {
                   value={formData.bankAccountNumber}
                   onChange={handleChange}
                   placeholder="1234567890"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -901,7 +901,7 @@ export default function CreateProgramPage() {
                   value={formData.bankAccountName}
                   onChange={handleChange}
                   placeholder="Nama sesuai rekening bank"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
                 <p className="mt-1 text-sm text-gray-500">
@@ -926,7 +926,7 @@ export default function CreateProgramPage() {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Contoh: Bantuan Pendidikan Anak Yatim 2024"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -939,7 +939,7 @@ export default function CreateProgramPage() {
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 >
                   <option value="">Pilih Kategori</option>
@@ -963,7 +963,7 @@ export default function CreateProgramPage() {
                   value={formData.targetAmount}
                   onChange={handleChange}
                   placeholder="10000000"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                   min="0"
                 />
@@ -979,7 +979,7 @@ export default function CreateProgramPage() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Contoh: Jakarta Selatan"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1006,7 +1006,7 @@ export default function CreateProgramPage() {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
                 <div>
@@ -1018,7 +1018,7 @@ export default function CreateProgramPage() {
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
               </div>
@@ -1039,7 +1039,7 @@ export default function CreateProgramPage() {
                   value={formData.institutionName}
                   onChange={handleChange}
                   placeholder="Contoh: Yayasan Pendidikan Al-Ikhlas"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1052,7 +1052,7 @@ export default function CreateProgramPage() {
                   name="institutionType"
                   value={formData.institutionType}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 >
                   <option value="">Pilih Jenis Lembaga</option>
@@ -1077,7 +1077,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Jalan, Kelurahan, Kecamatan, Kota/Kabupaten, Provinsi"
                   rows={3}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1092,7 +1092,7 @@ export default function CreateProgramPage() {
                   value={formData.institutionPhone}
                   onChange={handleChange}
                   placeholder="021-12345678"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1106,7 +1106,7 @@ export default function CreateProgramPage() {
                   value={formData.institutionEmail}
                   onChange={handleChange}
                   placeholder="info@lembaga.org"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1120,7 +1120,7 @@ export default function CreateProgramPage() {
                   value={formData.institutionEstablished}
                   onChange={handleChange}
                   placeholder="2020"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1134,7 +1134,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Ceritakan tentang lembaga Anda..."
                   rows={4}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
             </div>
@@ -1285,7 +1285,7 @@ export default function CreateProgramPage() {
                   value={formData.picName}
                   onChange={handleChange}
                   placeholder="Nama lengkap PIC"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1300,7 +1300,7 @@ export default function CreateProgramPage() {
                   value={formData.picPosition}
                   onChange={handleChange}
                   placeholder="Contoh: Ketua Yayasan"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1314,7 +1314,7 @@ export default function CreateProgramPage() {
                   value={formData.picPhone}
                   onChange={handleChange}
                   placeholder="08123456789"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1329,7 +1329,7 @@ export default function CreateProgramPage() {
                   value={formData.picEmail}
                   onChange={handleChange}
                   placeholder="pic@email.com"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
             </div>
@@ -1349,7 +1349,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Jelaskan program donasi ini secara detail..."
                   rows={6}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1364,7 +1364,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Apa tujuan dari program ini?"
                   rows={4}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1379,7 +1379,7 @@ export default function CreateProgramPage() {
                   value={formData.beneficiaryCount}
                   onChange={handleChange}
                   placeholder="100"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   min="0"
                 />
               </div>
@@ -1394,7 +1394,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Bagaimana program ini akan dilaksanakan?"
                   rows={4}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1408,7 +1408,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Apa hasil yang diharapkan dari program ini?"
                   rows={3}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1422,7 +1422,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Bagaimana keberlanjutan program ini setelah selesai?"
                   rows={3}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
             </div>
@@ -1446,7 +1446,7 @@ export default function CreateProgramPage() {
                   name="bankName"
                   value={formData.bankName}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 >
                   <option value="">Pilih Bank</option>
@@ -1475,7 +1475,7 @@ export default function CreateProgramPage() {
                   value={formData.bankAccountNumber}
                   onChange={handleChange}
                   placeholder="1234567890"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1490,7 +1490,7 @@ export default function CreateProgramPage() {
                   value={formData.bankAccountName}
                   onChange={handleChange}
                   placeholder="Nama lembaga sesuai rekening bank"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
                 <p className="mt-1 text-sm text-gray-500">
@@ -1515,7 +1515,7 @@ export default function CreateProgramPage() {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Contoh: Bantu Pak RT Terkena Stroke"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1530,7 +1530,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Ceritakan kondisi penerima bantuan..."
                   rows={5}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1543,7 +1543,7 @@ export default function CreateProgramPage() {
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 >
                   <option value="">Pilih Kategori</option>
@@ -1566,7 +1566,7 @@ export default function CreateProgramPage() {
                   value={formData.targetAmount}
                   onChange={handleChange}
                   placeholder="5000000"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                   min="0"
                 />
@@ -1582,7 +1582,7 @@ export default function CreateProgramPage() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Contoh: Jakarta Timur"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1615,7 +1615,7 @@ export default function CreateProgramPage() {
                   value={formData.applicantName}
                   onChange={handleChange}
                   placeholder="Nama Anda sebagai pengaju"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1630,7 +1630,7 @@ export default function CreateProgramPage() {
                   value={formData.applicantKtpNumber}
                   onChange={handleChange}
                   placeholder="16 digit nomor KTP"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   maxLength={16}
                 />
               </div>
@@ -1645,7 +1645,7 @@ export default function CreateProgramPage() {
                   value={formData.applicantPhone}
                   onChange={handleChange}
                   placeholder="08123456789"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1660,7 +1660,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Alamat lengkap Anda"
                   rows={3}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1714,7 +1714,7 @@ export default function CreateProgramPage() {
                   onChange={handleChange}
                   placeholder="Jelaskan kondisi penerima bantuan secara detail..."
                   rows={5}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
             </div>
@@ -1754,7 +1754,7 @@ export default function CreateProgramPage() {
                   value={formData.rtRwName}
                   onChange={handleChange}
                   placeholder="Nama yang menandatangani surat"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
 
@@ -1768,7 +1768,7 @@ export default function CreateProgramPage() {
                   value={formData.rtRwPhone}
                   onChange={handleChange}
                   placeholder="08123456789"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
                 <p className="mt-1 text-sm text-gray-500">
                   Nomor ini bisa dihubungi untuk verifikasi
@@ -1795,7 +1795,7 @@ export default function CreateProgramPage() {
                   name="beneficiaryBankName"
                   value={formData.beneficiaryBankName}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 >
                   <option value="">Pilih Bank</option>
@@ -1824,7 +1824,7 @@ export default function CreateProgramPage() {
                   value={formData.beneficiaryBankAccount}
                   onChange={handleChange}
                   placeholder="1234567890"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
               </div>
@@ -1839,7 +1839,7 @@ export default function CreateProgramPage() {
                   value={formData.beneficiaryAccountName}
                   onChange={handleChange}
                   placeholder="Nama sesuai rekening bank"
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   required
                 />
                 <p className="mt-1 text-sm text-gray-500">
@@ -1864,7 +1864,7 @@ export default function CreateProgramPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-6 py-2.5 text-sm rounded-md bg-orange-600 text-white font-medium hover:bg-orange-700 transition-colors"
+                className="px-6 py-2.5 text-sm rounded-md bg-primary-600 text-white font-medium hover:bg-primary-600 transition-colors"
               >
                 Lanjut →
               </button>
@@ -1873,7 +1873,7 @@ export default function CreateProgramPage() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-8 py-2.5 text-sm rounded-md bg-orange-600 text-white font-semibold hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-8 py-2.5 text-sm rounded-md bg-primary-600 text-white font-semibold hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {loading ? 'Menyimpan...' : isSimpleForm ? 'Buat Program' : 'Simpan Program'}
               </button>

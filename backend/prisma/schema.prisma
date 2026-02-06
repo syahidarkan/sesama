@@ -99,6 +99,8 @@ model User {
   uploadedFiles         UploadedFile[]   @relation("FileUploader")
   upgradeRequests       RoleUpgradeRequest[] @relation("UpgradeRequester")
   reviewedUpgrades      RoleUpgradeRequest[] @relation("UpgradeReviewer")
+  referralCodes         ReferralCode[]       @relation("ReferralOwner")
+  comments              Comment[]            @relation("CommentAuthor")
 
   @@index([email])
   @@index([ktpNumber])
@@ -196,6 +198,7 @@ model Program {
   description     String         @db.Text
   targetAmount    Decimal        @map("target_amount") @db.Decimal(15, 2)
   collectedAmount Decimal        @default(0) @map("collected_amount") @db.Decimal(15, 2)
+  donorCount      Int            @default(0) @map("donor_count")
   status          ProgramStatus  @default(DRAFT)
   programType     ProgramType    @default(LEMBAGA) @map("program_type")
   imageUrl        String?        @map("image_url")
@@ -277,6 +280,8 @@ model Program {
   approvals       Approval[]
   articles        Article[]      // Reports for this program (deprecated)
   pelaporan       Pelaporan[]    // Reports for this program (new)
+
+  comments        Comment[]
 
   @@index([slug])
   @@index([status])
@@ -378,6 +383,7 @@ model Donation {
 
   status          DonationStatus  @default(PENDING)
   paidAt          DateTime?       @map("paid_at")
+  referralCode    String?         @map("referral_code")
   createdAt       DateTime        @default(now()) @map("created_at")
   updatedAt       DateTime        @updatedAt @map("updated_at")
 
@@ -388,6 +394,7 @@ model Donation {
   @@index([actionpayOrderId])
   @@index([programId])
   @@index([userId])
+  @@index([referralCode])
   @@map("donations")
 }
 
@@ -488,6 +495,46 @@ model DonorLeaderboard {
   @@index([totalDonations])
   @@index([donorIdentifier])
   @@map("donor_leaderboard")
+}
+
+// ============================================
+// REFERRAL SYSTEM
+// ============================================
+
+model ReferralCode {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  userId          String   @map("user_id")
+  totalDonations  Decimal  @default(0) @map("total_donations") @db.Decimal(15, 2)
+  totalDonors     Int      @default(0) @map("total_donors")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user            User     @relation("ReferralOwner", fields: [userId], references: [id], onDelete: Cascade)
+  donations       ReferralDonation[]
+
+  @@index([userId])
+  @@index([code])
+  @@index([totalDonations])
+  @@map("referral_codes")
+}
+
+model ReferralDonation {
+  id              String   @id @default(uuid())
+  referralCodeId  String   @map("referral_code_id")
+  donationId      String   @unique @map("donation_id")
+  donorName       String   @map("donor_name")
+  donorEmail      String?  @map("donor_email")
+  amount          Decimal  @db.Decimal(15, 2)
+  programId       String   @map("program_id")
+  programTitle    String   @map("program_title")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  referralCode    ReferralCode @relation(fields: [referralCodeId], references: [id], onDelete: Cascade)
+
+  @@index([referralCodeId])
+  @@index([donationId])
+  @@map("referral_donations")
 }
 
 // ============================================
@@ -725,4 +772,25 @@ model UploadedFile {
   @@index([uploadedBy])
   @@index([category])
   @@map("uploaded_files")
+}
+
+// ============================================
+// COMMENTS (Program Comments)
+// ============================================
+
+model Comment {
+  id          String   @id @default(uuid())
+  programId   String   @map("program_id")
+  userId      String   @map("user_id")
+  content     String   @db.Text
+  isHidden    Boolean  @default(false) @map("is_hidden")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  program     Program  @relation(fields: [programId], references: [id])
+  user        User     @relation("CommentAuthor", fields: [userId], references: [id])
+
+  @@index([programId])
+  @@index([userId])
+  @@map("comments")
 }

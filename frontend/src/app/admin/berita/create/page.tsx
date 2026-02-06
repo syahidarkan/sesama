@@ -103,7 +103,7 @@ export default function CreateBeritaPage() {
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+              className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
               placeholder="Masukkan judul berita"
               required
             />
@@ -117,7 +117,7 @@ export default function CreateBeritaPage() {
             <select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+              className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
               required
             >
               {CATEGORIES.map((cat) => (
@@ -153,7 +153,7 @@ export default function CreateBeritaPage() {
               value={formData.excerpt}
               onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
               rows={3}
-              className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+              className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
               placeholder="Ringkasan singkat berita (opsional)"
             />
             <p className="mt-2 text-xs text-gray-500">
@@ -170,7 +170,7 @@ export default function CreateBeritaPage() {
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               rows={15}
-              className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-mono"
+              className="w-full border border-gray-300 rounded-md px-4 py-2.5 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 font-mono"
               placeholder="Tulis konten berita di sini. Anda bisa menggunakan HTML untuk formatting.
 
 Contoh:
@@ -199,7 +199,7 @@ Contoh:
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 text-sm bg-orange-600 text-white rounded-md hover:bg-orange-700 font-medium disabled:opacity-50"
+              className="px-6 py-2.5 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-600 font-medium disabled:opacity-50"
               disabled={loading}
             >
               {loading ? 'Mempublikasi...' : 'Publikasi Berita'}

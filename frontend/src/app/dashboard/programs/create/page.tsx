@@ -178,7 +178,7 @@ export default function CreateProgramPage() {
         return (
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                    <Link href="/dashboard/programs" className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-orange-50 transition-colors">
+                    <Link href="/dashboard/programs" className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-primary-50 transition-colors">
                         <ArrowLeft className="w-5 h-5 text-gray-600" />
                     </Link>
                     <div>
@@ -190,10 +190,10 @@ export default function CreateProgramPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <button
                         onClick={() => setProgramType('INDIVIDU')}
-                        className="group bg-white rounded-lg p-8 border border-gray-200 hover:border-orange-500 transition-all text-left"
+                        className="group bg-white rounded-lg p-8 border border-gray-200 hover:border-primary-500 transition-all text-left"
                     >
-                        <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
-                            <User className="w-6 h-6 text-orange-600" />
+                        <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+                            <User className="w-6 h-6 text-primary-600" />
                         </div>
                         <h3 className="text-xl font-semibold text-gray-900 mb-3">
                             Program Individu
@@ -203,15 +203,15 @@ export default function CreateProgramPage() {
                         </p>
                         <div className="space-y-2">
                             <div className="flex items-center space-x-2 text-sm text-gray-600">
-                                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                                <div className="w-1.5 h-1.5 bg-primary-600 rounded-full"></div>
                                 <span>5 langkah pengisian</span>
                             </div>
                             <div className="flex items-center space-x-2 text-sm text-gray-600">
-                                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                                <div className="w-1.5 h-1.5 bg-primary-600 rounded-full"></div>
                                 <span>KTP Pengaju & Bukti Kondisi</span>
                             </div>
                             <div className="flex items-center space-x-2 text-sm text-gray-600">
-                                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                                <div className="w-1.5 h-1.5 bg-primary-600 rounded-full"></div>
                                 <span>Surat Keterangan RT/RW</span>
                             </div>
                         </div>
@@ -219,7 +219,7 @@ export default function CreateProgramPage() {
 
                     <button
                         onClick={() => setProgramType('LEMBAGA')}
-                        className="group bg-white rounded-lg p-8 border border-gray-200 hover:border-orange-500 transition-all text-left"
+                        className="group bg-white rounded-lg p-8 border border-gray-200 hover:border-primary-500 transition-all text-left"
                     >
                         <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
                             <Building2 className="w-6 h-6 text-blue-600" />
@@ -262,7 +262,7 @@ export default function CreateProgramPage() {
                             type="text"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                             placeholder="Contoh: Bantuan Operasi Jantung Pak Ahmad"
                         />
                     </div>
@@ -272,7 +272,7 @@ export default function CreateProgramPage() {
                             rows={5}
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none resize-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none resize-none"
                             placeholder="Jelaskan detail program dan mengapa bantuan dibutuhkan..."
                         />
                     </div>
@@ -284,7 +284,7 @@ export default function CreateProgramPage() {
                                 min="100000"
                                 value={formData.targetAmount}
                                 onChange={(e) => setFormData({ ...formData, targetAmount: e.target.value })}
-                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                                 placeholder="10000000"
                             />
                         </div>
@@ -293,7 +293,7 @@ export default function CreateProgramPage() {
                             <select
                                 value={formData.category}
                                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white"
+                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white"
                             >
                                 <option value="">Pilih Kategori</option>
                                 {categories.map((cat) => (
@@ -387,7 +387,7 @@ export default function CreateProgramPage() {
                             type="text"
                             value={formData.institutionName}
                             onChange={(e) => setFormData({ ...formData, institutionName: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                             placeholder="Yayasan Amal Sejahtera"
                         />
                     </div>
@@ -396,7 +396,7 @@ export default function CreateProgramPage() {
                         <select
                             value={formData.institutionType}
                             onChange={(e) => setFormData({ ...formData, institutionType: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white"
                         >
                             <option value="">Pilih Jenis Lembaga</option>
                             {institutionTypes.map((type) => (
@@ -410,7 +410,7 @@ export default function CreateProgramPage() {
                             rows={3}
                             value={formData.institutionAddress}
                             onChange={(e) => setFormData({ ...formData, institutionAddress: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none resize-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none resize-none"
                             placeholder="Jl. Contoh No. 123, Kota..."
                         />
                     </div>
@@ -480,7 +480,7 @@ export default function CreateProgramPage() {
                             type="text"
                             value={formData.picName}
                             onChange={(e) => setFormData({ ...formData, picName: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                             placeholder="Ahmad Subagyo"
                         />
                     </div>
@@ -490,7 +490,7 @@ export default function CreateProgramPage() {
                             type="tel"
                             value={formData.picPhone}
                             onChange={(e) => setFormData({ ...formData, picPhone: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                             placeholder="08123456789"
                         />
                     </div>
@@ -500,7 +500,7 @@ export default function CreateProgramPage() {
                             type="email"
                             value={formData.picEmail}
                             onChange={(e) => setFormData({ ...formData, picEmail: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                             placeholder="pic@lembaga.org"
                         />
                     </div>
@@ -517,7 +517,7 @@ export default function CreateProgramPage() {
                             <select
                                 value={formData.beneficiaryBankName}
                                 onChange={(e) => setFormData({ ...formData, beneficiaryBankName: e.target.value })}
-                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white"
+                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white"
                             >
                                 <option value="">Pilih Bank</option>
                                 {bankNames.map((bank) => (
@@ -531,7 +531,7 @@ export default function CreateProgramPage() {
                                 type="text"
                                 value={formData.beneficiaryBankAccount}
                                 onChange={(e) => setFormData({ ...formData, beneficiaryBankAccount: e.target.value })}
-                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                                className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                                 placeholder="1234567890"
                             />
                         </div>
@@ -545,7 +545,7 @@ export default function CreateProgramPage() {
                         <select
                             value={formData.bankName}
                             onChange={(e) => setFormData({ ...formData, bankName: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white"
                         >
                             <option value="">Pilih Bank</option>
                             {bankNames.map((bank) => (
@@ -559,7 +559,7 @@ export default function CreateProgramPage() {
                             type="text"
                             value={formData.accountNumber}
                             onChange={(e) => setFormData({ ...formData, accountNumber: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                             placeholder="1234567890"
                         />
                     </div>
@@ -569,7 +569,7 @@ export default function CreateProgramPage() {
                             type="text"
                             value={formData.accountName}
                             onChange={(e) => setFormData({ ...formData, accountName: e.target.value })}
-                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                             placeholder="Yayasan Amal Sejahtera"
                         />
                     </div>
@@ -580,27 +580,27 @@ export default function CreateProgramPage() {
         if (stepKey === 'review') {
             return (
                 <div className="space-y-6">
-                    <div className="bg-orange-50 rounded-lg p-6 border border-orange-200">
-                        <h3 className="font-medium text-orange-900 mb-4 text-base flex items-center space-x-2">
+                    <div className="bg-primary-50 rounded-lg p-6 border border-primary-200">
+                        <h3 className="font-medium text-primary-900 mb-4 text-base flex items-center space-x-2">
                             <CheckCircle className="w-5 h-5" />
                             <span>Ringkasan Program</span>
                         </h3>
                         <dl className="space-y-3">
-                            <div className="flex justify-between items-center py-2 border-b border-orange-200">
-                                <dt className="text-sm text-orange-700">Judul:</dt>
-                                <dd className="text-sm font-medium text-orange-900 text-right">{formData.title || '-'}</dd>
+                            <div className="flex justify-between items-center py-2 border-b border-primary-200">
+                                <dt className="text-sm text-primary-700">Judul:</dt>
+                                <dd className="text-sm font-medium text-primary-900 text-right">{formData.title || '-'}</dd>
                             </div>
-                            <div className="flex justify-between items-center py-2 border-b border-orange-200">
-                                <dt className="text-sm text-orange-700">Target:</dt>
-                                <dd className="text-sm font-medium text-orange-900">Rp {parseInt(formData.targetAmount || '0').toLocaleString('id-ID')}</dd>
+                            <div className="flex justify-between items-center py-2 border-b border-primary-200">
+                                <dt className="text-sm text-primary-700">Target:</dt>
+                                <dd className="text-sm font-medium text-primary-900">Rp {parseInt(formData.targetAmount || '0').toLocaleString('id-ID')}</dd>
                             </div>
-                            <div className="flex justify-between items-center py-2 border-b border-orange-200">
-                                <dt className="text-sm text-orange-700">Lembaga:</dt>
-                                <dd className="text-sm font-medium text-orange-900 text-right">{formData.institutionName || '-'}</dd>
+                            <div className="flex justify-between items-center py-2 border-b border-primary-200">
+                                <dt className="text-sm text-primary-700">Lembaga:</dt>
+                                <dd className="text-sm font-medium text-primary-900 text-right">{formData.institutionName || '-'}</dd>
                             </div>
                             <div className="flex justify-between items-center py-2">
-                                <dt className="text-sm text-orange-700">PIC:</dt>
-                                <dd className="text-sm font-medium text-orange-900 text-right">{formData.picName || '-'}</dd>
+                                <dt className="text-sm text-primary-700">PIC:</dt>
+                                <dd className="text-sm font-medium text-primary-900 text-right">{formData.picName || '-'}</dd>
                             </div>
                         </dl>
                     </div>
@@ -622,7 +622,7 @@ export default function CreateProgramPage() {
             <div className="flex items-center gap-4">
                 <button
                     onClick={() => currentStep > 0 ? setCurrentStep(currentStep - 1) : setProgramType(null)}
-                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-orange-50 transition-colors"
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-primary-50 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5 text-gray-600" />
                 </button>
@@ -644,7 +644,7 @@ export default function CreateProgramPage() {
                                         index < currentStep
                                             ? 'bg-green-600 text-white'
                                             : index === currentStep
-                                            ? 'bg-orange-600 text-white'
+                                            ? 'bg-primary-600 text-white'
                                             : 'bg-gray-100 text-gray-400'
                                     }`}>
                                         {index < currentStep ? (
@@ -673,8 +673,8 @@ export default function CreateProgramPage() {
             {/* Form Content */}
             <div className="bg-white rounded-lg border border-gray-200 p-8">
                 <div className="flex items-center space-x-3 mb-6">
-                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                        <CurrentStepIcon className="w-5 h-5 text-orange-600" />
+                    <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                        <CurrentStepIcon className="w-5 h-5 text-primary-600" />
                     </div>
                     <h2 className="text-lg font-semibold text-gray-900">{steps[currentStep]?.title}</h2>
                 </div>
@@ -711,7 +711,7 @@ export default function CreateProgramPage() {
                 ) : (
                     <button
                         onClick={() => setCurrentStep(currentStep + 1)}
-                        className="inline-flex items-center space-x-2 px-8 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+                        className="inline-flex items-center space-x-2 px-8 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
                     >
                         <span>Lanjutkan</span>
                         <ArrowRight className="w-4 h-4" />

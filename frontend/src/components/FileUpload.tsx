@@ -165,7 +165,7 @@ export default function FileUpload({
             {progress > 0 && (
               <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                 <div
-                  className="bg-orange-600 h-2 rounded-full transition-all duration-300"
+                  className="bg-orange-600 h-2 rounded-full transition-all duration-200"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
@@ -173,7 +173,7 @@ export default function FileUpload({
           </div>
         ) : (
           <div className="space-y-2">
-            <Upload className="w-10 h-10 text-gray-400 mx-auto transition-all group-hover:text-orange-600 group-hover:scale-110 group-hover:animate-bounce-slow" />
+            <Upload className="w-10 h-10 text-gray-400 mx-auto transition-all group-hover:text-orange-600 group- group-hover:" />
             <p className="text-sm text-gray-600 transition-colors group-hover:text-gray-900">
               {multiple
                 ? 'Klik atau drag & drop file di sini'
@@ -210,10 +210,10 @@ export default function FileUpload({
                     <img
                       src={uploadsApi.getFileUrl(file.storedFilename)}
                       alt={file.filename}
-                      className="w-10 h-10 object-cover rounded transition-transform group-hover:scale-110"
+                      className="w-10 h-10 object-cover rounded transition-transform group-"
                     />
                   ) : (
-                    <div className="shrink-0 transition-transform group-hover:scale-110">{getFileIcon(file.mimeType)}</div>
+                    <div className="shrink-0 transition-transform group-">{getFileIcon(file.mimeType)}</div>
                   )}
                   <div className="overflow-hidden">
                     <p className="text-sm font-medium text-gray-900 truncate">
@@ -229,14 +229,14 @@ export default function FileUpload({
                     href={uploadsApi.getFileUrl(file.storedFilename)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 text-orange-600 hover:bg-orange-50 rounded transition-all hover:scale-110"
+                    className="p-1.5 text-orange-600 hover:bg-orange-50 rounded transition-all "
                     title="Lihat"
                   >
                     <Eye className="w-4 h-4" />
                   </a>
                   <a
                     href={uploadsApi.getDownloadUrl(file.storedFilename)}
-                    className="p-1.5 text-orange-600 hover:bg-orange-50 rounded transition-all hover:scale-110"
+                    className="p-1.5 text-orange-600 hover:bg-orange-50 rounded transition-all "
                     title="Download"
                   >
                     <Download className="w-4 h-4" />
@@ -248,7 +248,7 @@ export default function FileUpload({
                         e.stopPropagation();
                         handleRemoveFile(file);
                       }}
-                      className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-all hover:scale-110"
+                      className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-all "
                       title="Hapus"
                     >
                       <X className="w-4 h-4" />

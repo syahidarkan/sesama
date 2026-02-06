@@ -16,8 +16,13 @@ export default function ArticlesListPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
+    // Redirect pengusul - they should only access programs and pelaporan
+    if (user && user.role === 'PENGUSUL') {
+      router.push('/admin/dashboard');
+      return;
+    }
     fetchArticles();
-  }, [filter]);
+  }, [filter, user, router]);
 
   const fetchArticles = async () => {
     try {
@@ -146,7 +151,7 @@ export default function ArticlesListPage() {
               placeholder="Cari pelaporan berdasarkan judul atau konten..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+              className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
             />
           </div>
 
@@ -168,8 +173,8 @@ export default function ArticlesListPage() {
                     onClick={() => setFilter(item.value)}
                     className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                       filter === item.value
-                        ? 'bg-orange-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-orange-50'
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -185,7 +190,7 @@ export default function ArticlesListPage() {
       {/* Articles List */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
           <p className="text-sm text-gray-600">Memuat data pelaporan...</p>
         </div>
       ) : filteredArticles.length === 0 ? (
@@ -200,7 +205,7 @@ export default function ArticlesListPage() {
           {hasRole(['CONTENT_MANAGER', 'PENGUSUL', 'SUPER_ADMIN', 'MANAGER']) && !searchQuery && (
             <Link
               href="/admin/articles/create"
-              className="inline-flex items-center space-x-2 px-6 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 transition-colors"
+              className="inline-flex items-center space-x-2 px-6 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 transition-colors"
             >
               <Plus className="w-4 h-4" />
               <span>Buat Pelaporan Pertama</span>
@@ -212,7 +217,7 @@ export default function ArticlesListPage() {
           {filteredArticles.map((article) => (
             <div
               key={article.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 hover:border-orange-500 transition-colors"
+              className="bg-white rounded-lg border border-gray-200 p-6 hover:border-primary-500 transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">

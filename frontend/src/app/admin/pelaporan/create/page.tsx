@@ -38,9 +38,18 @@ export default function CreatePelaporanPage() {
 
   const fetchPrograms = async () => {
     try {
-      // Ambil program CLOSED untuk pelaporan penyaluran
-      const response = await programsApi.getAll('CLOSED', 100, 0);
-      setPrograms(response.data.data || []);
+      // Ambil program CLOSED atau yang sudah selesai timeline untuk pelaporan
+      const createdByFilter = user?.role === 'PENGUSUL' ? user.id : undefined;
+      const response = await programsApi.getAll(undefined, 100, 0, createdByFilter);
+
+      // Filter program yang CLOSED atau yang endDate sudah lewat
+      const eligiblePrograms = (response.data.data || []).filter((program: any) => {
+        const isClosed = program.status === 'CLOSED';
+        const hasEndDatePassed = program.endDate && new Date(program.endDate) < new Date();
+        return isClosed || hasEndDatePassed;
+      });
+
+      setPrograms(eligiblePrograms);
     } catch (err) {
       console.error('Failed to fetch programs:', err);
     }
@@ -112,7 +121,7 @@ export default function CreatePelaporanPage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl border border-gray-200 p-8">
+        <div className="bg-white rounded-lg border border-gray-200 p-8">
           {error && (
             <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-2.5 rounded-md">
               {error}
@@ -131,7 +140,7 @@ export default function CreatePelaporanPage() {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Contoh: Laporan Penyaluran Bantuan Pendidikan Bulan Januari 2024"
-                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
             </div>
@@ -145,18 +154,24 @@ export default function CreatePelaporanPage() {
                 name="programId"
                 value={formData.programId}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
               >
                 <option value="">Tidak terkait program tertentu</option>
                 {programs.map((program) => (
                   <option key={program.id} value={program.id}>
-                    {program.title}
+                    {program.title} {program.status === 'CLOSED' ? '(SELESAI)' : '(Timeline Selesai)'}
                   </option>
                 ))}
               </select>
-              <p className="mt-1 text-sm text-gray-500">
-                Pilih program jika pelaporan ini merupakan laporan penyaluran
-              </p>
+              {programs.length === 0 ? (
+                <p className="mt-1 text-sm text-amber-600">
+                  ⚠️ Tidak ada program yang selesai. Pelaporan hanya dapat dibuat untuk program dengan status CLOSED atau yang timeline-nya sudah selesai.
+                </p>
+              ) : (
+                <p className="mt-1 text-sm text-gray-500">
+                  Pilih program yang sudah selesai untuk membuat laporan penyaluran
+                </p>
+              )}
             </div>
 
             {/* Excerpt */}
@@ -170,7 +185,7 @@ export default function CreatePelaporanPage() {
                 onChange={handleChange}
                 placeholder="Ringkasan pelaporan dalam 1-2 kalimat..."
                 rows={3}
-                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 maxLength={200}
               />
               <p className="mt-1 text-sm text-gray-500">
@@ -196,7 +211,7 @@ Anda bisa menulis:
 - Dampak program
 - Dan informasi lainnya"
                 rows={15}
-                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 font-mono text-sm"
+                className="w-full px-4 py-2.5 rounded-md border border-gray-300 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 font-mono text-sm"
                 required
               />
             </div>
@@ -222,7 +237,7 @@ Anda bisa menulis:
                   type="checkbox"
                   checked={submitForApproval}
                   onChange={(e) => setSubmitForApproval(e.target.checked)}
-                  className="mt-1 mr-3 w-5 h-5 text-green-600 rounded focus:ring-1 focus:ring-orange-500"
+                  className="mt-1 mr-3 w-5 h-5 text-green-600 rounded focus:ring-1 focus:ring-primary-500"
                 />
                 <div className="flex-1">
                   <div className="font-semibold text-green-900 mb-1">
@@ -256,7 +271,7 @@ Anda bisa menulis:
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-3 rounded-lg bg-orange-600 text-white font-bold hover:bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-3 rounded-lg bg-primary-600 text-white font-bold hover:bg-primary-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Menyimpan...' : 'Buat Pelaporan'}
               </button>

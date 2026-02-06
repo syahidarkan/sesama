@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { programsApi, donationsApi, approvalsApi, roleUpgradesApi } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
 import Link from 'next/link';
-import { TrendingUp, Heart, Users, CheckCircle, ArrowRight, Loader2, UserPlus, Clock, CheckCircle2, XCircle } from 'lucide-react';
+import { TrendingUp, Heart, Users, CheckCircle, ArrowRight, Loader2, UserPlus, Clock, CheckCircle2, XCircle, Plus, FileText, Newspaper } from 'lucide-react';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -19,9 +19,14 @@ export default function DashboardPage() {
         }
     }, [user, router]);
 
+    // For PENGUSUL, only fetch their own programs
     const { data: programs, isLoading: loadingPrograms } = useQuery({
-        queryKey: ['programs'],
-        queryFn: () => programsApi.getAll().then((res) => res.data),
+        queryKey: ['programs', user?.id, user?.role],
+        queryFn: () => {
+            const createdBy = user?.role === 'PENGUSUL' ? user.id : undefined;
+            return programsApi.getAll(undefined, 100, 0, createdBy).then((res) => res.data);
+        },
+        enabled: !!user,
     });
 
     const { data: stats } = useQuery({
@@ -69,7 +74,7 @@ export default function DashboardPage() {
             <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-start justify-between">
                     <div>
-                        <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-md text-xs font-medium bg-orange-50 border border-orange-200 text-orange-700 mb-3">
+                        <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-md text-xs font-medium bg-primary-50 border border-primary-200 text-primary-700 mb-3">
                             <span>{user?.role.replace(/_/g, ' ')}</span>
                         </span>
                         <h1 className="text-2xl font-semibold text-gray-900 mb-1">
@@ -82,15 +87,60 @@ export default function DashboardPage() {
                 </div>
             </div>
 
+            {/* PENGUSUL Quick Actions */}
+            {user?.role === 'PENGUSUL' && (
+                <div className="bg-white rounded-lg border border-gray-200 p-6">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Aksi Cepat</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <Link
+                            href="/dashboard/programs/create"
+                            className="flex items-center p-4 rounded-lg border-2 border-dashed border-primary-300 bg-primary-50 hover:bg-primary-100 hover:border-primary-400 transition-colors group"
+                        >
+                            <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mr-4 group-hover:bg-primary-700 transition-colors">
+                                <Plus className="w-6 h-6 text-white" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-gray-900">Buat Program Baru</h3>
+                                <p className="text-sm text-gray-600">Ajukan program donasi</p>
+                            </div>
+                        </Link>
+                        <Link
+                            href="/admin/pelaporan/create"
+                            className="flex items-center p-4 rounded-lg border border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors group"
+                        >
+                            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4 group-hover:bg-green-200 transition-colors">
+                                <FileText className="w-6 h-6 text-green-600" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-gray-900">Buat Laporan</h3>
+                                <p className="text-sm text-gray-600">Laporan penyaluran dana</p>
+                            </div>
+                        </Link>
+                        <Link
+                            href="/dashboard/programs"
+                            className="flex items-center p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors group"
+                        >
+                            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4 group-hover:bg-blue-200 transition-colors">
+                                <Heart className="w-6 h-6 text-blue-600" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-gray-900">Kelola Program</h3>
+                                <p className="text-sm text-gray-600">Lihat program saya</p>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+            )}
+
             {/* USER Role: Upgrade to Pengusul Section */}
             {user?.role === 'USER' && (
-                <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg border border-orange-200 overflow-hidden">
+                <div className="bg-primary-50 rounded-lg border border-primary-200 overflow-hidden">
                     <div className="p-6">
                         {!upgradeRequest ? (
                             // No upgrade request submitted - show CTA
                             <div className="flex items-start justify-between">
                                 <div className="flex items-start space-x-4">
-                                    <div className="w-14 h-14 bg-orange-600 rounded-xl flex items-center justify-center shrink-0">
+                                    <div className="w-14 h-14 bg-primary-600 rounded-lg flex items-center justify-center shrink-0">
                                         <UserPlus className="w-7 h-7 text-white" />
                                     </div>
                                     <div>
@@ -102,21 +152,21 @@ export default function DashboardPage() {
                                         </p>
                                         <ul className="space-y-2 mb-4">
                                             <li className="flex items-start text-sm text-gray-700">
-                                                <CheckCircle className="w-4 h-4 text-orange-600 mr-2 mt-0.5 shrink-0" />
+                                                <CheckCircle className="w-4 h-4 text-primary-600 mr-2 mt-0.5 shrink-0" />
                                                 <span>Buat program donasi tanpa batas</span>
                                             </li>
                                             <li className="flex items-start text-sm text-gray-700">
-                                                <CheckCircle className="w-4 h-4 text-orange-600 mr-2 mt-0.5 shrink-0" />
+                                                <CheckCircle className="w-4 h-4 text-primary-600 mr-2 mt-0.5 shrink-0" />
                                                 <span>Akses dashboard pengusul dengan statistik lengkap</span>
                                             </li>
                                             <li className="flex items-start text-sm text-gray-700">
-                                                <CheckCircle className="w-4 h-4 text-orange-600 mr-2 mt-0.5 shrink-0" />
+                                                <CheckCircle className="w-4 h-4 text-primary-600 mr-2 mt-0.5 shrink-0" />
                                                 <span>Verifikasi akun dengan KTP untuk kepercayaan donatur</span>
                                             </li>
                                         </ul>
                                         <Link
                                             href="/pengusul/register"
-                                            className="inline-flex items-center space-x-2 px-5 py-2.5 bg-orange-600 text-white text-sm font-medium rounded-lg hover:bg-orange-700 transition-colors"
+                                            className="inline-flex items-center space-x-2 px-5 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-600 transition-colors"
                                         >
                                             <UserPlus className="w-4 h-4" />
                                             <span>Mulai Upgrade Sekarang</span>
@@ -128,7 +178,7 @@ export default function DashboardPage() {
                         ) : (
                             // Upgrade request submitted - show status
                             <div className="flex items-start space-x-4">
-                                <div className={`w-14 h-14 rounded-xl flex items-center justify-center shrink-0 ${
+                                <div className={`w-14 h-14 rounded-lg flex items-center justify-center shrink-0 ${
                                     upgradeRequest.status === 'PENDING'
                                         ? 'bg-amber-100'
                                         : upgradeRequest.status === 'APPROVED'
@@ -173,7 +223,7 @@ export default function DashboardPage() {
                                             </p>
                                             <Link
                                                 href="/pengusul/register"
-                                                className="inline-flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-lg hover:bg-orange-700 transition-colors"
+                                                className="inline-flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-600 transition-colors"
                                             >
                                                 <span>Ajukan Ulang</span>
                                                 <ArrowRight className="w-4 h-4" />
@@ -239,7 +289,7 @@ export default function DashboardPage() {
                         </div>
                         <Link
                             href="/dashboard/donations"
-                            className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+                            className="text-sm text-primary-600 hover:text-primary-700 font-medium"
                         >
                             Lihat semua →
                         </Link>
@@ -316,7 +366,7 @@ export default function DashboardPage() {
                         </div>
                         <Link
                             href="/dashboard/programs"
-                            className="inline-flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 transition-colors"
+                            className="inline-flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-600 transition-colors"
                         >
                             <span>Lihat Semua</span>
                             <ArrowRight className="w-4 h-4" />
@@ -328,7 +378,7 @@ export default function DashboardPage() {
                     {loadingPrograms ? (
                         <div className="flex items-center justify-center py-12">
                             <div className="text-center">
-                                <Loader2 className="w-8 h-8 animate-spin text-orange-600 mx-auto mb-3" />
+                                <Loader2 className="w-8 h-8 animate-spin text-primary-600 mx-auto mb-3" />
                                 <p className="text-sm text-gray-600">Memuat program...</p>
                             </div>
                         </div>
@@ -340,11 +390,11 @@ export default function DashboardPage() {
                                     href={`/dashboard/programs/${program.id}`}
                                     className="block group"
                                 >
-                                    <div className="p-4 rounded-md border border-gray-200 hover:border-orange-300 hover:bg-orange-50/30 transition-colors">
+                                    <div className="p-4 rounded-md border border-gray-200 hover:border-primary-300 hover:bg-primary-50/30 transition-colors">
                                         <div className="flex items-start justify-between">
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center space-x-2 mb-2">
-                                                    <h3 className="text-sm font-medium text-gray-900 group-hover:text-orange-600 transition-colors truncate">
+                                                    <h3 className="text-sm font-medium text-gray-900 group-hover:text-primary-600 transition-colors truncate">
                                                         {program.title}
                                                     </h3>
                                                     <span
@@ -352,7 +402,7 @@ export default function DashboardPage() {
                                                             program.status === 'ACTIVE'
                                                                 ? 'bg-green-50 text-green-700 border-green-200'
                                                                 : program.status === 'PENDING_APPROVAL'
-                                                                ? 'bg-orange-50 text-orange-700 border-orange-200'
+                                                                ? 'bg-primary-50 text-primary-700 border-primary-200'
                                                                 : 'bg-gray-50 text-gray-700 border-gray-200'
                                                         }`}
                                                     >
@@ -365,7 +415,7 @@ export default function DashboardPage() {
                                                 <div className="flex items-center space-x-6 text-sm">
                                                     <div>
                                                         <span className="text-gray-500">Terkumpul: </span>
-                                                        <span className="font-medium text-orange-600">
+                                                        <span className="font-medium text-primary-600">
                                                             {formatCurrency(parseInt(program.collectedAmount))}
                                                         </span>
                                                     </div>
@@ -383,7 +433,7 @@ export default function DashboardPage() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-orange-600 shrink-0 ml-4" />
+                                            <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary-600 shrink-0 ml-4" />
                                         </div>
                                     </div>
                                 </Link>
@@ -398,7 +448,7 @@ export default function DashboardPage() {
                             <p className="text-sm text-gray-600 mb-4">Mulai buat program donasi pertama Anda</p>
                             <Link
                                 href="/dashboard/programs/create"
-                                className="inline-flex items-center px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 transition-colors"
+                                className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-600 transition-colors"
                             >
                                 Buat Program Baru
                             </Link>
@@ -409,8 +459,8 @@ export default function DashboardPage() {
 
             {/* Pending Approvals */}
             {user?.role !== 'USER' && pendingApprovals.length > 0 && (
-                <div className="bg-white rounded-lg border border-orange-200 overflow-hidden">
-                    <div className="px-6 py-4 border-b border-orange-200 bg-orange-50">
+                <div className="bg-white rounded-lg border border-primary-200 overflow-hidden">
+                    <div className="px-6 py-4 border-b border-primary-200 bg-primary-50">
                         <div className="flex items-center justify-between">
                             <div>
                                 <h2 className="text-lg font-semibold text-gray-900">Persetujuan Pending</h2>
@@ -418,7 +468,7 @@ export default function DashboardPage() {
                             </div>
                             <Link
                                 href="/dashboard/approvals"
-                                className="inline-flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 transition-colors"
+                                className="inline-flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-600 transition-colors"
                             >
                                 <span>Lihat Semua</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -434,17 +484,17 @@ export default function DashboardPage() {
                                     href={`/dashboard/approvals`}
                                     className="block group"
                                 >
-                                    <div className="p-4 rounded-md border border-gray-200 hover:border-orange-300 hover:bg-orange-50/30 transition-colors">
+                                    <div className="p-4 rounded-md border border-gray-200 hover:border-primary-300 hover:bg-primary-50/30 transition-colors">
                                         <div className="flex items-start justify-between">
                                             <div className="flex-1">
                                                 <div className="flex items-center space-x-3 mb-2">
-                                                    <div className="w-8 h-8 bg-orange-100 rounded-md flex items-center justify-center">
-                                                        <CheckCircle className="w-4 h-4 text-orange-600" />
+                                                    <div className="w-8 h-8 bg-primary-100 rounded-md flex items-center justify-center">
+                                                        <CheckCircle className="w-4 h-4 text-primary-600" />
                                                     </div>
                                                     <h3 className="text-sm font-medium text-gray-900">
                                                         {approval.actionType.replace(/_/g, ' ')}
                                                     </h3>
-                                                    <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">
+                                                    <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200">
                                                         PENDING
                                                     </span>
                                                 </div>
@@ -454,7 +504,7 @@ export default function DashboardPage() {
                                                     <span>{approval.requester.role.replace(/_/g, ' ')}</span>
                                                 </div>
                                             </div>
-                                            <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-orange-600 shrink-0 ml-4" />
+                                            <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary-600 shrink-0 ml-4" />
                                         </div>
                                     </div>
                                 </Link>

@@ -14,11 +14,13 @@ export class ProgramsController {
         @Query('status') status?: string,
         @Query('limit') limit?: string,
         @Query('offset') offset?: string,
+        @Query('createdBy') createdBy?: string,
     ) {
         return this.programsService.findAll(
             status,
             limit ? parseInt(limit) : undefined,
             offset ? parseInt(offset) : undefined,
+            createdBy,
         );
     }
 

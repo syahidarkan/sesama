@@ -26,20 +26,20 @@ export default function ProfilePage() {
 
       <div className="grid lg:grid-cols-4 gap-6">
         {/* Profile Sidebar */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 animate-fadeIn animate-stagger-1">
+        <div className="bg-white rounded-lg border border-gray-200 p-6 animate-fadeIn ">
           <div className="text-center">
             <div className="relative inline-block group">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-3xl font-semibold text-white mx-auto transition-all group-hover:scale-105">
+              <div className="w-24 h-24 rounded-full bg-primary-700 flex items-center justify-center text-3xl font-semibold text-white mx-auto transition-all group-">
                 {user?.name.charAt(0).toUpperCase()}
               </div>
-              <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full border-2 border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-all hover:scale-110 hover:border-orange-500">
-                <Camera className="w-4 h-4 text-gray-600 group-hover:text-orange-600" />
+              <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full border-2 border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-all  hover:border-primary-500">
+                <Camera className="w-4 h-4 text-gray-600 group-hover:text-primary-600" />
               </button>
             </div>
             <h3 className="mt-4 text-lg font-semibold text-gray-900">{user?.name}</h3>
             <p className="text-sm text-gray-500">{user?.email}</p>
             <div className="mt-2">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-700">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-700">
                 {user?.role.replace(/_/g, ' ')}
               </span>
             </div>
@@ -50,29 +50,29 @@ export default function ProfilePage() {
               onClick={() => setActiveTab('profile')}
               className={`w-full flex items-center px-3 py-2 rounded-md text-sm font-medium transition-all hover:translate-x-1 ${
                 activeTab === 'profile'
-                  ? 'bg-orange-50 text-orange-600'
+                  ? 'bg-primary-50 text-primary-600'
                   : 'text-gray-700 hover:bg-gray-100'
               }`}
             >
-              <User className={`w-4 h-4 mr-3 transition-transform hover:scale-110 ${activeTab === 'profile' ? 'text-orange-600' : 'text-gray-400'}`} />
+              <User className={`w-4 h-4 mr-3 transition-transform  ${activeTab === 'profile' ? 'text-primary-600' : 'text-gray-400'}`} />
               Profile Info
             </button>
             <button
               onClick={() => setActiveTab('security')}
               className={`w-full flex items-center px-3 py-2 rounded-md text-sm font-medium transition-all hover:translate-x-1 ${
                 activeTab === 'security'
-                  ? 'bg-orange-50 text-orange-600'
+                  ? 'bg-primary-50 text-primary-600'
                   : 'text-gray-700 hover:bg-gray-100'
               }`}
             >
-              <Lock className={`w-4 h-4 mr-3 transition-transform hover:scale-110 ${activeTab === 'security' ? 'text-orange-600' : 'text-gray-400'}`} />
+              <Lock className={`w-4 h-4 mr-3 transition-transform  ${activeTab === 'security' ? 'text-primary-600' : 'text-gray-400'}`} />
               Security
             </button>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="lg:col-span-3 bg-white rounded-lg border border-gray-200 p-6 animate-fadeIn animate-stagger-2">
+        <div className="lg:col-span-3 bg-white rounded-lg border border-gray-200 p-6 animate-fadeIn ">
           {activeTab === 'profile' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-gray-200">
@@ -80,7 +80,7 @@ export default function ProfilePage() {
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="px-4 py-2 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 disabled:opacity-50 transition-all hover-lift"
+                  className="px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 disabled:opacity-50 transition-all hover-lift"
                 >
                   {saving ? 'Saving...' : 'Save Changes'}
                 </button>
@@ -94,7 +94,7 @@ export default function ProfilePage() {
                   <input
                     type="text"
                     defaultValue={user?.name}
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
 
@@ -105,7 +105,7 @@ export default function ProfilePage() {
                   <input
                     type="email"
                     defaultValue={user?.email}
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
 
@@ -116,7 +116,7 @@ export default function ProfilePage() {
                   <input
                     type="tel"
                     placeholder="+62 812 3456 7890"
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
 
@@ -140,7 +140,7 @@ export default function ProfilePage() {
                 <textarea
                   rows={4}
                   placeholder="Tell us about yourself..."
-                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 />
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function ProfilePage() {
                   <input
                     type="password"
                     placeholder="Enter current password"
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
 
@@ -172,7 +172,7 @@ export default function ProfilePage() {
                   <input
                     type="password"
                     placeholder="Enter new password"
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
 
@@ -183,14 +183,14 @@ export default function ProfilePage() {
                   <input
                     type="password"
                     placeholder="Confirm new password"
-                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
 
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="px-6 py-2.5 bg-orange-600 text-white rounded-md text-sm font-medium hover:bg-orange-700 disabled:opacity-50 transition-colors"
+                  className="px-6 py-2.5 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-600 disabled:opacity-50 transition-colors"
                 >
                   Update Password
                 </button>
@@ -203,7 +203,7 @@ export default function ProfilePage() {
                     <div className="text-sm font-medium text-gray-900">Enable 2FA</div>
                     <div className="text-xs text-gray-500 mt-1">Add an extra layer of security</div>
                   </div>
-                  <input type="checkbox" className="w-4 h-4 text-orange-600 rounded" />
+                  <input type="checkbox" className="w-4 h-4 text-primary-600 rounded" />
                 </div>
               </div>
 

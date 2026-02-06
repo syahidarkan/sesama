@@ -40,7 +40,7 @@ export default function UsersPage() {
             DEVELOPER: 'bg-purple-50 text-purple-700 border-purple-200',
             ADMIN_IT: 'bg-blue-50 text-blue-700 border-blue-200',
             ADMIN_LAZISMU: 'bg-green-50 text-green-700 border-green-200',
-            ADMIN_LEMBAGA_ISLAMI: 'bg-teal-50 text-teal-700 border-teal-200',
+            ADMIN_LEMBAGA_ISLAMI: 'bg-primary-50 text-primary-700 border-primary-200',
             DONATUR: 'bg-gray-50 text-gray-700 border-gray-200',
         };
         return colors[role as keyof typeof colors] || 'bg-gray-50 text-gray-700 border-gray-200';
@@ -49,7 +49,7 @@ export default function UsersPage() {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
                 <p className="text-sm text-gray-600">Memuat data pengguna...</p>
             </div>
         );
@@ -79,7 +79,7 @@ export default function UsersPage() {
                     <div className="flex items-center justify-between mb-3">
                         <UserPlus className="w-5 h-5 text-gray-400" />
                     </div>
-                    <div className="text-3xl font-semibold text-orange-600 mb-1">{stats.admins}</div>
+                    <div className="text-3xl font-semibold text-primary-600 mb-1">{stats.admins}</div>
                     <div className="text-sm text-gray-600">Admin</div>
                 </div>
 
@@ -117,7 +117,7 @@ export default function UsersPage() {
                             placeholder="Cari nama atau email..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none"
+                            className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none"
                         />
                     </div>
                     <div className="relative">
@@ -125,7 +125,7 @@ export default function UsersPage() {
                         <select
                             value={roleFilter}
                             onChange={(e) => setRoleFilter(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white"
+                            className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white"
                         >
                             <option value="">Semua Role</option>
                             <option value="DEVELOPER">Developer</option>
@@ -140,7 +140,7 @@ export default function UsersPage() {
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors outline-none appearance-none bg-white"
+                            className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-300 rounded-md focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none appearance-none bg-white"
                         >
                             <option value="">Semua Status</option>
                             <option value="active">Aktif</option>
@@ -169,7 +169,7 @@ export default function UsersPage() {
                                     <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center space-x-3">
-                                                <div className="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center text-white font-medium">
+                                                <div className="w-10 h-10 rounded-lg bg-primary-600 flex items-center justify-center text-white font-medium">
                                                     {user.name.charAt(0).toUpperCase()}
                                                 </div>
                                                 <div>

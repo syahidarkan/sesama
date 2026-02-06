@@ -131,7 +131,7 @@ export default function CreateArticlePage() {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Contoh: Laporan Penyaluran Bantuan Pendidikan Bulan Januari 2024"
-                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 required
               />
             </div>
@@ -145,7 +145,7 @@ export default function CreateArticlePage() {
                 name="programId"
                 value={formData.programId}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
               >
                 <option value="">Tidak terkait program tertentu</option>
                 {programs.map((program) => (
@@ -170,7 +170,7 @@ export default function CreateArticlePage() {
                 onChange={handleChange}
                 placeholder="Ringkasan pelaporan dalam 1-2 kalimat..."
                 rows={3}
-                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                 maxLength={200}
               />
               <p className="mt-2 text-xs text-gray-500">
@@ -196,7 +196,7 @@ Anda bisa menulis:
 - Dampak program
 - Dan informasi lainnya"
                 rows={15}
-                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-mono"
+                className="w-full px-4 py-2.5 text-sm rounded-md border border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 font-mono"
                 required
               />
             </div>
@@ -216,13 +216,13 @@ Anda bisa menulis:
             />
 
             {/* Submit for Approval Checkbox */}
-            <div className="bg-orange-50 border border-orange-200 rounded-md p-4">
+            <div className="bg-primary-50 border border-primary-200 rounded-md p-4">
               <label className="flex items-start cursor-pointer">
                 <input
                   type="checkbox"
                   checked={submitForApproval}
                   onChange={(e) => setSubmitForApproval(e.target.checked)}
-                  className="mt-1 mr-3 w-4 h-4 text-orange-600 rounded focus:ring-1 focus:ring-orange-500"
+                  className="mt-1 mr-3 w-4 h-4 text-primary-600 rounded focus:ring-1 focus:ring-primary-500"
                 />
                 <div className="flex-1">
                   <div className="font-medium text-gray-900 mb-1 text-sm">
@@ -257,7 +257,7 @@ Anda bisa menulis:
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-2.5 text-sm rounded-md bg-orange-600 text-white font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-2.5 text-sm rounded-md bg-primary-600 text-white font-medium hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Menyimpan...' : 'Buat Pelaporan'}
               </button>

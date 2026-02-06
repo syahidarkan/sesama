@@ -79,7 +79,7 @@ export default function ArticleHistoryPage() {
             <p className="mt-4 text-gray-600">Memuat data...</p>
           </div>
         ) : history.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
             <div className="text-6xl mb-4">📜</div>
             <p className="text-gray-600 mb-4">
               Belum ada riwayat edit untuk pelaporan ini
@@ -94,7 +94,7 @@ export default function ArticleHistoryPage() {
         ) : (
           <div className="space-y-6">
             {/* Info Box */}
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
               <div className="flex items-start">
                 <div className="text-2xl mr-4">ℹ️</div>
                 <div>
@@ -110,7 +110,7 @@ export default function ArticleHistoryPage() {
             </div>
 
             {/* History Timeline */}
-            <div className="bg-white rounded-xl shadow-sm p-8">
+            <div className="bg-white rounded-lg shadow-sm p-8">
               <h2 className="text-xl font-bold text-gray-900 mb-6">
                 📜 Timeline Perubahan ({history.length} versi)
               </h2>

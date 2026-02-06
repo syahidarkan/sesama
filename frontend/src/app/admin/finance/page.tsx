@@ -99,11 +99,252 @@ export default function FinanceDashboardPage() {
     }
   };
 
+  // Generate PDF Report for overall finance
+  const handleExportOverallPDF = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Laporan Keuangan - SESAMA Platform</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 40px; color: #333; }
+          h1 { color: #0284c7; border-bottom: 2px solid #0284c7; padding-bottom: 10px; }
+          h2 { color: #374151; margin-top: 30px; }
+          .header { text-align: center; margin-bottom: 40px; }
+          .stats { display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0; }
+          .stat-card { border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; flex: 1; min-width: 200px; }
+          .stat-value { font-size: 24px; font-weight: bold; color: #059669; }
+          .stat-label { color: #6b7280; font-size: 14px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+          th, td { border: 1px solid #e5e7eb; padding: 12px; text-align: left; }
+          th { background: #f3f4f6; font-weight: 600; }
+          .text-right { text-align: right; }
+          .text-green { color: #059669; }
+          .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #9ca3af; }
+          @media print { body { padding: 20px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Laporan Keuangan</h1>
+          <p>SESAMA Platform - Donasi Digital Terpercaya</p>
+          <p>Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        </div>
+
+        <h2>Ringkasan Keuangan</h2>
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-value">${formatCurrency(statistics?.totalAmount || 0)}</div>
+            <div class="stat-label">Total Dana Terkumpul</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${statistics?.totalDonations || 0}</div>
+            <div class="stat-label">Total Transaksi</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${statistics?.activePrograms || 0}</div>
+            <div class="stat-label">Program Aktif</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${formatCurrency(statistics?.averageDonation || 0)}</div>
+            <div class="stat-label">Rata-rata Donasi</div>
+          </div>
+        </div>
+
+        <h2>Rekap per Program</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Program</th>
+              <th>Pembuat</th>
+              <th>Status</th>
+              <th class="text-right">Target</th>
+              <th class="text-right">Terkumpul</th>
+              <th class="text-right">Progress</th>
+              <th class="text-right">Jumlah Donatur</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${programsFunds.map((program, index) => `
+              <tr>
+                <td>${index + 1}</td>
+                <td>${program.title}</td>
+                <td>${program.creator?.name || '-'}</td>
+                <td>${program.status}</td>
+                <td class="text-right">${formatCurrency(Number(program.targetAmount))}</td>
+                <td class="text-right text-green">${formatCurrency(Number(program.collectedAmount))}</td>
+                <td class="text-right">${program.percentageReached.toFixed(1)}%</td>
+                <td class="text-right">${program.donorCount}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <h2>Top 10 Donatur</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Nama Donatur</th>
+              <th class="text-right">Total Donasi</th>
+              <th class="text-right">Jumlah Transaksi</th>
+              <th class="text-right">Program Didukung</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${topDonors.slice(0, 10).map((donor, index) => `
+              <tr>
+                <td>#${index + 1}</td>
+                <td>${donor.donorName}</td>
+                <td class="text-right text-green">${formatCurrency(donor.totalAmount)}</td>
+                <td class="text-right">${donor.donationCount}</td>
+                <td class="text-right">${donor.programsSupported}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <div class="footer">
+          <p>Dokumen ini dicetak secara otomatis dari SESAMA Platform Finance Dashboard.</p>
+          <p>Data akurat per tanggal dan waktu cetak.</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+    printWindow.onload = () => {
+      printWindow.print();
+    };
+  };
+
+  // Generate PDF for specific program
+  const handleExportProgramPDF = async (program: any) => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    // Fetch donors for this program
+    let donors: any[] = [];
+    try {
+      const donorsRes = await financeApi.getProgramDonors(program.id, 100, 0);
+      donors = donorsRes.data.data || [];
+    } catch (error) {
+      console.error('Failed to fetch donors for PDF:', error);
+    }
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Rekap Program - ${program.title}</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 40px; color: #333; }
+          h1 { color: #0284c7; border-bottom: 2px solid #0284c7; padding-bottom: 10px; }
+          h2 { color: #374151; margin-top: 30px; }
+          .header { text-align: center; margin-bottom: 40px; }
+          .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; }
+          .info-item { border: 1px solid #e5e7eb; padding: 15px; border-radius: 8px; }
+          .info-label { color: #6b7280; font-size: 12px; margin-bottom: 5px; }
+          .info-value { font-size: 18px; font-weight: bold; }
+          .text-green { color: #059669; }
+          .progress-bar { width: 100%; height: 20px; background: #e5e7eb; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+          .progress-fill { height: 100%; background: #0284c7; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+          th, td { border: 1px solid #e5e7eb; padding: 10px; text-align: left; }
+          th { background: #f3f4f6; font-weight: 600; }
+          .text-right { text-align: right; }
+          .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #9ca3af; }
+          @media print { body { padding: 20px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Rekap Program Donasi</h1>
+          <p>SESAMA Platform - Donasi Digital Terpercaya</p>
+          <p>Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        </div>
+
+        <h2>${program.title}</h2>
+        <p style="color: #6b7280;">Dibuat oleh: ${program.creator?.name || '-'} | Status: ${program.status}</p>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Target Dana</div>
+            <div class="info-value">${formatCurrency(Number(program.targetAmount))}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Dana Terkumpul</div>
+            <div class="info-value text-green">${formatCurrency(Number(program.collectedAmount))}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Total Transaksi</div>
+            <div class="info-value">${program.totalDonations}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Donatur Unik</div>
+            <div class="info-value">${program.donorCount}</div>
+          </div>
+        </div>
+
+        <div style="margin: 20px 0;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>Progress Donasi</span>
+            <span>${program.percentageReached.toFixed(1)}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${Math.min(program.percentageReached, 100)}%"></div>
+          </div>
+        </div>
+
+        <h2>Daftar Donatur (${donors.length} donatur)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Donatur</th>
+              <th>Email</th>
+              <th class="text-right">Total Donasi</th>
+              <th class="text-right">Jumlah Transaksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${donors.map((donor, index) => `
+              <tr>
+                <td>${index + 1}</td>
+                <td>${donor.isAnonymous ? 'Anonim' : donor.donorName || '-'}</td>
+                <td>${donor.isAnonymous ? '-' : (donor.donorEmail || '-')}</td>
+                <td class="text-right text-green">${formatCurrency(donor.totalAmount)}</td>
+                <td class="text-right">${donor.donationCount}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <div class="footer">
+          <p>Dokumen ini dicetak secara otomatis dari SESAMA Platform Finance Dashboard.</p>
+          <p>Data akurat per tanggal dan waktu cetak.</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+    printWindow.onload = () => {
+      printWindow.print();
+    };
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
           <p className="text-sm text-gray-600">Loading finance data...</p>
         </div>
       </div>
@@ -119,11 +360,11 @@ export default function FinanceDashboardPage() {
           <p className="text-sm text-gray-600 mt-1">Kelola dan pantau seluruh transaksi keuangan</p>
         </div>
         <button
-          onClick={() => window.print()}
-          className="inline-flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+          onClick={handleExportOverallPDF}
+          className="inline-flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
         >
           <Download className="w-4 h-4" />
-          <span>Export Report</span>
+          <span>Export PDF Laporan</span>
         </button>
       </div>
 
@@ -198,7 +439,7 @@ export default function FinanceDashboardPage() {
               onClick={() => setActiveTab('overview')}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'overview'
-                  ? 'border-orange-600 text-orange-600'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -211,7 +452,7 @@ export default function FinanceDashboardPage() {
               onClick={() => setActiveTab('programs')}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'programs'
-                  ? 'border-orange-600 text-orange-600'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -224,7 +465,7 @@ export default function FinanceDashboardPage() {
               onClick={() => setActiveTab('transactions')}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'transactions'
-                  ? 'border-orange-600 text-orange-600'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -237,7 +478,7 @@ export default function FinanceDashboardPage() {
               onClick={() => setActiveTab('donors')}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'donors'
-                  ? 'border-orange-600 text-orange-600'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -261,7 +502,7 @@ export default function FinanceDashboardPage() {
                     {programsFunds.slice(0, 5).map((program, index) => (
                       <div key={program.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                          <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
                             {index + 1}
                           </div>
                           <div>
@@ -311,7 +552,7 @@ export default function FinanceDashboardPage() {
               <h3 className="text-lg font-semibold text-gray-900">E-Wallet per Program</h3>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {programsFunds.map((program) => (
-                  <div key={program.id} className="border border-gray-200 rounded-lg p-5 hover:border-orange-300 transition-colors">
+                  <div key={program.id} className="border border-gray-200 rounded-lg p-5 hover:border-primary-300 transition-colors">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
                         <h4 className="text-base font-semibold text-gray-900 mb-1">{program.title}</h4>
@@ -345,7 +586,7 @@ export default function FinanceDashboardPage() {
                       </div>
                       <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-orange-600 rounded-full"
+                          className="h-full bg-primary-600 rounded-full"
                           style={{ width: `${Math.min(program.percentageReached, 100)}%` }}
                         />
                       </div>
@@ -373,13 +614,22 @@ export default function FinanceDashboardPage() {
                         </div>
                       )}
 
-                      <button
-                        onClick={() => handleViewProgramDetails(program)}
-                        className="mt-4 w-full flex items-center justify-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
-                      >
-                        <Eye className="w-4 h-4" />
-                        <span>View All Donors</span>
-                      </button>
+                      <div className="mt-4 flex gap-2">
+                        <button
+                          onClick={() => handleViewProgramDetails(program)}
+                          className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                        >
+                          <Eye className="w-4 h-4" />
+                          <span>Lihat Donatur</span>
+                        </button>
+                        <button
+                          onClick={() => handleExportProgramPDF(program)}
+                          className="flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                          title="Export PDF Rekap Program"
+                        >
+                          <Download className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -441,7 +691,7 @@ export default function FinanceDashboardPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {topDonors.map((donor, index) => (
                   <div key={index} className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white text-lg font-bold">
+                    <div className="w-12 h-12 bg-primary-700 rounded-full flex items-center justify-center text-white text-lg font-bold">
                       #{index + 1}
                     </div>
                     <div className="flex-1">
@@ -492,7 +742,7 @@ export default function FinanceDashboardPage() {
             <div className="flex-1 overflow-y-auto p-6">
               {loadingDonors ? (
                 <div className="flex flex-col items-center justify-center py-12">
-                  <Loader2 className="w-8 h-8 animate-spin text-orange-600 mb-3" />
+                  <Loader2 className="w-8 h-8 animate-spin text-primary-600 mb-3" />
                   <p className="text-sm text-gray-600">Loading donors...</p>
                 </div>
               ) : programDonors.length > 0 ? (
@@ -500,7 +750,7 @@ export default function FinanceDashboardPage() {
                   {programDonors.map((donor, index) => (
                     <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                       <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center text-white font-medium">
+                        <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-medium">
                           {donor.isAnonymous ? '?' : (donor.donorName?.charAt(0).toUpperCase() || 'U')}
                         </div>
                         <div>
@@ -541,7 +791,7 @@ export default function FinanceDashboardPage() {
                 </div>
                 <button
                   onClick={() => setShowDonorsModal(false)}
-                  className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                  className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-600 transition-colors"
                 >
                   Close
                 </button>

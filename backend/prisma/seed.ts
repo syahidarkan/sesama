@@ -104,10 +104,13 @@ async function main() {
   console.log('✅ Users created');
 
   // Create Programs with slug
-  const program1 = await prisma.program.create({
-    data: {
+  const slug1 = slugify('Bantuan Pendidikan Anak Yatim 2026', { lower: true }) + '-1';
+  const program1 = await prisma.program.upsert({
+    where: { slug: slug1 },
+    update: {},
+    create: {
       title: 'Bantuan Pendidikan Anak Yatim 2026',
-      slug: slugify('Bantuan Pendidikan Anak Yatim 2026', { lower: true }) + '-1',
+      slug: slug1,
       description:
         'Program bantuan pendidikan untuk 100 anak yatim di berbagai daerah. Dana akan digunakan untuk biaya sekolah, buku, seragam, dan perlengkapan belajar.',
       targetAmount: 50000000,
@@ -120,10 +123,13 @@ async function main() {
     },
   });
 
-  const program2 = await prisma.program.create({
-    data: {
+  const slug2 = slugify('Renovasi Masjid Al-Ikhlas', { lower: true }) + '-2';
+  const program2 = await prisma.program.upsert({
+    where: { slug: slug2 },
+    update: {},
+    create: {
       title: 'Renovasi Masjid Al-Ikhlas',
-      slug: slugify('Renovasi Masjid Al-Ikhlas', { lower: true }) + '-2',
+      slug: slug2,
       description:
         'Renovasi dan perbaikan masjid yang kondisinya sudah rusak. Meliputi atap, lantai, sound system, dan perlengkapan sholat.',
       targetAmount: 100000000,
@@ -136,10 +142,13 @@ async function main() {
     },
   });
 
-  const program3 = await prisma.program.create({
-    data: {
+  const slug3 = slugify('Bantuan Pangan Ramadhan 1446H', { lower: true }) + '-3';
+  const program3 = await prisma.program.upsert({
+    where: { slug: slug3 },
+    update: {},
+    create: {
       title: 'Bantuan Pangan Ramadhan 1446H',
-      slug: slugify('Bantuan Pangan Ramadhan 1446H', { lower: true }) + '-3',
+      slug: slug3,
       description:
         'Distribusi 500 paket sembako untuk keluarga dhuafa menjelang dan selama bulan Ramadhan. Setiap paket berisi beras, minyak, gula, dan kebutuhan pokok lainnya.',
       targetAmount: 30000000,
@@ -155,6 +164,7 @@ async function main() {
 
   // Create sample donations
   await prisma.donation.createMany({
+    skipDuplicates: true,
     data: [
       {
         programId: program1.id,
@@ -202,6 +212,7 @@ async function main() {
 
   // Create leaderboard entries
   await prisma.donorLeaderboard.createMany({
+    skipDuplicates: true,
     data: [
       {
         donorIdentifier: 'budi@example.com',
@@ -236,12 +247,15 @@ async function main() {
   console.log('✅ Leaderboard created');
 
   // Create sample article (laporan penyaluran)
-  const article1 = await prisma.article.create({
-    data: {
+  const articleSlug = slugify('Laporan Penyaluran Bantuan Pendidikan Periode Januari 2026', {
+    lower: true,
+  });
+  const article1 = await prisma.article.upsert({
+    where: { slug: articleSlug },
+    update: {},
+    create: {
       title: 'Laporan Penyaluran Bantuan Pendidikan Periode Januari 2026',
-      slug: slugify('Laporan Penyaluran Bantuan Pendidikan Periode Januari 2026', {
-        lower: true,
-      }),
+      slug: articleSlug,
       content: `
 # Laporan Penyaluran Bantuan Pendidikan
 
@@ -708,10 +722,13 @@ Untuk pertanyaan atau masukan, silakan isi formulir di bawah atau kirim email la
   // Seed Sample Berita
   console.log('\n📰 Creating sample berita...');
 
-  await prisma.berita.create({
-    data: {
+  const beritaSlug = 'lazismu-salurkan-bantuan-korban-bencana';
+  await prisma.berita.upsert({
+    where: { slug: beritaSlug },
+    update: {},
+    create: {
       title: 'LAZISMU Salurkan Bantuan ke Korban Bencana',
-      slug: 'lazismu-salurkan-bantuan-korban-bencana-' + Date.now(),
+      slug: beritaSlug,
       content: `
 # LAZISMU Salurkan Bantuan ke Korban Bencana
 

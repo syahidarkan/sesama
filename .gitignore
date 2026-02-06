@@ -33,14 +33,9 @@ coverage/
 *.db-journal
 
 # ======================
-# Prisma
+# User Uploads (only the data folder, not source code)
 # ======================
-prisma/migrations/
-
-# ======================
-# User Uploads
-# ======================
-uploads/
+/backend/uploads/
 
 # ======================
 # IDE / Editor

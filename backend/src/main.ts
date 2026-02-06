@@ -22,6 +22,7 @@ async function bootstrap() {
       'http://localhost:3000',
       'https://frontend-eight-pied-77.vercel.app',
       process.env.FRONTEND_URL,
+      process.env.ADMIN_FRONTEND_URL,
     ].filter(Boolean),
     credentials: true,
   });

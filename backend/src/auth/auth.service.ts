@@ -7,7 +7,6 @@ import { AuditLogService } from '../audit-log/audit-log.service';
 import { ConfigService } from '@nestjs/config';
 import { UserRole, AuditAction } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
-import { authenticator } from 'otplib';
 
 @Injectable()
 export class AuthService {
@@ -198,11 +197,8 @@ export class AuthService {
       throw new BadRequestException('OTP has expired. Please request a new one.');
     }
 
-    // Verify OTP
-    const isValid = authenticator.verify({
-      token: otp,
-      secret: user.otpSecret,
-    });
+    // Verify OTP by comparing with stored hash
+    const isValid = await bcrypt.compare(otp, user.otpSecret);
 
     if (!isValid) {
       throw new UnauthorizedException('Invalid OTP');
@@ -255,15 +251,17 @@ export class AuthService {
     email: string,
     name: string,
   ): Promise<void> {
-    // Generate OTP secret
-    const secret = authenticator.generateSecret();
-    const otp = authenticator.generate(secret);
+    // Generate random 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Save OTP secret to user
+    // Hash OTP before storing (security best practice)
+    const otpHash = await bcrypt.hash(otp, 10);
+
+    // Save OTP hash to user
     await this.prisma.user.update({
       where: { id: userId },
       data: {
-        otpSecret: secret,
+        otpSecret: otpHash,
         lastOtpAt: new Date(),
       },
     });

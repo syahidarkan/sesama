@@ -8,27 +8,48 @@ export class EmailService {
   private transporter: Transporter;
 
   constructor(private readonly configService: ConfigService) {
+    const smtpPort = Number(this.configService.get('SMTP_PORT', 465));
+    // Use secure (TLS) for port 465, STARTTLS for 587
+    const isSecure = smtpPort === 465 || this.configService.get('SMTP_SECURE') === 'true';
+
     this.transporter = nodemailer.createTransport({
       host: this.configService.get('SMTP_HOST'),
-      port: this.configService.get('SMTP_PORT'),
-      secure: this.configService.get('SMTP_SECURE') === 'true',
+      port: smtpPort,
+      secure: isSecure,
       auth: {
         user: this.configService.get('SMTP_USER'),
         pass: this.configService.get('SMTP_PASSWORD'),
       },
-      connectionTimeout: 5000,
-      greetingTimeout: 5000,
-      socketTimeout: 10000,
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
     });
+
+    console.log(`📧 SMTP configured: ${this.configService.get('SMTP_HOST')}:${smtpPort} (secure: ${isSecure})`);
+  }
+
+  /**
+   * Get the "from" address - Gmail requires it to match the authenticated user
+   */
+  private getFromAddress(): string {
+    const smtpUser = this.configService.get('SMTP_USER');
+    const emailFrom = this.configService.get('EMAIL_FROM');
+
+    // If EMAIL_FROM contains a non-Gmail address, use SMTP_USER instead
+    // Gmail SMTP rejects sending from addresses that don't belong to the account
+    if (smtpUser && emailFrom && !emailFrom.includes(smtpUser)) {
+      return `SESAMA Platform <${smtpUser}>`;
+    }
+    return emailFrom || smtpUser;
   }
 
   /**
    * Route dummy @lazismu.org emails to actual recipient
    */
   private getActualRecipient(email: string): string {
-    // Route all @lazismu.org dummy emails to the admin's actual email
-    if (email.endsWith('@lazismu.org') || email.endsWith('@lazizmu.org')) {
-      return 'syhd.acan@gmail.com';
+    // Route all dummy emails to SMTP user email
+    if (email.endsWith('@lazismu.org') || email.endsWith('@lazizmu.org') || email.endsWith('@example.com')) {
+      return this.configService.get('SMTP_USER') || email;
     }
     return email;
   }
@@ -44,7 +65,7 @@ export class EmailService {
     const actualRecipient = this.getActualRecipient(to);
 
     const mailOptions = {
-      from: this.configService.get('EMAIL_FROM'),
+      from: this.getFromAddress(),
       to: actualRecipient,
       subject: 'Kode OTP Login - SESAMA Platform',
       html: `
@@ -140,7 +161,7 @@ export class EmailService {
       : 'Mohon maaf, registrasi Anda sebagai pengusul belum dapat disetujui.';
 
     const mailOptions = {
-      from: this.configService.get('EMAIL_FROM'),
+      from: this.getFromAddress(),
       to,
       subject,
       html: `
@@ -222,7 +243,7 @@ export class EmailService {
     });
 
     const mailOptions = {
-      from: this.configService.get('EMAIL_FROM'),
+      from: this.getFromAddress(),
       to: data.donorEmail,
       subject: `Bukti Donasi & Terima Kasih - ${data.programTitle}`,
       html: `
@@ -344,7 +365,7 @@ export class EmailService {
     const frontendUrl = this.configService.get('FRONTEND_URL') || 'http://localhost:3000';
 
     const mailOptions = {
-      from: this.configService.get('EMAIL_FROM'),
+      from: this.getFromAddress(),
       to: data.donorEmail,
       subject: `Laporan Penyaluran Dana - ${data.programTitle}`,
       html: `
@@ -453,7 +474,7 @@ export class EmailService {
     const statusText = isApproved ? 'DISETUJUI' : 'DITOLAK';
 
     const mailOptions = {
-      from: this.configService.get('EMAIL_FROM'),
+      from: this.getFromAddress(),
       to,
       subject,
       html: `

@@ -3,6 +3,15 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  // Log env vars for debugging (hide sensitive values)
+  console.log('📋 Environment check:');
+  console.log('  DATABASE_URL:', process.env.DATABASE_URL ? '✅ SET' : '❌ NOT SET');
+  console.log('  JWT_SECRET:', process.env.JWT_SECRET ? '✅ SET' : '❌ NOT SET');
+  console.log('  JWT_REFRESH_SECRET:', process.env.JWT_REFRESH_SECRET ? '✅ SET' : '❌ NOT SET');
+  console.log('  PORT:', process.env.PORT || '3001 (default)');
+  console.log('  NODE_ENV:', process.env.NODE_ENV || 'not set');
+  console.log('  FRONTEND_URL:', process.env.FRONTEND_URL || 'not set');
+
   const app = await NestFactory.create(AppModule);
 
   // Global validation pipe
@@ -14,19 +23,9 @@ async function bootstrap() {
     }),
   );
 
-  // Enable CORS for frontend (allow multiple origins for dev/prod)
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'https://sesama.vercel.app',
-    'https://frontend-eight-pied-77.vercel.app',
-    process.env.FRONTEND_URL,
-    process.env.ADMIN_FRONTEND_URL,
-  ].filter(Boolean);
-
-  console.log('🔒 CORS allowed origins:', allowedOrigins);
-
+  // Enable CORS for frontend
   app.enableCors({
-    origin: allowedOrigins,
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true,
@@ -39,4 +38,16 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`🚀 Backend server is running on: http://localhost:${port}/api`);
 }
-bootstrap();
+
+// Catch unhandled errors to prevent silent crashes
+process.on('uncaughtException', (err) => {
+  console.error('❌ UNCAUGHT EXCEPTION:', err);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('❌ UNHANDLED REJECTION:', err);
+});
+
+bootstrap().catch((err) => {
+  console.error('❌ BOOTSTRAP FAILED:', err);
+  process.exit(1);
+});

@@ -94,12 +94,26 @@ export class EmailService {
       `,
     };
 
+    const smtpUser = this.configService.get('SMTP_USER');
+    const isPlaceholder = !smtpUser || smtpUser === 'your-email@gmail.com';
+
+    if (isPlaceholder) {
+      console.log('\n=============================================');
+      console.log('📧 OTP EMAIL (SMTP not configured)');
+      console.log('=============================================');
+      console.log(`To: ${actualRecipient}`);
+      console.log(`OTP: ${otp}`);
+      console.log(`User: ${userName}`);
+      console.log('=============================================\n');
+      return;
+    }
+
     try {
       await this.transporter.sendMail(mailOptions);
       console.log(`✅ OTP email sent to ${actualRecipient}${to !== actualRecipient ? ` (routed from ${to})` : ''}`);
     } catch (error) {
       console.error('❌ Failed to send OTP email:', error.message);
-      throw new Error('Failed to send OTP email. Please contact administrator.');
+      console.log(`📧 OTP for ${userName}: ${otp}`);
     }
   }
 

@@ -43,13 +43,24 @@ export class EmailService {
   }
 
   /**
-   * Route dummy @lazismu.org emails to actual recipient
+   * Route emails to the configured SMTP_USER
+   * In testing/demo mode, all OTP and admin emails go to one inbox
    */
   private getActualRecipient(email: string): string {
+    const smtpUser = this.configService.get('SMTP_USER');
+    if (!smtpUser) return email;
+
+    // Route dummy domain emails to SMTP_USER
     if (email.endsWith('@lazismu.org') || email.endsWith('@lazizmu.org') || email.endsWith('@example.com')) {
-      const smtpUser = this.configService.get('SMTP_USER');
-      return smtpUser || email;
+      return smtpUser;
     }
+
+    // In Resend testing mode (no verified domain), route all emails to SMTP_USER
+    // Resend free tier only allows sending to the account owner's email
+    if (this.resend && !this.configService.get('RESEND_DOMAIN_VERIFIED')) {
+      return smtpUser;
+    }
+
     return email;
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "donation-platform-backend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Backend API for LAZISMU donation platform",
   "author": "",
   "private": true,

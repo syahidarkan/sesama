@@ -11,29 +11,34 @@ export class EmailService {
   private fromAddress: string;
 
   constructor(private readonly configService: ConfigService) {
-    const resendApiKey = this.configService.get('RESEND_API_KEY');
+    // Priority 1: Gmail SMTP (if SMTP_USER is configured)
+    const smtpUser = this.configService.get('SMTP_USER');
+    const smtpPassword = this.configService.get('SMTP_PASSWORD');
 
+    if (smtpUser && smtpUser !== 'your-email@gmail.com' && smtpPassword) {
+      this.transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: smtpUser,
+          pass: smtpPassword,
+        },
+      });
+      this.fromAddress = `SESAMA Platform <${smtpUser}>`;
+      console.log(`📧 Email configured: Gmail SMTP (${smtpUser})`);
+    }
+
+    // Priority 2: Resend API (fallback if SMTP fails or not configured)
+    const resendApiKey = this.configService.get('RESEND_API_KEY');
     if (resendApiKey) {
-      // Production: use Resend (HTTP API - works on all cloud platforms)
       this.resend = new Resend(resendApiKey);
-      this.fromAddress = this.configService.get('EMAIL_FROM') || 'SESAMA Platform <onboarding@resend.dev>';
-      console.log('📧 Email configured: Resend API');
-    } else {
-      // Fallback: use SMTP (for local development)
-      const smtpUser = this.configService.get('SMTP_USER');
-      if (smtpUser && smtpUser !== 'your-email@gmail.com') {
-        this.transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: smtpUser,
-            pass: this.configService.get('SMTP_PASSWORD'),
-          },
-        });
-        this.fromAddress = `SESAMA Platform <${smtpUser}>`;
-        console.log(`📧 Email configured: SMTP (${smtpUser})`);
-      } else {
-        console.log('📧 Email not configured: no RESEND_API_KEY or SMTP_USER');
+      if (!this.transporter) {
+        this.fromAddress = this.configService.get('EMAIL_FROM') || 'SESAMA Platform <onboarding@resend.dev>';
       }
+      console.log('📧 Email fallback: Resend API');
+    }
+
+    if (!this.transporter && !this.resend) {
+      console.log('📧 WARNING: No email provider configured');
     }
   }
 
@@ -49,12 +54,28 @@ export class EmailService {
   }
 
   /**
-   * Send email via Resend or SMTP
+   * Send email - tries Gmail SMTP first, falls back to Resend if SMTP fails
    */
   private async sendEmail(to: string, subject: string, html: string): Promise<boolean> {
+    // Try SMTP first
+    if (this.transporter) {
+      try {
+        await this.transporter.sendMail({ from: this.fromAddress, to, subject, html });
+        return true;
+      } catch (smtpError) {
+        console.error('❌ SMTP failed:', smtpError.message);
+        // Fall through to Resend
+        if (this.resend) {
+          console.log('📧 Falling back to Resend API...');
+        }
+      }
+    }
+
+    // Try Resend as fallback
     if (this.resend) {
+      const resendFrom = this.configService.get('EMAIL_FROM') || 'SESAMA Platform <onboarding@resend.dev>';
       const result = await this.resend.emails.send({
-        from: this.fromAddress,
+        from: resendFrom,
         to: [to],
         subject,
         html,
@@ -63,11 +84,6 @@ export class EmailService {
       if (result.error) {
         throw new Error(result.error.message);
       }
-      return true;
-    }
-
-    if (this.transporter) {
-      await this.transporter.sendMail({ from: this.fromAddress, to, subject, html });
       return true;
     }
 

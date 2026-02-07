@@ -11,7 +11,8 @@ COPY prisma ./prisma
 RUN npx prisma generate
 
 COPY . .
-RUN rm -rf dist && npx tsc -p tsconfig.prod.json && echo "✅ Build success" && ls dist/main.js
+# Force rebuild - listen on 0.0.0.0 for Docker
+RUN rm -rf dist && npx tsc -p tsconfig.prod.json && echo "Build success" && ls dist/main.js
 
 EXPOSE 3001
 

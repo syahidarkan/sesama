@@ -35,8 +35,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const port = process.env.PORT || 3001;
-  await app.listen(port);
-  console.log(`🚀 Backend server is running on: http://localhost:${port}/api`);
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Backend server is running on: http://0.0.0.0:${port}/api`);
 }
 
 // Catch unhandled errors to prevent silent crashes

@@ -7,14 +7,20 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding database with new schema...');
 
+  // Migrate old super admin email if exists
+  await prisma.user.updateMany({
+    where: { email: 'superadmin@lazismu.org', role: 'SUPER_ADMIN' },
+    data: { email: 'syh.arkan@gmail.com' },
+  });
+
   // Create Users with new roles
   const hashedPassword = await bcrypt.hash('password', 10);
 
   const superAdmin = await prisma.user.upsert({
-    where: { email: 'superadmin@lazismu.org' },
+    where: { email: 'syh.arkan@gmail.com' },
     update: {},
     create: {
-      email: 'superadmin@lazismu.org',
+      email: 'syh.arkan@gmail.com',
       name: 'Super Admin',
       passwordHash: hashedPassword,
       role: 'SUPER_ADMIN',
@@ -755,7 +761,7 @@ Tim relawan LAZISMU terus berkoordinasi dengan pihak terkait untuk memastikan ba
   console.log('\n🎉 Seeding completed successfully!');
   console.log('\n📝 Demo Accounts (NEW ROLE SYSTEM):');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log('Email: superadmin@lazismu.org  | Password: password | Role: SUPER_ADMIN');
+  console.log('Email: syh.arkan@gmail.com     | Password: password | Role: SUPER_ADMIN');
   console.log('Email: manager@lazismu.org     | Password: password | Role: MANAGER');
   console.log('Email: content@lazismu.org     | Password: password | Role: CONTENT_MANAGER');
   console.log('Email: supervisor@lazismu.org  | Password: password | Role: SUPERVISOR');

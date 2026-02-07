@@ -10,9 +10,11 @@ RUN npm ci
 COPY prisma ./prisma
 RUN npx prisma generate
 
-COPY . .
-# Force rebuild - listen on 0.0.0.0 for Docker
-RUN rm -rf dist && npx tsc -p tsconfig.prod.json && echo "Build success" && ls dist/main.js
+COPY tsconfig.prod.json ./
+COPY nest-cli.json ./
+COPY src ./src
+
+RUN rm -rf dist && npx tsc -p tsconfig.prod.json && ls dist/main.js
 
 EXPOSE 3001
 

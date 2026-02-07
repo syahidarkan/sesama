@@ -3,3 +3,4 @@ dist
 .env
 .env.*
 uploads
+check-data.ts

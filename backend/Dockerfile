@@ -11,7 +11,7 @@ COPY prisma ./prisma
 RUN npx prisma generate
 
 COPY . .
-RUN npx tsc -p tsconfig.prod.json && ls dist/main.js
+RUN rm -rf dist && npx tsc -p tsconfig.prod.json && echo "✅ Build success" && ls dist/main.js
 
 EXPOSE 3001
 

@@ -25,12 +25,7 @@ export class AuthService {
     private readonly emailService: EmailService,
     private readonly sessionService: SessionService,
     private readonly auditLogService: AuditLogService,
-  ) {
-    // Configure OTP
-    authenticator.options = {
-      window: 1, // Allow 1 step before/after current time
-    };
-  }
+  ) {}
 
   /**
    * Register new user (default role: USER)

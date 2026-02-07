@@ -1,72 +1,77 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Resend } from 'resend';
 import * as nodemailer from 'nodemailer';
 import { Transporter } from 'nodemailer';
 
 @Injectable()
 export class EmailService {
-  private transporter: Transporter;
+  private resend: Resend | null = null;
+  private transporter: Transporter | null = null;
+  private fromAddress: string;
 
   constructor(private readonly configService: ConfigService) {
-    // Use nodemailer's built-in Gmail service config (handles ports/TLS automatically)
-    const smtpHost = this.configService.get('SMTP_HOST', 'smtp.gmail.com');
-    const isGmail = smtpHost.includes('gmail');
+    const resendApiKey = this.configService.get('RESEND_API_KEY');
 
-    if (isGmail) {
-      this.transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: this.configService.get('SMTP_USER'),
-          pass: this.configService.get('SMTP_PASSWORD'),
-        },
-        connectionTimeout: 15000,
-        greetingTimeout: 15000,
-        socketTimeout: 20000,
-      });
+    if (resendApiKey) {
+      // Production: use Resend (HTTP API - works on all cloud platforms)
+      this.resend = new Resend(resendApiKey);
+      this.fromAddress = this.configService.get('EMAIL_FROM') || 'SESAMA Platform <onboarding@resend.dev>';
+      console.log('📧 Email configured: Resend API');
     } else {
-      const smtpPort = Number(this.configService.get('SMTP_PORT', 465));
-      const isSecure = smtpPort === 465 || this.configService.get('SMTP_SECURE') === 'true';
-      this.transporter = nodemailer.createTransport({
-        host: smtpHost,
-        port: smtpPort,
-        secure: isSecure,
-        auth: {
-          user: this.configService.get('SMTP_USER'),
-          pass: this.configService.get('SMTP_PASSWORD'),
-        },
-        connectionTimeout: 15000,
-        greetingTimeout: 15000,
-        socketTimeout: 20000,
-      });
+      // Fallback: use SMTP (for local development)
+      const smtpUser = this.configService.get('SMTP_USER');
+      if (smtpUser && smtpUser !== 'your-email@gmail.com') {
+        this.transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: smtpUser,
+            pass: this.configService.get('SMTP_PASSWORD'),
+          },
+        });
+        this.fromAddress = `SESAMA Platform <${smtpUser}>`;
+        console.log(`📧 Email configured: SMTP (${smtpUser})`);
+      } else {
+        console.log('📧 Email not configured: no RESEND_API_KEY or SMTP_USER');
+      }
     }
-
-    console.log(`📧 SMTP configured: ${isGmail ? 'Gmail service' : smtpHost} (user: ${this.configService.get('SMTP_USER')})`);
-  }
-
-  /**
-   * Get the "from" address - Gmail requires it to match the authenticated user
-   */
-  private getFromAddress(): string {
-    const smtpUser = this.configService.get('SMTP_USER');
-    const emailFrom = this.configService.get('EMAIL_FROM');
-
-    // If EMAIL_FROM contains a non-Gmail address, use SMTP_USER instead
-    // Gmail SMTP rejects sending from addresses that don't belong to the account
-    if (smtpUser && emailFrom && !emailFrom.includes(smtpUser)) {
-      return `SESAMA Platform <${smtpUser}>`;
-    }
-    return emailFrom || smtpUser;
   }
 
   /**
    * Route dummy @lazismu.org emails to actual recipient
    */
   private getActualRecipient(email: string): string {
-    // Route all dummy emails to SMTP user email
     if (email.endsWith('@lazismu.org') || email.endsWith('@lazizmu.org') || email.endsWith('@example.com')) {
-      return this.configService.get('SMTP_USER') || email;
+      const smtpUser = this.configService.get('SMTP_USER');
+      return smtpUser || email;
     }
     return email;
+  }
+
+  /**
+   * Send email via Resend or SMTP
+   */
+  private async sendEmail(to: string, subject: string, html: string): Promise<boolean> {
+    if (this.resend) {
+      const result = await this.resend.emails.send({
+        from: this.fromAddress,
+        to: [to],
+        subject,
+        html,
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+      return true;
+    }
+
+    if (this.transporter) {
+      await this.transporter.sendMail({ from: this.fromAddress, to, subject, html });
+      return true;
+    }
+
+    throw new Error('No email provider configured');
   }
 
   /**
@@ -75,80 +80,64 @@ export class EmailService {
   async sendOTP(to: string, otp: string, userName: string): Promise<boolean> {
     const expiresIn = this.configService.get('OTP_EXPIRES_IN');
     const expiresInMinutes = Math.floor(Number(expiresIn) / 60000);
-
-    // Route dummy emails to actual recipient
     const actualRecipient = this.getActualRecipient(to);
 
-    const mailOptions = {
-      from: this.getFromAddress(),
-      to: actualRecipient,
-      subject: 'Kode OTP Login - SESAMA Platform',
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #0284C7, #0369A1); color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .otp-box { background: white; border: 2px solid #0284C7; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0; }
-            .otp-code { font-size: 32px; font-weight: bold; color: #0284C7; letter-spacing: 8px; }
-            .warning { color: #dc2626; font-size: 14px; margin-top: 20px; }
-            .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>SESAMA Platform</h1>
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: linear-gradient(135deg, #0284C7, #0369A1); color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+          .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
+          .otp-box { background: white; border: 2px solid #0284C7; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0; }
+          .otp-code { font-size: 32px; font-weight: bold; color: #0284C7; letter-spacing: 8px; }
+          .warning { color: #dc2626; font-size: 14px; margin-top: 20px; }
+          .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>SESAMA Platform</h1>
+          </div>
+          <div class="content">
+            <h2>Halo, ${userName}!</h2>
+            <p>Anda telah meminta kode OTP untuk login ke dashboard admin SESAMA Platform.</p>
+
+            <div class="otp-box">
+              <p style="margin: 0; font-size: 14px; color: #666;">Kode OTP Anda:</p>
+              <p class="otp-code">${otp}</p>
+              <p style="margin: 0; font-size: 14px; color: #666;">Berlaku selama ${expiresInMinutes} menit</p>
             </div>
-            <div class="content">
-              <h2>Halo, ${userName}!</h2>
-              <p>Anda telah meminta kode OTP untuk login ke dashboard admin SESAMA Platform.</p>
 
-              <div class="otp-box">
-                <p style="margin: 0; font-size: 14px; color: #666;">Kode OTP Anda:</p>
-                <p class="otp-code">${otp}</p>
-                <p style="margin: 0; font-size: 14px; color: #666;">Berlaku selama ${expiresInMinutes} menit</p>
-              </div>
+            <p><strong>Penting:</strong></p>
+            <ul>
+              <li>Jangan bagikan kode ini kepada siapapun</li>
+              <li>Tim SESAMA tidak akan pernah meminta kode OTP Anda</li>
+              <li>Kode ini hanya berlaku untuk ${expiresInMinutes} menit</li>
+            </ul>
 
-              <p><strong>Penting:</strong></p>
-              <ul>
-                <li>Jangan bagikan kode ini kepada siapapun</li>
-                <li>Tim SESAMA tidak akan pernah meminta kode OTP Anda</li>
-                <li>Kode ini hanya berlaku untuk ${expiresInMinutes} menit</li>
-              </ul>
+            <p class="warning">Jika Anda tidak meminta kode ini, abaikan email ini dan segera hubungi administrator.</p>
 
-              <p class="warning">⚠️ Jika Anda tidak meminta kode ini, abaikan email ini dan segera hubungi administrator.</p>
-
-              <div class="footer">
-                <p>Email otomatis dari SESAMA Platform</p>
-                <p>Jangan balas email ini</p>
-              </div>
+            <div class="footer">
+              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Jangan balas email ini</p>
             </div>
           </div>
-        </body>
-        </html>
-      `,
-    };
-
-    const smtpUser = this.configService.get('SMTP_USER');
-    const isPlaceholder = !smtpUser || smtpUser === 'your-email@gmail.com';
-
-    if (isPlaceholder) {
-      console.log(`📧 OTP for ${userName}: ${otp} (SMTP not configured)`);
-      return false;
-    }
+        </div>
+      </body>
+      </html>
+    `;
 
     try {
-      await this.transporter.sendMail(mailOptions);
+      await this.sendEmail(actualRecipient, 'Kode OTP Login - SESAMA Platform', html);
       console.log(`✅ OTP email sent to ${actualRecipient}${to !== actualRecipient ? ` (routed from ${to})` : ''}`);
       return true;
     } catch (error) {
       console.error('❌ Failed to send OTP email:', error.message);
-      console.log(`📧 OTP for ${userName}: ${otp} (email failed, showing in response)`);
-      return false;
+      throw error;
     }
   }
 
@@ -171,58 +160,53 @@ export class EmailService {
       ? 'Selamat! Registrasi Anda sebagai pengusul telah disetujui. Anda sekarang dapat mengajukan program donasi.'
       : 'Mohon maaf, registrasi Anda sebagai pengusul belum dapat disetujui.';
 
-    const mailOptions = {
-      from: this.getFromAddress(),
-      to,
-      subject,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: ${statusColor}; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .status-box { background: white; border: 2px solid ${statusColor}; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0; }
-            .status { font-size: 24px; font-weight: bold; color: ${statusColor}; }
-            .notes { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }
-            .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>SESAMA Platform</h1>
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: ${statusColor}; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+          .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
+          .status-box { background: white; border: 2px solid ${statusColor}; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0; }
+          .status { font-size: 24px; font-weight: bold; color: ${statusColor}; }
+          .notes { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }
+          .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>SESAMA Platform</h1>
+          </div>
+          <div class="content">
+            <h2>Halo, ${userName}!</h2>
+
+            <div class="status-box">
+              <p class="status">${statusText}</p>
             </div>
-            <div class="content">
-              <h2>Halo, ${userName}!</h2>
 
-              <div class="status-box">
-                <p class="status">${statusText}</p>
-              </div>
+            <p>${message}</p>
 
-              <p>${message}</p>
+            ${notes ? `<div class="notes"><strong>Catatan dari Manager:</strong><br>${notes}</div>` : ''}
 
-              ${notes ? `<div class="notes"><strong>Catatan dari Manager:</strong><br>${notes}</div>` : ''}
+            ${isApproved ? '<p>Silakan login ke dashboard untuk mulai membuat program donasi.</p>' : '<p>Anda dapat melakukan registrasi ulang dengan melengkapi dokumen yang diperlukan.</p>'}
 
-              ${isApproved ? '<p>Silakan login ke dashboard untuk mulai membuat program donasi.</p>' : '<p>Anda dapat melakukan registrasi ulang dengan melengkapi dokumen yang diperlukan.</p>'}
-
-              <div class="footer">
-                <p>Email otomatis dari SESAMA Platform</p>
-                <p>Jangan balas email ini</p>
-              </div>
+            <div class="footer">
+              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Jangan balas email ini</p>
             </div>
           </div>
-        </body>
-        </html>
-      `,
-    };
+        </div>
+      </body>
+      </html>
+    `;
 
     try {
-      await this.transporter.sendMail(mailOptions);
+      await this.sendEmail(to, subject, html);
     } catch (error) {
-      console.error('Failed to send verification email:', error);
+      console.error('Failed to send verification email:', error.message);
     }
   }
 
@@ -253,111 +237,82 @@ export class EmailService {
       minute: '2-digit',
     });
 
-    const mailOptions = {
-      from: this.getFromAddress(),
-      to: data.donorEmail,
-      subject: `Bukti Donasi & Terima Kasih - ${data.programTitle}`,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #0284C7, #0369A1); color: white; padding: 30px; text-align: center; border-radius: 12px 12px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 12px 12px; }
-            .receipt-box { background: white; border: 2px solid #0284C7; border-radius: 12px; padding: 24px; margin: 20px 0; }
-            .receipt-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6; }
-            .receipt-row:last-child { border-bottom: none; }
-            .receipt-label { color: #6b7280; font-size: 14px; }
-            .receipt-value { font-weight: bold; color: #111827; font-size: 14px; }
-            .amount-highlight { font-size: 28px; font-weight: bold; color: #0284C7; text-align: center; margin: 16px 0; }
-            .doa-box { background: linear-gradient(135deg, #E0F2FE, #BAE6FD); border-radius: 12px; padding: 24px; margin: 20px 0; text-align: center; border: 1px solid #0284C7; }
-            .doa-text { font-size: 16px; color: #075985; font-style: italic; line-height: 1.8; }
-            .cta-button { display: inline-block; background: #0284C7; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 16px; }
-            .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
-            .checkmark { font-size: 48px; margin-bottom: 12px; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="checkmark">&#10003;</div>
-              <h1 style="margin:0; font-size:24px;">Donasi Berhasil!</h1>
-              <p style="margin:8px 0 0; opacity:0.9;">Jazakallahu Khairan, ${data.donorName}</p>
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: linear-gradient(135deg, #0284C7, #0369A1); color: white; padding: 30px; text-align: center; border-radius: 12px 12px 0 0; }
+          .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 12px 12px; }
+          .receipt-box { background: white; border: 2px solid #0284C7; border-radius: 12px; padding: 24px; margin: 20px 0; }
+          .amount-highlight { font-size: 28px; font-weight: bold; color: #0284C7; text-align: center; margin: 16px 0; }
+          .doa-box { background: linear-gradient(135deg, #E0F2FE, #BAE6FD); border-radius: 12px; padding: 24px; margin: 20px 0; text-align: center; border: 1px solid #0284C7; }
+          .doa-text { font-size: 16px; color: #075985; font-style: italic; line-height: 1.8; }
+          .cta-button { display: inline-block; background: #0284C7; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 16px; }
+          .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
+          .checkmark { font-size: 48px; margin-bottom: 12px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="checkmark">&#10003;</div>
+            <h1 style="margin:0; font-size:24px;">Donasi Berhasil!</h1>
+            <p style="margin:8px 0 0; opacity:0.9;">Jazakallahu Khairan, ${data.donorName}</p>
+          </div>
+          <div class="content">
+            <p>Assalamu'alaikum Wr. Wb.</p>
+            <p>Terima kasih atas kebaikan hati Anda. Donasi Anda telah kami terima dan akan segera disalurkan kepada penerima manfaat.</p>
+
+            <div class="receipt-box">
+              <h3 style="margin:0 0 16px; color:#0284C7; text-align:center;">BUKTI DONASI</h3>
+              <div class="amount-highlight">${formattedAmount}</div>
+              <table style="width:100%; border-collapse:collapse;">
+                <tr><td style="padding:8px 0; color:#6b7280; font-size:14px;">ID Transaksi</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px;">${data.orderId}</td></tr>
+                <tr style="border-top:1px solid #f3f4f6;"><td style="padding:8px 0; color:#6b7280; font-size:14px;">Program</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px;">${data.programTitle}</td></tr>
+                <tr style="border-top:1px solid #f3f4f6;"><td style="padding:8px 0; color:#6b7280; font-size:14px;">Nama Donatur</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px;">${data.donorName}</td></tr>
+                <tr style="border-top:1px solid #f3f4f6;"><td style="padding:8px 0; color:#6b7280; font-size:14px;">Tanggal</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px;">${formattedDate}</td></tr>
+                <tr style="border-top:1px solid #f3f4f6;"><td style="padding:8px 0; color:#6b7280; font-size:14px;">Status</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px; color:#16a34a;">BERHASIL</td></tr>
+              </table>
             </div>
-            <div class="content">
-              <p>Assalamu'alaikum Wr. Wb.</p>
-              <p>Terima kasih atas kebaikan hati Anda. Donasi Anda telah kami terima dan akan segera disalurkan kepada penerima manfaat.</p>
 
-              <div class="receipt-box">
-                <h3 style="margin:0 0 16px; color:#0284C7; text-align:center;">BUKTI DONASI</h3>
-                <div class="amount-highlight">${formattedAmount}</div>
-                <table style="width:100%; border-collapse:collapse;">
-                  <tr><td style="padding:8px 0; color:#6b7280; font-size:14px;">ID Transaksi</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px;">${data.orderId}</td></tr>
-                  <tr style="border-top:1px solid #f3f4f6;"><td style="padding:8px 0; color:#6b7280; font-size:14px;">Program</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px;">${data.programTitle}</td></tr>
-                  <tr style="border-top:1px solid #f3f4f6;"><td style="padding:8px 0; color:#6b7280; font-size:14px;">Nama Donatur</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px;">${data.donorName}</td></tr>
-                  <tr style="border-top:1px solid #f3f4f6;"><td style="padding:8px 0; color:#6b7280; font-size:14px;">Tanggal</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px;">${formattedDate}</td></tr>
-                  <tr style="border-top:1px solid #f3f4f6;"><td style="padding:8px 0; color:#6b7280; font-size:14px;">Status</td><td style="padding:8px 0; font-weight:bold; text-align:right; font-size:14px; color:#16a34a;">BERHASIL</td></tr>
-                </table>
-              </div>
+            <div class="doa-box">
+              <p style="margin:0 0 8px; font-weight:bold; color:#075985; font-size:18px;">Doa Untuk Anda</p>
+              <p class="doa-text">
+                "Barangsiapa yang meringankan beban seorang mukmin dari beban-beban dunia, niscaya Allah akan meringankan bebannya dari beban-beban di hari kiamat."
+              </p>
+              <p style="margin:12px 0 0; color:#075985; font-size:13px;">- HR. Muslim</p>
+              <br/>
+              <p class="doa-text">
+                Semoga Allah SWT membalas kebaikan Anda dengan berlipat ganda, memberikan keberkahan pada harta dan keluarga Anda, serta melapangkan rezeki Anda dari segala arah. Aamiin Ya Rabbal Alamin.
+              </p>
+            </div>
 
-              <div class="doa-box">
-                <p style="margin:0 0 8px; font-weight:bold; color:#075985; font-size:18px;">Doa Untuk Anda</p>
-                <p class="doa-text">
-                  "Barangsiapa yang meringankan beban seorang mukmin dari beban-beban dunia, niscaya Allah akan meringankan bebannya dari beban-beban di hari kiamat."
-                </p>
-                <p style="margin:12px 0 0; color:#075985; font-size:13px;">- HR. Muslim</p>
-                <br/>
-                <p class="doa-text">
-                  Semoga Allah SWT membalas kebaikan Anda dengan berlipat ganda, memberikan keberkahan pada harta dan keluarga Anda, serta melapangkan rezeki Anda dari segala arah. Aamiin Ya Rabbal Alamin.
-                </p>
-              </div>
+            <div style="text-align:center; margin-top:24px;">
+              <p style="color:#6b7280; font-size:14px;">Lihat perkembangan program yang Anda dukung:</p>
+              <a href="${frontendUrl}/programs/${data.programSlug}" class="cta-button">
+                Lihat Program
+              </a>
+            </div>
 
-              <div style="text-align:center; margin-top:24px;">
-                <p style="color:#6b7280; font-size:14px;">Lihat perkembangan program yang Anda dukung:</p>
-                <a href="${frontendUrl}/programs/${data.programSlug}" class="cta-button">
-                  Lihat Program
-                </a>
-              </div>
-
-              <div class="footer">
-                <p style="margin-top:24px;">Simpan email ini sebagai bukti donasi Anda.</p>
-                <p>Email otomatis dari SESAMA Platform</p>
-                <p>Jangan balas email ini</p>
-              </div>
+            <div class="footer">
+              <p style="margin-top:24px;">Simpan email ini sebagai bukti donasi Anda.</p>
+              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Jangan balas email ini</p>
             </div>
           </div>
-        </body>
-        </html>
-      `,
-    };
-
-    const isDevelopment = this.configService.get('NODE_ENV') === 'development';
-    const smtpUser = this.configService.get('SMTP_USER');
-    const isPlaceholder = smtpUser === 'your-email@gmail.com' || !smtpUser;
-
-    if (isDevelopment && isPlaceholder) {
-      console.log('\n=============================================');
-      console.log('📧 DONATION RECEIPT EMAIL (Development Mode)');
-      console.log('=============================================');
-      console.log(`To: ${data.donorEmail}`);
-      console.log(`Donor: ${data.donorName}`);
-      console.log(`Amount: ${formattedAmount}`);
-      console.log(`Program: ${data.programTitle}`);
-      console.log(`Order: ${data.orderId}`);
-      console.log('=============================================\n');
-      return;
-    }
+        </div>
+      </body>
+      </html>
+    `;
 
     try {
-      await this.transporter.sendMail(mailOptions);
+      await this.sendEmail(data.donorEmail, `Bukti Donasi & Terima Kasih - ${data.programTitle}`, html);
       console.log(`✅ Donation receipt email sent to ${data.donorEmail}`);
     } catch (error) {
       console.error('❌ Failed to send donation receipt email:', error.message);
-      if (isDevelopment) {
-        console.log(`\n⚠️  Email failed. Receipt for ${data.donorName}: ${formattedAmount} to ${data.programTitle}\n`);
-      }
     }
   }
 
@@ -375,92 +330,71 @@ export class EmailService {
   }): Promise<void> {
     const frontendUrl = this.configService.get('FRONTEND_URL') || 'http://localhost:3000';
 
-    const mailOptions = {
-      from: this.getFromAddress(),
-      to: data.donorEmail,
-      subject: `Laporan Penyaluran Dana - ${data.programTitle}`,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #0284C7, #0369A1); color: white; padding: 30px; text-align: center; border-radius: 12px 12px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 12px 12px; }
-            .report-box { background: white; border: 2px solid #0284C7; border-radius: 12px; padding: 24px; margin: 20px 0; }
-            .cta-button { display: inline-block; background: #0284C7; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 8px; }
-            .cta-button-outline { display: inline-block; background: white; color: #0284C7; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 8px; border: 2px solid #0284C7; }
-            .doa-box { background: linear-gradient(135deg, #E0F2FE, #BAE6FD); border-radius: 12px; padding: 24px; margin: 20px 0; text-align: center; border: 1px solid #0284C7; }
-            .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div style="font-size:48px; margin-bottom:12px;">&#128230;</div>
-              <h1 style="margin:0; font-size:24px;">Laporan Penyaluran Dana</h1>
-              <p style="margin:8px 0 0; opacity:0.9;">${data.programTitle}</p>
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: linear-gradient(135deg, #0284C7, #0369A1); color: white; padding: 30px; text-align: center; border-radius: 12px 12px 0 0; }
+          .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 12px 12px; }
+          .report-box { background: white; border: 2px solid #0284C7; border-radius: 12px; padding: 24px; margin: 20px 0; }
+          .cta-button { display: inline-block; background: #0284C7; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 8px; }
+          .cta-button-outline { display: inline-block; background: white; color: #0284C7; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 8px; border: 2px solid #0284C7; }
+          .doa-box { background: linear-gradient(135deg, #E0F2FE, #BAE6FD); border-radius: 12px; padding: 24px; margin: 20px 0; text-align: center; border: 1px solid #0284C7; }
+          .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div style="font-size:48px; margin-bottom:12px;">&#128230;</div>
+            <h1 style="margin:0; font-size:24px;">Laporan Penyaluran Dana</h1>
+            <p style="margin:8px 0 0; opacity:0.9;">${data.programTitle}</p>
+          </div>
+          <div class="content">
+            <p>Assalamu'alaikum Wr. Wb.</p>
+            <p>Halo <strong>${data.donorName}</strong>,</p>
+            <p>Kami ingin menyampaikan kabar baik! Program <strong>"${data.programTitle}"</strong> yang Anda dukung telah mempublikasikan laporan penyaluran dana.</p>
+
+            <div class="report-box">
+              <h3 style="margin:0 0 12px; color:#0284C7;">&#128196; ${data.pelaporanTitle}</h3>
+              ${data.pelaporanExcerpt ? `<p style="color:#6b7280; font-size:14px; margin:0 0 16px;">${data.pelaporanExcerpt}</p>` : ''}
+              <p style="font-size:14px; color:#374151;">Donasi Anda telah disalurkan dan digunakan sesuai dengan tujuan program. Silakan baca laporan lengkapnya untuk mengetahui detail penyaluran.</p>
             </div>
-            <div class="content">
-              <p>Assalamu'alaikum Wr. Wb.</p>
-              <p>Halo <strong>${data.donorName}</strong>,</p>
-              <p>Kami ingin menyampaikan kabar baik! Program <strong>"${data.programTitle}"</strong> yang Anda dukung telah mempublikasikan laporan penyaluran dana.</p>
 
-              <div class="report-box">
-                <h3 style="margin:0 0 12px; color:#0284C7;">&#128196; ${data.pelaporanTitle}</h3>
-                ${data.pelaporanExcerpt ? `<p style="color:#6b7280; font-size:14px; margin:0 0 16px;">${data.pelaporanExcerpt}</p>` : ''}
-                <p style="font-size:14px; color:#374151;">Donasi Anda telah disalurkan dan digunakan sesuai dengan tujuan program. Silakan baca laporan lengkapnya untuk mengetahui detail penyaluran.</p>
-              </div>
+            <div style="text-align:center; margin:24px 0;">
+              <a href="${frontendUrl}/pelaporan/${data.pelaporanSlug}" class="cta-button">
+                Baca Laporan Lengkap
+              </a>
+              <br/>
+              <a href="${frontendUrl}/programs/${data.programSlug}" class="cta-button-outline">
+                Lihat Program
+              </a>
+            </div>
 
-              <div style="text-align:center; margin:24px 0;">
-                <a href="${frontendUrl}/pelaporan/${data.pelaporanSlug}" class="cta-button">
-                  Baca Laporan Lengkap
-                </a>
-                <br/>
-                <a href="${frontendUrl}/programs/${data.programSlug}" class="cta-button-outline">
-                  Lihat Program
-                </a>
-              </div>
+            <div class="doa-box">
+              <p style="margin:0; font-weight:bold; color:#075985; font-size:16px;">Terima Kasih Atas Kebaikan Anda</p>
+              <p style="margin:8px 0 0; color:#075985; font-style:italic;">
+                "Sedekah tidak akan mengurangi harta. Tidak ada orang yang memberi maaf kepada orang lain, melainkan Allah akan menambah kemuliaannya."
+              </p>
+              <p style="margin:8px 0 0; color:#075985; font-size:13px;">- HR. Muslim</p>
+            </div>
 
-              <div class="doa-box">
-                <p style="margin:0; font-weight:bold; color:#075985; font-size:16px;">Terima Kasih Atas Kebaikan Anda</p>
-                <p style="margin:8px 0 0; color:#075985; font-style:italic;">
-                  "Sedekah tidak akan mengurangi harta. Tidak ada orang yang memberi maaf kepada orang lain, melainkan Allah akan menambah kemuliaannya."
-                </p>
-                <p style="margin:8px 0 0; color:#075985; font-size:13px;">- HR. Muslim</p>
-              </div>
-
-              <div class="footer">
-                <p>Anda menerima email ini karena Anda pernah berdonasi di program ini.</p>
-                <p>Email otomatis dari SESAMA Platform</p>
-                <p>Jangan balas email ini</p>
-              </div>
+            <div class="footer">
+              <p>Anda menerima email ini karena Anda pernah berdonasi di program ini.</p>
+              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Jangan balas email ini</p>
             </div>
           </div>
-        </body>
-        </html>
-      `,
-    };
-
-    const isDevelopment = this.configService.get('NODE_ENV') === 'development';
-    const smtpUser = this.configService.get('SMTP_USER');
-    const isPlaceholder = smtpUser === 'your-email@gmail.com' || !smtpUser;
-
-    if (isDevelopment && isPlaceholder) {
-      console.log('\n=============================================');
-      console.log('📧 PELAPORAN NOTIFICATION EMAIL (Dev Mode)');
-      console.log('=============================================');
-      console.log(`To: ${data.donorEmail}`);
-      console.log(`Donor: ${data.donorName}`);
-      console.log(`Program: ${data.programTitle}`);
-      console.log(`Pelaporan: ${data.pelaporanTitle}`);
-      console.log('=============================================\n');
-      return;
-    }
+        </div>
+      </body>
+      </html>
+    `;
 
     try {
-      await this.transporter.sendMail(mailOptions);
+      await this.sendEmail(data.donorEmail, `Laporan Penyaluran Dana - ${data.programTitle}`, html);
       console.log(`✅ Pelaporan notification sent to ${data.donorEmail}`);
     } catch (error) {
       console.error(`❌ Failed to send pelaporan notification to ${data.donorEmail}:`, error.message);
@@ -484,58 +418,53 @@ export class EmailService {
     const statusColor = isApproved ? '#16a34a' : '#dc2626';
     const statusText = isApproved ? 'DISETUJUI' : 'DITOLAK';
 
-    const mailOptions = {
-      from: this.getFromAddress(),
-      to,
-      subject,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: ${statusColor}; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .status-box { background: white; border: 2px solid ${statusColor}; border-radius: 8px; padding: 20px; margin: 20px 0; }
-            .status { font-size: 24px; font-weight: bold; color: ${statusColor}; }
-            .program-title { font-size: 18px; color: #333; margin: 10px 0; }
-            .notes { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }
-            .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>SESAMA Platform</h1>
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: ${statusColor}; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+          .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
+          .status-box { background: white; border: 2px solid ${statusColor}; border-radius: 8px; padding: 20px; margin: 20px 0; }
+          .status { font-size: 24px; font-weight: bold; color: ${statusColor}; }
+          .program-title { font-size: 18px; color: #333; margin: 10px 0; }
+          .notes { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }
+          .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>SESAMA Platform</h1>
+          </div>
+          <div class="content">
+            <h2>Halo, ${userName}!</h2>
+
+            <div class="status-box">
+              <p class="status">${statusText}</p>
+              <p class="program-title">"${programTitle}"</p>
             </div>
-            <div class="content">
-              <h2>Halo, ${userName}!</h2>
 
-              <div class="status-box">
-                <p class="status">${statusText}</p>
-                <p class="program-title">"${programTitle}"</p>
-              </div>
+            ${notes ? `<div class="notes"><strong>Catatan dari Manager:</strong><br>${notes}</div>` : ''}
 
-              ${notes ? `<div class="notes"><strong>Catatan dari Manager:</strong><br>${notes}</div>` : ''}
+            ${isApproved ? '<p>Program Anda sudah aktif dan dapat menerima donasi.</p>' : '<p>Silakan periksa kembali dan lengkapi informasi yang diperlukan.</p>'}
 
-              ${isApproved ? '<p>Program Anda sudah aktif dan dapat menerima donasi.</p>' : '<p>Silakan periksa kembali dan lengkapi informasi yang diperlukan.</p>'}
-
-              <div class="footer">
-                <p>Email otomatis dari SESAMA Platform</p>
-                <p>Jangan balas email ini</p>
-              </div>
+            <div class="footer">
+              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Jangan balas email ini</p>
             </div>
           </div>
-        </body>
-        </html>
-      `,
-    };
+        </div>
+      </body>
+      </html>
+    `;
 
     try {
-      await this.transporter.sendMail(mailOptions);
+      await this.sendEmail(to, subject, html);
     } catch (error) {
-      console.error('Failed to send program approval email:', error);
+      console.error('Failed to send program approval email:', error.message);
     }
   }
 }

@@ -82,9 +82,7 @@ export class AuthService {
     ipAddress?: string,
     userAgent?: string,
   ) {
-    console.log('[LOGIN] Attempt:', { email, portal, hasPassword: !!password });
     const user = await this.prisma.user.findUnique({ where: { email } });
-    console.log('[LOGIN] User found:', user ? { id: user.id, role: user.role, isActive: user.isActive } : 'NOT FOUND');
 
     if (!user || !user.passwordHash) {
       throw new UnauthorizedException('Email atau password salah');
@@ -95,7 +93,6 @@ export class AuthService {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
-    console.log('[LOGIN] Password valid:', isPasswordValid);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Email atau password salah');
@@ -125,7 +122,7 @@ export class AuthService {
     // Check if admin role (requires OTP)
     if (this.adminRoles.includes(user.role as any)) {
       // Generate and send OTP
-      const { otp, emailSent } = await this.generateAndSendOTP(user.id, user.email, user.name);
+      await this.generateAndSendOTP(user.id, user.email, user.name);
 
       await this.auditLogService.log({
         userId: user.id,
@@ -135,20 +132,11 @@ export class AuthService {
         userAgent,
       });
 
-      const response: any = {
+      return {
         requiresOTP: true,
         userId: user.id,
-        message: emailSent
-          ? 'OTP has been sent to your email'
-          : 'Email delivery failed - OTP shown directly',
+        message: 'OTP has been sent to your email',
       };
-
-      // If email failed, include OTP in response so frontend can display it
-      if (!emailSent) {
-        response.otp = otp;
-      }
-
-      return response;
     }
 
     // For USER/PENGUSUL: direct login
@@ -266,7 +254,7 @@ export class AuthService {
     userId: string,
     email: string,
     name: string,
-  ): Promise<{ otp: string; emailSent: boolean }> {
+  ): Promise<void> {
     // Generate OTP secret
     const secret = authenticator.generateSecret();
     const otp = authenticator.generate(secret);
@@ -280,10 +268,8 @@ export class AuthService {
       },
     });
 
-    // Send OTP via email
-    const emailSent = await this.emailService.sendOTP(email, otp, name);
-
-    return { otp, emailSent };
+    // Send OTP via email (throws if email delivery fails)
+    await this.emailService.sendOTP(email, otp, name);
   }
 
   /**
@@ -302,7 +288,7 @@ export class AuthService {
       throw new BadRequestException('OTP is only for admin users');
     }
 
-    const { otp, emailSent } = await this.generateAndSendOTP(user.id, user.email, user.name);
+    await this.generateAndSendOTP(user.id, user.email, user.name);
 
     await this.auditLogService.log({
       userId: user.id,
@@ -311,17 +297,9 @@ export class AuthService {
       metadata: { reason: 'resend' },
     });
 
-    const response: any = {
-      message: emailSent
-        ? 'New OTP has been sent to your email'
-        : 'Email delivery failed - OTP shown directly',
+    return {
+      message: 'New OTP has been sent to your email',
     };
-
-    if (!emailSent) {
-      response.otp = otp;
-    }
-
-    return response;
   }
 
   /**

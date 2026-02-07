@@ -52,18 +52,12 @@ export const useAuthStore = create<AuthState>()(
           const data = response.data;
 
           if (data.requiresOTP) {
-            // Admin user - OTP required
+            // Admin user - OTP required, check email
             set({
               pendingOTP: true,
               otpUserId: data.userId,
               isLoading: false,
             });
-
-            // In development, log OTP to console if included in response
-            if (data.otp) {
-              console.log('\n🔑 Development Mode - OTP Code:', data.otp, '\n');
-              alert(`🔑 Development Mode\n\nYour OTP Code: ${data.otp}\n\nCheck browser console for details.`);
-            }
           } else {
             // Regular user - direct login
             set({
@@ -137,14 +131,8 @@ export const useAuthStore = create<AuthState>()(
 
         set({ isLoading: true, error: null });
         try {
-          const response = await authApi.resendOTP(otpUserId);
+          await authApi.resendOTP(otpUserId);
           set({ isLoading: false });
-
-          // In development, log OTP to console if included in response
-          if (response.data?.otp) {
-            console.log('\n🔑 Development Mode - New OTP Code:', response.data.otp, '\n');
-            alert(`🔑 Development Mode\n\nYour New OTP Code: ${response.data.otp}\n\nCheck browser console for details.`);
-          }
         } catch (error: any) {
           set({
             error: error.response?.data?.message || 'Failed to resend OTP',

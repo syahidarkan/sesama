@@ -8,24 +8,39 @@ export class EmailService {
   private transporter: Transporter;
 
   constructor(private readonly configService: ConfigService) {
-    const smtpPort = Number(this.configService.get('SMTP_PORT', 465));
-    // Use secure (TLS) for port 465, STARTTLS for 587
-    const isSecure = smtpPort === 465 || this.configService.get('SMTP_SECURE') === 'true';
+    // Use nodemailer's built-in Gmail service config (handles ports/TLS automatically)
+    const smtpHost = this.configService.get('SMTP_HOST', 'smtp.gmail.com');
+    const isGmail = smtpHost.includes('gmail');
 
-    this.transporter = nodemailer.createTransport({
-      host: this.configService.get('SMTP_HOST'),
-      port: smtpPort,
-      secure: isSecure,
-      auth: {
-        user: this.configService.get('SMTP_USER'),
-        pass: this.configService.get('SMTP_PASSWORD'),
-      },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 15000,
-    });
+    if (isGmail) {
+      this.transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: this.configService.get('SMTP_USER'),
+          pass: this.configService.get('SMTP_PASSWORD'),
+        },
+        connectionTimeout: 15000,
+        greetingTimeout: 15000,
+        socketTimeout: 20000,
+      });
+    } else {
+      const smtpPort = Number(this.configService.get('SMTP_PORT', 465));
+      const isSecure = smtpPort === 465 || this.configService.get('SMTP_SECURE') === 'true';
+      this.transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: smtpPort,
+        secure: isSecure,
+        auth: {
+          user: this.configService.get('SMTP_USER'),
+          pass: this.configService.get('SMTP_PASSWORD'),
+        },
+        connectionTimeout: 15000,
+        greetingTimeout: 15000,
+        socketTimeout: 20000,
+      });
+    }
 
-    console.log(`📧 SMTP configured: ${this.configService.get('SMTP_HOST')}:${smtpPort} (secure: ${isSecure})`);
+    console.log(`📧 SMTP configured: ${isGmail ? 'Gmail service' : smtpHost} (user: ${this.configService.get('SMTP_USER')})`);
   }
 
   /**
@@ -57,7 +72,7 @@ export class EmailService {
   /**
    * Send OTP email
    */
-  async sendOTP(to: string, otp: string, userName: string): Promise<void> {
+  async sendOTP(to: string, otp: string, userName: string): Promise<boolean> {
     const expiresIn = this.configService.get('OTP_EXPIRES_IN');
     const expiresInMinutes = Math.floor(Number(expiresIn) / 60000);
 
@@ -122,22 +137,18 @@ export class EmailService {
     const isPlaceholder = !smtpUser || smtpUser === 'your-email@gmail.com';
 
     if (isPlaceholder) {
-      console.log('\n=============================================');
-      console.log('📧 OTP EMAIL (SMTP not configured)');
-      console.log('=============================================');
-      console.log(`To: ${actualRecipient}`);
-      console.log(`OTP: ${otp}`);
-      console.log(`User: ${userName}`);
-      console.log('=============================================\n');
-      return;
+      console.log(`📧 OTP for ${userName}: ${otp} (SMTP not configured)`);
+      return false;
     }
 
     try {
       await this.transporter.sendMail(mailOptions);
       console.log(`✅ OTP email sent to ${actualRecipient}${to !== actualRecipient ? ` (routed from ${to})` : ''}`);
+      return true;
     } catch (error) {
       console.error('❌ Failed to send OTP email:', error.message);
-      console.log(`📧 OTP for ${userName}: ${otp}`);
+      console.log(`📧 OTP for ${userName}: ${otp} (email failed, showing in response)`);
+      return false;
     }
   }
 

@@ -125,7 +125,7 @@ export class AuthService {
     // Check if admin role (requires OTP)
     if (this.adminRoles.includes(user.role as any)) {
       // Generate and send OTP
-      const otp = await this.generateAndSendOTP(user.id, user.email, user.name);
+      const { otp, emailSent } = await this.generateAndSendOTP(user.id, user.email, user.name);
 
       await this.auditLogService.log({
         userId: user.id,
@@ -135,11 +135,20 @@ export class AuthService {
         userAgent,
       });
 
-      return {
+      const response: any = {
         requiresOTP: true,
         userId: user.id,
-        message: 'OTP has been sent to your email',
+        message: emailSent
+          ? 'OTP has been sent to your email'
+          : 'Email delivery failed - OTP shown directly',
       };
+
+      // If email failed, include OTP in response so frontend can display it
+      if (!emailSent) {
+        response.otp = otp;
+      }
+
+      return response;
     }
 
     // For USER/PENGUSUL: direct login
@@ -257,7 +266,7 @@ export class AuthService {
     userId: string,
     email: string,
     name: string,
-  ): Promise<string> {
+  ): Promise<{ otp: string; emailSent: boolean }> {
     // Generate OTP secret
     const secret = authenticator.generateSecret();
     const otp = authenticator.generate(secret);
@@ -272,9 +281,9 @@ export class AuthService {
     });
 
     // Send OTP via email
-    await this.emailService.sendOTP(email, otp, name);
+    const emailSent = await this.emailService.sendOTP(email, otp, name);
 
-    return otp;
+    return { otp, emailSent };
   }
 
   /**
@@ -293,7 +302,7 @@ export class AuthService {
       throw new BadRequestException('OTP is only for admin users');
     }
 
-    const otp = await this.generateAndSendOTP(user.id, user.email, user.name);
+    const { otp, emailSent } = await this.generateAndSendOTP(user.id, user.email, user.name);
 
     await this.auditLogService.log({
       userId: user.id,
@@ -302,9 +311,17 @@ export class AuthService {
       metadata: { reason: 'resend' },
     });
 
-    return {
-      message: 'New OTP has been sent to your email',
+    const response: any = {
+      message: emailSent
+        ? 'New OTP has been sent to your email'
+        : 'Email delivery failed - OTP shown directly',
     };
+
+    if (!emailSent) {
+      response.otp = otp;
+    }
+
+    return response;
   }
 
   /**

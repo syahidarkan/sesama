@@ -17,6 +17,7 @@ interface AuthState {
 
   // Actions
   login: (email: string, password: string, portal?: string) => Promise<void>;
+  googleLogin: (idToken: string, portal?: string) => Promise<void>;
   verifyOTP: (otp: string) => Promise<void>;
   resendOTP: () => Promise<void>;
   register: (email: string, password: string, name: string, phone?: string) => Promise<void>;
@@ -80,6 +81,37 @@ export const useAuthStore = create<AuthState>()(
         } catch (error: any) {
           set({
             error: error.response?.data?.message || 'Login failed',
+            isLoading: false,
+          });
+          throw error;
+        }
+      },
+
+      // Google Login
+      googleLogin: async (idToken: string, portal: string = 'public') => {
+        set({ isLoading: true, error: null });
+        try {
+          const response = await authApi.googleLogin(idToken, portal);
+          const data = response.data;
+
+          set({
+            user: data.user,
+            accessToken: data.access_token,
+            sessionToken: data.session_token,
+            pendingOTP: false,
+            otpUserId: null,
+            isLoading: false,
+          });
+
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('access_token', data.access_token);
+            if (data.session_token) {
+              localStorage.setItem('session_token', data.session_token);
+            }
+          }
+        } catch (error: any) {
+          set({
+            error: error.response?.data?.message || 'Google login failed',
             isLoading: false,
           });
           throw error;

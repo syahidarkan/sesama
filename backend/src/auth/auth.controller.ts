@@ -37,6 +37,20 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Post('google')
+  async googleLogin(@Body() body: { idToken: string; portal?: string }, @Req() req) {
+    const ipAddress = req.ip;
+    const userAgent = req.headers['user-agent'];
+
+    return this.authService.googleLogin(
+      body.idToken,
+      body.portal || 'public',
+      ipAddress,
+      userAgent,
+    );
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Post('verify-otp')
   async verifyOTP(
     @Body() body: { userId: string; otp: string },

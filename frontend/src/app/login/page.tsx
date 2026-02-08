@@ -1,19 +1,74 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 import Link from 'next/link';
 
+declare global {
+  interface Window {
+    google?: any;
+  }
+}
+
+const GOOGLE_CLIENT_ID = '818814114213-6lj9i5uoqnpjf2ri3l0k8m3e7s9v5qch.apps.googleusercontent.com';
+
 export default function LoginPage() {
   const router = useRouter();
-  const { login, verifyOTP, resendOTP, pendingOTP, otpUserId, isLoading, error: authError } = useAuthStore();
+  const { login, googleLogin, verifyOTP, resendOTP, pendingOTP, otpUserId, isLoading, error: authError } = useAuthStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+
+  const handleGoogleCallback = useCallback(async (response: any) => {
+    setError('');
+    setGoogleLoading(true);
+    try {
+      await googleLogin(response.credential, 'public');
+      const state = useAuthStore.getState();
+      if (state.user) {
+        router.push('/dashboard');
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Login dengan Google gagal');
+    } finally {
+      setGoogleLoading(false);
+    }
+  }, [googleLogin, router]);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleGoogleCallback,
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById('google-signin-btn'),
+          {
+            theme: 'outline',
+            size: 'large',
+            width: '100%',
+            text: 'signin_with',
+            shape: 'rectangular',
+            logo_alignment: 'left',
+          }
+        );
+      }
+    };
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [handleGoogleCallback]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -257,12 +312,28 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || googleLoading}
               className="w-full py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium text-sm rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Memproses...' : 'Masuk'}
             </button>
           </form>
+
+          {/* Divider */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200"></div>
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="px-3 bg-white text-gray-500">atau</span>
+            </div>
+          </div>
+
+          {/* Google Sign-In Button */}
+          <div id="google-signin-btn" className="flex justify-center"></div>
+          {googleLoading && (
+            <p className="text-center text-sm text-gray-500 mt-2">Memproses login Google...</p>
+          )}
 
           <div className="mt-6 text-center text-sm">
             <p className="text-gray-600">

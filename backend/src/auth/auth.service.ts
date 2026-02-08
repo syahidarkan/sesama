@@ -7,6 +7,7 @@ import { AuditLogService } from '../audit-log/audit-log.service';
 import { ConfigService } from '@nestjs/config';
 import { UserRole, AuditAction } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,8 @@ export class AuthService {
     UserRole.SUPER_ADMIN,
   ];
 
+  private readonly googleClient: OAuth2Client;
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
@@ -25,7 +28,11 @@ export class AuthService {
     private readonly emailService: EmailService,
     private readonly sessionService: SessionService,
     private readonly auditLogService: AuditLogService,
-  ) {}
+  ) {
+    this.googleClient = new OAuth2Client(
+      this.configService.get('GOOGLE_CLIENT_ID'),
+    );
+  }
 
   /**
    * Register new user (default role: USER)
@@ -227,6 +234,121 @@ export class AuthService {
     });
 
     return {
+      access_token: accessToken,
+      session_token: sessionToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+    };
+  }
+
+  /**
+   * Google OAuth Login
+   * Verifies Google ID token, finds or creates user, returns JWT
+   */
+  async googleLogin(
+    idToken: string,
+    portal: string = 'public',
+    ipAddress?: string,
+    userAgent?: string,
+  ) {
+    // Verify the Google ID token
+    let payload;
+    try {
+      const ticket = await this.googleClient.verifyIdToken({
+        idToken,
+        audience: this.configService.get('GOOGLE_CLIENT_ID'),
+      });
+      payload = ticket.getPayload();
+    } catch (error) {
+      throw new UnauthorizedException('Invalid Google token');
+    }
+
+    if (!payload || !payload.email) {
+      throw new UnauthorizedException('Invalid Google token payload');
+    }
+
+    const { email, name, sub: googleId } = payload;
+
+    // Find existing user by email
+    let user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (user) {
+      // Existing user - check if active
+      if (!user.isActive) {
+        throw new UnauthorizedException('Akun tidak aktif');
+      }
+
+      // Portal-based access control
+      const publicRoles = ['USER', 'PENGUSUL'];
+      const adminRoles = ['MANAGER', 'CONTENT_MANAGER', 'SUPERVISOR', 'FINANCE'];
+      const superAdminRoles = ['SUPER_ADMIN'];
+
+      if (portal === 'public' && !publicRoles.includes(user.role)) {
+        throw new UnauthorizedException('Akun ini tidak memiliki akses ke portal ini');
+      }
+      if (portal === 'admin' && !adminRoles.includes(user.role)) {
+        throw new UnauthorizedException('Akun ini tidak memiliki akses ke portal admin');
+      }
+      if (portal === 'superadmin' && !superAdminRoles.includes(user.role)) {
+        throw new UnauthorizedException('Akun ini tidak memiliki akses ke portal super admin');
+      }
+
+      // Update last login
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { lastLoginAt: new Date() },
+      });
+    } else {
+      // New user - create account (only for public portal)
+      if (portal !== 'public') {
+        throw new UnauthorizedException('Akun belum terdaftar sebagai admin');
+      }
+
+      user = await this.prisma.user.create({
+        data: {
+          email,
+          name: name || email.split('@')[0],
+          role: UserRole.USER,
+          passwordHash: null,
+        },
+      });
+
+      await this.auditLogService.log({
+        userId: user.id,
+        userRole: user.role,
+        action: AuditAction.CREATE,
+        entityType: 'user',
+        entityId: user.id,
+        metadata: { email, method: 'google' },
+      });
+    }
+
+    // Create session and generate token (no OTP needed for Google login)
+    const sessionToken = await this.sessionService.createSession(
+      user.id,
+      ipAddress,
+      userAgent,
+    );
+
+    const accessToken = this.generateAccessToken(user);
+
+    await this.auditLogService.log({
+      userId: user.id,
+      userRole: user.role,
+      action: AuditAction.LOGIN,
+      metadata: { method: 'google' },
+      ipAddress,
+      userAgent,
+    });
+
+    return {
+      requiresOTP: false,
       access_token: accessToken,
       session_token: sessionToken,
       user: {

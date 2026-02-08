@@ -57,6 +57,9 @@ export const authApi = {
   login: (email: string, password: string, portal: string = 'public') =>
     api.post('/auth/login', { email, password, portal }),
 
+  googleLogin: (idToken: string, portal: string = 'public') =>
+    api.post('/auth/google', { idToken, portal }),
+
   verifyOTP: (userId: string, otp: string) =>
     api.post('/auth/verify-otp', { userId, otp }),
 

@@ -74,6 +74,23 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Post('verify-totp')
+  async verifyTOTP(
+    @Body() body: { userId: string; token: string },
+    @Req() req,
+  ) {
+    const ipAddress = req.ip;
+    const userAgent = req.headers['user-agent'];
+
+    return this.authService.verifyTOTP(
+      body.userId,
+      body.token,
+      ipAddress,
+      userAgent,
+    );
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   async logout(@Req() req, @Body() body?: { sessionToken?: string }) {

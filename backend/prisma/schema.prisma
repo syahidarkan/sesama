@@ -69,9 +69,10 @@ model User {
   verifiedBy        String?         @map("verified_by")
 
   // 2FA / OTP fields
-  otpSecret         String?         @map("otp_secret")
+  otpSecret         String?         @map("otp_secret")    // Email OTP (6-digit random)
   otpEnabled        Boolean         @default(false) @map("otp_enabled")
   lastOtpAt         DateTime?       @map("last_otp_at")
+  totpSecret        String?         @map("totp_secret")   // TOTP secret for Google Authenticator
 
   // Session security
   lastLoginAt       DateTime?       @map("last_login_at")

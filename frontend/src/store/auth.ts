@@ -15,17 +15,26 @@ interface AuthState {
   pendingOTP: boolean;
   otpUserId: string | null;
 
+  // TOTP State
+  pendingTOTP: boolean;
+  pendingTOTPSetup: boolean;
+  totpUserId: string | null;
+  totpQRCode: string | null;
+  totpSecret: string | null;
+
   // Actions
   login: (email: string, password: string, portal?: string) => Promise<void>;
   googleLogin: (idToken: string, portal?: string) => Promise<void>;
   verifyOTP: (otp: string) => Promise<void>;
   resendOTP: () => Promise<void>;
+  verifyTOTP: (token: string) => Promise<void>;
   register: (email: string, password: string, name: string, phone?: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
   setAuth: (user: User, accessToken: string, sessionToken?: string) => void;
   clearError: () => void;
   clearOTP: () => void;
+  clearTOTP: () => void;
 
   // Helpers
   isAuthenticated: () => boolean;
@@ -44,6 +53,11 @@ export const useAuthStore = create<AuthState>()(
       error: null,
       pendingOTP: false,
       otpUserId: null,
+      pendingTOTP: false,
+      pendingTOTPSetup: false,
+      totpUserId: null,
+      totpQRCode: null,
+      totpSecret: null,
 
       // Login
       login: async (email: string, password: string, portal: string = 'public') => {
@@ -94,19 +108,47 @@ export const useAuthStore = create<AuthState>()(
           const response = await authApi.googleLogin(idToken, portal);
           const data = response.data;
 
-          set({
-            user: data.user,
-            accessToken: data.access_token,
-            sessionToken: data.session_token,
-            pendingOTP: false,
-            otpUserId: null,
-            isLoading: false,
-          });
+          if (data.requiresTOTPSetup) {
+            // Admin user - first time, need TOTP setup
+            set({
+              pendingTOTPSetup: true,
+              totpUserId: data.userId,
+              totpQRCode: data.qrCode,
+              totpSecret: data.secret,
+              isLoading: false,
+            });
+          } else if (data.requiresTOTP) {
+            // Admin user - TOTP verification required
+            set({
+              pendingTOTP: true,
+              totpUserId: data.userId,
+              isLoading: false,
+            });
+          } else if (data.requiresOTP) {
+            // Admin user - email OTP required (legacy)
+            set({
+              pendingOTP: true,
+              otpUserId: data.userId,
+              isLoading: false,
+            });
+          } else {
+            // Regular user - direct login
+            set({
+              user: data.user,
+              accessToken: data.access_token,
+              sessionToken: data.session_token,
+              pendingOTP: false,
+              otpUserId: null,
+              pendingTOTP: false,
+              totpUserId: null,
+              isLoading: false,
+            });
 
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('access_token', data.access_token);
-            if (data.session_token) {
-              localStorage.setItem('session_token', data.session_token);
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('access_token', data.access_token);
+              if (data.session_token) {
+                localStorage.setItem('session_token', data.session_token);
+              }
             }
           }
         } catch (error: any) {
@@ -174,6 +216,47 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
+      // Verify TOTP
+      verifyTOTP: async (token: string) => {
+        const { totpUserId } = get();
+        if (!totpUserId) {
+          set({ error: 'No pending TOTP verification' });
+          return;
+        }
+
+        set({ isLoading: true, error: null });
+        try {
+          const response = await authApi.verifyTOTP(totpUserId, token);
+          const data = response.data;
+
+          set({
+            user: data.user,
+            accessToken: data.access_token,
+            sessionToken: data.session_token,
+            pendingTOTP: false,
+            pendingTOTPSetup: false,
+            totpUserId: null,
+            totpQRCode: null,
+            totpSecret: null,
+            isLoading: false,
+          });
+
+          // Save to localStorage
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('access_token', data.access_token);
+            if (data.session_token) {
+              localStorage.setItem('session_token', data.session_token);
+            }
+          }
+        } catch (error: any) {
+          set({
+            error: error.response?.data?.message || 'TOTP verification failed',
+            isLoading: false,
+          });
+          throw error;
+        }
+      },
+
       // Register
       register: async (email: string, password: string, name: string, phone?: string) => {
         set({ isLoading: true, error: null });
@@ -203,6 +286,11 @@ export const useAuthStore = create<AuthState>()(
             sessionToken: null,
             pendingOTP: false,
             otpUserId: null,
+            pendingTOTP: false,
+            pendingTOTPSetup: false,
+            totpUserId: null,
+            totpQRCode: null,
+            totpSecret: null,
           });
 
           // Clear localStorage
@@ -247,6 +335,16 @@ export const useAuthStore = create<AuthState>()(
 
       // Clear OTP state (back to login)
       clearOTP: () => set({ pendingOTP: false, otpUserId: null, error: null }),
+
+      // Clear TOTP state (back to login)
+      clearTOTP: () => set({
+        pendingTOTP: false,
+        pendingTOTPSetup: false,
+        totpUserId: null,
+        totpQRCode: null,
+        totpSecret: null,
+        error: null
+      }),
 
       // Helper: Is Authenticated
       isAuthenticated: () => {

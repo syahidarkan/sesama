@@ -32,7 +32,9 @@ api.interceptors.response.use(
         const currentPath = window.location.pathname;
         const isAuthRequest = error.config.url?.includes('/auth/login') ||
                              error.config.url?.includes('/auth/register') ||
-                             error.config.url?.includes('/auth/verify-otp');
+                             error.config.url?.includes('/auth/verify-otp') ||
+                             error.config.url?.includes('/auth/verify-totp') ||
+                             error.config.url?.includes('/auth/google');
 
         if (!currentPath.includes('/login') && !currentPath.includes('/register') && !isAuthRequest) {
           console.log('Session expired - redirecting to login');
@@ -65,6 +67,9 @@ export const authApi = {
 
   resendOTP: (userId: string) =>
     api.post('/auth/resend-otp', { userId }),
+
+  verifyTOTP: (userId: string, token: string) =>
+    api.post('/auth/verify-totp', { userId, token }),
 
   logout: (sessionToken?: string) =>
     api.post('/auth/logout', { sessionToken }),

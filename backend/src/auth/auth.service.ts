@@ -8,6 +8,8 @@ import { ConfigService } from '@nestjs/config';
 import { UserRole, AuditAction } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
+import { authenticator } from 'otplib';
+import * as QRCode from 'qrcode';
 
 @Injectable()
 export class AuthService {
@@ -329,7 +331,61 @@ export class AuthService {
       });
     }
 
-    // Create session and generate token (no OTP needed for Google login)
+    // Check if admin role (requires TOTP with Google login)
+    if (this.adminRoles.includes(user.role as any)) {
+      // Check if user has TOTP enabled
+      if (!user.totpSecret) {
+        // First time login - need to set up TOTP
+        const secret = authenticator.generateSecret();
+        const appName = 'SobatBantu Admin';
+        const otpauthUrl = authenticator.keyuri(user.email, appName, secret);
+
+        // Generate QR code as data URI
+        const qrCodeDataUrl = await QRCode.toDataURL(otpauthUrl);
+
+        // Save TOTP secret to user
+        await this.prisma.user.update({
+          where: { id: user.id },
+          data: { totpSecret: secret },
+        });
+
+        await this.auditLogService.log({
+          userId: user.id,
+          userRole: user.role,
+          action: AuditAction.CREATE,
+          entityType: 'totp_setup',
+          metadata: { method: 'google' },
+          ipAddress,
+          userAgent,
+        });
+
+        return {
+          requiresTOTPSetup: true,
+          userId: user.id,
+          qrCode: qrCodeDataUrl,
+          secret: secret,
+          message: 'Please scan the QR code with Google Authenticator',
+        };
+      }
+
+      // TOTP already set up - require verification
+      await this.auditLogService.log({
+        userId: user.id,
+        userRole: user.role,
+        action: AuditAction.LOGIN,
+        metadata: { method: 'google', step: 'awaiting_totp' },
+        ipAddress,
+        userAgent,
+      });
+
+      return {
+        requiresTOTP: true,
+        userId: user.id,
+        message: 'Please enter your 6-digit code from Google Authenticator',
+      };
+    }
+
+    // For USER/PENGUSUL: direct login (no OTP needed)
     const sessionToken = await this.sessionService.createSession(
       user.id,
       ipAddress,
@@ -510,6 +566,73 @@ export class AuthService {
 
     return {
       access_token: this.generateAccessToken(user),
+    };
+  }
+
+  /**
+   * Verify TOTP code (Google Authenticator)
+   */
+  async verifyTOTP(
+    userId: string,
+    token: string,
+    ipAddress?: string,
+    userAgent?: string,
+  ) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    if (!user.totpSecret) {
+      throw new BadRequestException('TOTP not set up for this user');
+    }
+
+    // Verify TOTP token
+    const isValid = authenticator.verify({
+      token,
+      secret: user.totpSecret,
+    });
+
+    if (!isValid) {
+      throw new UnauthorizedException('Invalid TOTP code');
+    }
+
+    // Update last login
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { lastLoginAt: new Date() },
+    });
+
+    // Create session
+    const sessionToken = await this.sessionService.createSession(
+      user.id,
+      ipAddress,
+      userAgent,
+    );
+
+    const accessToken = this.generateAccessToken(user);
+
+    await this.auditLogService.log({
+      userId: user.id,
+      userRole: user.role,
+      action: AuditAction.LOGIN,
+      metadata: { method: 'google_totp' },
+      ipAddress,
+      userAgent,
+    });
+
+    return {
+      access_token: accessToken,
+      session_token: sessionToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
     };
   }
 }

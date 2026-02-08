@@ -15,11 +15,27 @@ const GOOGLE_CLIENT_ID = '818814114213-6lj9i5uoqnpjf2ri3l0k8m3e7s9v5qch.apps.goo
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, googleLogin, verifyOTP, resendOTP, pendingOTP, otpUserId, isLoading, error: authError } = useAuthStore();
+  const {
+    login,
+    googleLogin,
+    verifyOTP,
+    resendOTP,
+    verifyTOTP,
+    pendingOTP,
+    otpUserId,
+    pendingTOTP,
+    pendingTOTPSetup,
+    totpUserId,
+    totpQRCode,
+    totpSecret,
+    isLoading,
+    error: authError
+  } = useAuthStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [otp, setOtp] = useState('');
+  const [totpToken, setTotpToken] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -113,6 +129,217 @@ export default function LoginPage() {
     }
   };
 
+  const handleVerifyTOTP = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (totpToken.length !== 6) {
+      setError('Kode harus 6 digit');
+      return;
+    }
+
+    try {
+      await verifyTOTP(totpToken);
+      router.push('/admin/dashboard');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Kode tidak valid');
+    }
+  };
+
+  // TOTP Setup Screen (First time admin login)
+  if (pendingTOTPSetup && totpUserId && totpQRCode) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="mb-8 flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-base">S</span>
+              </div>
+              <span className="text-xl font-bold text-gray-900">sesama</span>
+            </Link>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+            <div className="bg-gradient-to-br from-primary-600 to-primary-700 p-8 text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.1)_50%,rgba(255,255,255,0.1)_75%,transparent_75%)] bg-[length:40px_40px] opacity-30" />
+              <div className="relative">
+                <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 border-2 border-white/30">
+                  <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <h1 className="text-2xl font-bold text-white mb-2">Setup Google Authenticator</h1>
+                <p className="text-primary-100 text-sm">
+                  Scan QR code di bawah dengan Google Authenticator
+                </p>
+              </div>
+            </div>
+
+            <div className="p-8">
+              {(error || authError) && (
+                <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm text-red-700 font-medium">{error || authError}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-6">
+                <div className="bg-gray-50 rounded-xl p-6 border-2 border-gray-200">
+                  <div className="flex justify-center mb-4">
+                    <img src={totpQRCode} alt="QR Code" className="w-48 h-48 border-4 border-white rounded-xl shadow-lg" />
+                  </div>
+                  <p className="text-xs text-center text-gray-600 mb-2">Atau masukkan kode manual:</p>
+                  <div className="bg-white rounded-lg p-3 border border-gray-200">
+                    <code className="text-xs text-gray-800 break-all font-mono">{totpSecret}</code>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4">
+                  <p className="text-sm text-blue-700">
+                    📱 <strong>Langkah-langkah:</strong>
+                  </p>
+                  <ol className="text-xs text-blue-600 mt-2 space-y-1 ml-4 list-decimal">
+                    <li>Download Google Authenticator di Play Store / App Store</li>
+                    <li>Buka app dan scan QR code di atas</li>
+                    <li>Masukkan kode 6 digit yang muncul di bawah ini</li>
+                  </ol>
+                </div>
+
+                <form onSubmit={handleVerifyTOTP} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-3 text-center">
+                      Masukkan Kode Verifikasi
+                    </label>
+                    <input
+                      type="text"
+                      value={totpToken}
+                      onChange={(e) => setTotpToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                      placeholder="● ● ● ● ● ●"
+                      maxLength={6}
+                      className="w-full px-6 py-4 border-2 border-gray-200 rounded-xl focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-center text-3xl tracking-[0.5em] font-bold text-gray-900 outline-none transition-all bg-gray-50 hover:bg-white"
+                      required
+                      autoFocus
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading || totpToken.length !== 6}
+                    className="w-full py-4 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold text-base rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                  >
+                    {isLoading ? 'Memverifikasi...' : 'Verifikasi & Aktifkan'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // TOTP Verification Screen (Returning admin)
+  if (pendingTOTP && totpUserId) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="mb-8 flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-base">S</span>
+              </div>
+              <span className="text-xl font-bold text-gray-900">sesama</span>
+            </Link>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+            <div className="bg-gradient-to-br from-primary-600 to-primary-700 p-8 text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.1)_50%,rgba(255,255,255,0.1)_75%,transparent_75%)] bg-[length:40px_40px] opacity-30" />
+              <div className="relative">
+                <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 border-2 border-white/30">
+                  <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <h1 className="text-2xl font-bold text-white mb-2">Verifikasi 2FA</h1>
+                <p className="text-primary-100 text-sm">
+                  Masukkan kode dari Google Authenticator
+                </p>
+              </div>
+            </div>
+
+            <div className="p-8">
+              {(error || authError) && (
+                <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm text-red-700 font-medium">{error || authError}</p>
+                  </div>
+                </div>
+              )}
+
+              <form onSubmit={handleVerifyTOTP} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3 text-center">
+                    Kode Authenticator
+                  </label>
+                  <input
+                    type="text"
+                    value={totpToken}
+                    onChange={(e) => setTotpToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    placeholder="● ● ● ● ● ●"
+                    maxLength={6}
+                    className="w-full px-6 py-4 border-2 border-gray-200 rounded-xl focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 text-center text-3xl tracking-[0.5em] font-bold text-gray-900 outline-none transition-all bg-gray-50 hover:bg-white"
+                    required
+                    autoFocus
+                  />
+                  <div className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-500">
+                    <svg className="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Buka Google Authenticator untuk melihat kode</span>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading || totpToken.length !== 6}
+                  className="w-full py-4 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold text-base rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                >
+                  {isLoading ? 'Memverifikasi...' : 'Verifikasi'}
+                </button>
+              </form>
+
+              <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+                <button
+                  onClick={() => {
+                    useAuthStore.getState().clearTOTP();
+                    setTotpToken('');
+                    setError('');
+                  }}
+                  className="flex items-center gap-2 text-gray-500 hover:text-gray-700 font-medium transition-colors mx-auto"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  Kembali
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Email OTP Verification Screen (Legacy)
   if (pendingOTP && otpUserId) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50 flex items-center justify-center p-4">

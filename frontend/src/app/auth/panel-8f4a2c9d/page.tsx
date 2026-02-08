@@ -271,6 +271,7 @@ export default function AdminLoginPage() {
           )}
 
           {!pendingOTP ? (
+            <>
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
@@ -334,6 +335,7 @@ export default function AdminLoginPage() {
             {googleLoading && (
               <p className="text-center text-xs text-gray-500 mt-2">Memproses login Google...</p>
             )}
+            </>
           ) : (
             <form onSubmit={handleVerifyOTP} className="space-y-4">
               <p className="text-sm text-gray-600 text-center">

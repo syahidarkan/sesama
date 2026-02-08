@@ -158,7 +158,7 @@ export const donationsApi = {
 };
 
 // ============================================
-// PAYMENTS API (Midtrans)
+// PAYMENTS API (ActionPay)
 // ============================================
 export const paymentsApi = {
   create: (data: {
@@ -170,7 +170,10 @@ export const paymentsApi = {
   }) => api.post('/payments/create', data),
 
   getStatus: (orderId: string) =>
-    api.get(`/payments/status/${orderId}`),
+    api.get(`/payments/status?refId=${orderId}`),
+
+  getRoutes: (type: 'va' | 'qris' = 'qris') =>
+    api.get(`/payments/routes?type=${type}`),
 };
 
 // ============================================

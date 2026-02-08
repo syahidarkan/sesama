@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Body, Query, HttpCode, HttpStatus, BadRequestException } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { DonationsService } from '../donations/donations.service';
 import { ProgramsService } from '../programs/programs.service';
@@ -25,9 +25,9 @@ export class PaymentsController {
                 referralCode: referralCode || null,
             });
 
-            // Create Midtrans Snap transaction
+            // Create ActionPay deposit transaction
             const transaction = await this.paymentsService.createTransaction(
-                donation.id, // Use donation ID as order ID
+                donation.actionpayOrderId,
                 parseFloat(amount),
                 {
                     name: donorName,
@@ -39,9 +39,34 @@ export class PaymentsController {
             return {
                 donationId: donation.id,
                 paymentUrl: transaction.paymentUrl,
-                snapToken: transaction.snapToken,
                 orderId: transaction.orderId,
+                trxId: transaction.trxId,
+                type: transaction.type,
+                address: transaction.address,
+                amount: transaction.amount,
+                totalAmount: transaction.totalAmount,
+                channelName: transaction.channelName,
             };
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
+
+    @Get('routes')
+    async getPaymentRoutes(@Query('type') type: 'va' | 'qris' = 'qris') {
+        try {
+            const routes = await this.paymentsService.getDepositRoutes(type);
+            return { data: routes };
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
+
+    @Get('status')
+    async getPaymentStatus(@Query('refId') refId: string) {
+        try {
+            const status = await this.paymentsService.getTransactionStatus(refId);
+            return { data: status };
         } catch (error) {
             throw new BadRequestException(error.message);
         }
@@ -51,28 +76,12 @@ export class PaymentsController {
     @HttpCode(HttpStatus.OK)
     async handleWebhook(@Body() notification: any) {
         try {
-            console.log('📨 Webhook received from Midtrans');
-
-            // Handle Midtrans notification
+            console.log('📨 Webhook received from ActionPay');
             const result = await this.paymentsService.handleNotification(notification);
-
             return result;
         } catch (error) {
             console.error('❌ Webhook handling error:', error);
             throw new BadRequestException(error.message);
         }
-    }
-
-    private mapPaymentMethod(paymentType: string): string {
-        const mapping: any = {
-            qris: 'QRIS',
-            gopay: 'GOPAY',
-            shopeepay: 'SHOPEE_PAY',
-            bank_transfer: 'BANK_TRANSFER',
-            echannel: 'BANK_TRANSFER',
-            credit_card: 'CREDIT_CARD',
-        };
-
-        return mapping[paymentType] || 'BANK_TRANSFER';
     }
 }

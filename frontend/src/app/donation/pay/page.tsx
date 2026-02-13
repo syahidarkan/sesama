@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { paymentsApi } from '@/lib/api';
 import Link from 'next/link';
+import QRCode from 'qrcode';
 
 function PaymentContent() {
   const searchParams = useSearchParams();
@@ -20,6 +21,7 @@ function PaymentContent() {
   const [checking, setChecking] = useState(false);
   const [copied, setCopied] = useState(false);
   const [countdown, setCountdown] = useState(30 * 60); // 30 minutes
+  const qrCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Countdown timer
   useEffect(() => {
@@ -34,6 +36,20 @@ function PaymentContent() {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  // Generate QR code from QRIS address
+  useEffect(() => {
+    if (type === 'qris' && address && qrCanvasRef.current) {
+      QRCode.toCanvas(qrCanvasRef.current, address, {
+        width: 280,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF',
+        },
+      }).catch(console.error);
+    }
+  }, [type, address]);
 
   // Auto-check status every 10 seconds
   useEffect(() => {
@@ -182,8 +198,10 @@ function PaymentContent() {
                   Scan kode QRIS di bawah ini menggunakan aplikasi e-wallet atau mobile banking Anda
                 </p>
                 {address && (
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
-                    <p className="font-mono text-sm break-all text-gray-800">{address}</p>
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="bg-white border-2 border-gray-200 rounded-xl p-4 inline-block shadow-sm">
+                      <canvas ref={qrCanvasRef} />
+                    </div>
                   </div>
                 )}
                 <p className="text-xs text-gray-500">

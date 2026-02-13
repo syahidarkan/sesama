@@ -182,6 +182,9 @@ export const paymentsApi = {
 
   getRoutes: (type: 'va' | 'qris' = 'qris') =>
     api.get(`/payments/routes?type=${type}`),
+
+  sandboxSimulate: (refId: string, amount: number) =>
+    api.post('/payments/sandbox-simulate', { refId, amount }),
 };
 
 // ============================================

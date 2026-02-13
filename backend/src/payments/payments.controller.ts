@@ -72,6 +72,26 @@ export class PaymentsController {
         }
     }
 
+    @Post('sandbox-simulate')
+    @HttpCode(HttpStatus.OK)
+    async sandboxSimulate(@Body() data: { refId: string; amount: number }) {
+        const isProduction = process.env.ACTIONPAY_IS_PRODUCTION === 'true';
+        if (isProduction) {
+            throw new BadRequestException('Sandbox simulate is not available in production mode');
+        }
+
+        const result = await this.paymentsService.handleNotification({
+            type: 'deposit',
+            trxId: `SANDBOX_SIM_${Date.now()}`,
+            refId: data.refId,
+            status: 'completed',
+            amount: data.amount,
+            fee: 0,
+            notes: 'Sandbox simulation',
+        });
+        return result;
+    }
+
     @Post('webhook')
     @HttpCode(HttpStatus.OK)
     async handleWebhook(@Body() notification: any) {

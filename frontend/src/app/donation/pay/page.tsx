@@ -21,6 +21,7 @@ function PaymentContent() {
   const [checking, setChecking] = useState(false);
   const [copied, setCopied] = useState(false);
   const [countdown, setCountdown] = useState(30 * 60); // 30 minutes
+  const [simulating, setSimulating] = useState(false);
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Countdown timer
@@ -115,6 +116,22 @@ function PaymentContent() {
       // ignore
     } finally {
       setChecking(false);
+    }
+  };
+
+  const simulatePayment = async () => {
+    if (!orderId) return;
+    setSimulating(true);
+    try {
+      await paymentsApi.sandboxSimulate(orderId, Number(amount));
+      setStatus('completed');
+      setTimeout(() => {
+        router.push(`/donation/success?order_id=${orderId}`);
+      }, 2000);
+    } catch (err: any) {
+      alert(err?.response?.data?.message || 'Simulate gagal');
+    } finally {
+      setSimulating(false);
     }
   };
 
@@ -283,9 +300,21 @@ function PaymentContent() {
           {checking ? 'Memeriksa...' : 'Saya Sudah Bayar - Cek Status'}
         </button>
 
-        <p className="text-center text-xs text-gray-500">
+        <p className="text-center text-xs text-gray-500 mb-4">
           Status pembayaran akan diperbarui secara otomatis
         </p>
+
+        {/* Sandbox Simulate Button - hanya untuk testing */}
+        <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4">
+          <p className="text-xs text-yellow-700 mb-2 font-medium">[SANDBOX MODE] Tombol ini hanya untuk uji coba</p>
+          <button
+            onClick={simulatePayment}
+            disabled={simulating}
+            className="w-full py-2.5 bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-white font-medium text-sm rounded-lg transition-colors"
+          >
+            {simulating ? 'Memproses...' : 'Simulate Pembayaran Berhasil'}
+          </button>
+        </div>
       </div>
     </div>
   );

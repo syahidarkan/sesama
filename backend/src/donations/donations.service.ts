@@ -19,8 +19,13 @@ export class DonationsService {
     }
 
     async findByOrderId(orderId: string) {
-        return this.prisma.donation.findUnique({
-            where: { id: orderId },
+        return this.prisma.donation.findFirst({
+            where: {
+                OR: [
+                    { id: orderId },
+                    { actionpayOrderId: orderId },
+                ],
+            },
             include: {
                 program: {
                     select: {

@@ -65,6 +65,25 @@ export class PaymentsController {
     @Get('status')
     async getPaymentStatus(@Query('refId') refId: string) {
         try {
+            // First check local database for status (works for sandbox simulate too)
+            const donation = await this.donationsService.findByOrderId(refId);
+            if (donation) {
+                const statusMap: Record<string, string> = {
+                    SUCCESS: 'completed',
+                    PENDING: 'pending',
+                    FAILED: 'failed',
+                    EXPIRED: 'failed',
+                };
+                return {
+                    data: {
+                        status: statusMap[donation.status] || donation.status,
+                        amount: donation.amount,
+                        refId: donation.actionpayOrderId,
+                    },
+                };
+            }
+
+            // Fallback to ActionPay API
             const status = await this.paymentsService.getTransactionStatus(refId);
             return { data: status };
         } catch (error) {

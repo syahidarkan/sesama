@@ -708,7 +708,7 @@ export default function ProgramDetailPage() {
       {showDonationModal && (
         <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
           <div className="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-primary-600 px-6 py-5 rounded-t-lg">
+            <div className="sticky top-0 bg-primary-600 px-6 py-5 rounded-t-lg z-10">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold text-white">Form Donasi</h3>
                 <button

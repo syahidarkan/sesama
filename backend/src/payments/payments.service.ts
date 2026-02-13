@@ -312,13 +312,11 @@ export class PaymentsService {
       });
 
       if (donationStatus === DonationStatus.SUCCESS) {
-        const uniqueDonors = await tx.donation.groupBy({
-          by: ['donorEmail'],
+        const donorCount = await tx.donation.count({
           where: {
             programId: donation.programId,
             status: DonationStatus.SUCCESS,
           },
-          _count: true,
         });
 
         await tx.program.update({
@@ -327,7 +325,7 @@ export class PaymentsService {
             collectedAmount: {
               increment: donation.amount,
             },
-            donorCount: uniqueDonors.length,
+            donorCount,
           },
         });
 

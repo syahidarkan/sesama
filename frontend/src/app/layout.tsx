@@ -6,8 +6,11 @@ import { Providers } from "@/components/providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Platform Donasi LAZISMU",
-  description: "Platform donasi internal untuk organisasi Islam",
+  title: "Sesama - Platform Donasi & Crowdfunding",
+  description: "Platform donasi dan crowdfunding untuk membantu sesama yang membutuhkan",
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({

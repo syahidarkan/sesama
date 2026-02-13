@@ -14,17 +14,13 @@ async function recalculateDonorCounts() {
     console.log(`📊 Found ${programs.length} programs to process`);
 
     for (const program of programs) {
-      // Count unique donors for this program (by email)
-      const uniqueDonors = await prisma.donation.groupBy({
-        by: ['donorEmail'],
+      // Count total successful donations for this program
+      const donorCount = await prisma.donation.count({
         where: {
           programId: program.id,
           status: DonationStatus.SUCCESS,
         },
-        _count: true,
       });
-
-      const donorCount = uniqueDonors.length;
 
       // Update program donor count
       await prisma.program.update({

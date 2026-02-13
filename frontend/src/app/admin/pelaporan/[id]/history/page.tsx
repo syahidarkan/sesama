@@ -50,16 +50,16 @@ export default function PelaporanHistoryPage() {
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Riwayat Pelaporan</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Riwayat Pelaporan</h1>
               <p className="text-sm text-gray-600">
                 History semua perubahan pada pelaporan
               </p>
             </div>
             <Link
               href="/admin/pelaporan"
-              className="text-gray-600 hover:text-gray-700 font-medium"
+              className="text-gray-600 hover:text-gray-700 font-medium shrink-0"
             >
               ← Kembali
             </Link>

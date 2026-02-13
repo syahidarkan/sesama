@@ -38,7 +38,7 @@ export default function DashboardPage() {
     // For USER role: fetch their personal donation history
     const { data: myDonations } = useQuery({
         queryKey: ['my-donations'],
-        queryFn: () => donationsApi.getAll().then((res) => res.data),
+        queryFn: () => donationsApi.getMyDonations().then((res) => res.data),
         enabled: user?.role === 'USER',
     });
 

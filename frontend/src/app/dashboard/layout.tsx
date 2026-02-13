@@ -185,7 +185,7 @@ export default function DashboardLayout({
                         </div>
                     </div>
                 </header>
-                <main className="p-5">{children}</main>
+                <main className="p-3 sm:p-5">{children}</main>
             </div>
 
             {sidebarOpen && (

@@ -133,7 +133,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <div className="hidden md:block">
                 <div className="relative">
                   <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input type="text" placeholder="Search..." className="pl-9 pr-3 py-1.5 w-56 text-sm border border-gray-200 rounded focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none" />
+                  <input type="text" placeholder="Search..." className="pl-9 pr-3 py-1.5 w-full max-w-56 text-sm border border-gray-200 rounded focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none" />
                 </div>
               </div>
             </div>
@@ -180,7 +180,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
           </div>
         </header>
-        <main className="p-5">{children}</main>
+        <main className="p-3 sm:p-5">{children}</main>
       </div>
 
       {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}

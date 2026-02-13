@@ -435,14 +435,14 @@ export default function CreateProgramPage() {
       <div className="min-h-screen bg-gray-50">
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-4xl mx-auto px-4 py-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h1 className="text-2xl font-semibold text-gray-900">Buat Program Donasi</h1>
+                <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Buat Program Donasi</h1>
                 <p className="text-sm text-gray-600 mt-1">Pilih jenis program yang ingin Anda ajukan</p>
               </div>
               <Link
                 href="/admin/dashboard"
-                className="text-sm text-gray-600 hover:text-gray-900 font-medium"
+                className="text-sm text-gray-600 hover:text-gray-900 font-medium shrink-0"
               >
                 ← Kembali
               </Link>
@@ -556,9 +556,9 @@ export default function CreateProgramPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h1 className="text-2xl font-semibold text-gray-900">
+              <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
                 {isSimpleForm ? 'Buat Program Donasi' : `Buat Program ${programType}`}
               </h1>
               <p className="text-sm text-gray-600 mt-1">
@@ -567,7 +567,7 @@ export default function CreateProgramPage() {
                   : `Isi formulir lengkap untuk program ${programType?.toLowerCase()}`}
               </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 shrink-0">
               {isPengusul && programType && (
                 <button
                   onClick={() => {
@@ -625,7 +625,7 @@ export default function CreateProgramPage() {
                   </div>
                   {index < steps.length - 1 && (
                     <div
-                      className={`h-0.5 w-12 mx-2 transition-all ${
+                      className={`h-0.5 w-4 sm:w-12 mx-1 sm:mx-2 transition-all ${
                         currentStep > step.id
                           ? 'bg-primary-500'
                           : 'bg-gray-200'
@@ -639,7 +639,7 @@ export default function CreateProgramPage() {
         </div>
 
         {/* Form Card */}
-        <div className="bg-white rounded-lg border border-gray-200 p-8">
+        <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-8">
           {error && (
             <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
               {error}

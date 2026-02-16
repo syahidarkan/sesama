@@ -30,7 +30,7 @@ export class RoleUpgradesController {
   @HttpCode(HttpStatus.CREATED)
   async requestPengusulUpgrade(@Request() req, @Body() dto: any) {
     return this.roleUpgradesService.submitPengusulUpgradeRequest(
-      req.user.userId,
+      req.user.id,
       dto,
     );
   }
@@ -47,7 +47,7 @@ export class RoleUpgradesController {
   @Get('my-request')
   @UseGuards(JwtAuthGuard)
   async getMyUpgradeRequest(@Request() req) {
-    return this.roleUpgradesService.getMyUpgradeRequest(req.user.userId);
+    return this.roleUpgradesService.getMyUpgradeRequest(req.user.id);
   }
 
   // Approve PENGUSUL upgrade request (for MANAGER)
@@ -62,7 +62,7 @@ export class RoleUpgradesController {
   ) {
     return this.roleUpgradesService.approvePengusulRequest(
       requestId,
-      req.user.userId,
+      req.user.id,
       dto.notes,
     );
   }
@@ -82,7 +82,7 @@ export class RoleUpgradesController {
     }
     return this.roleUpgradesService.rejectPengusulRequest(
       requestId,
-      req.user.userId,
+      req.user.id,
       dto.notes,
     );
   }
@@ -120,7 +120,7 @@ export class RoleUpgradesController {
     return this.roleUpgradesService.upgradeUserRoleByAdmin(
       userId,
       dto.targetRole,
-      req.user.userId,
+      req.user.id,
       dto.notes,
     );
   }
@@ -138,7 +138,7 @@ export class RoleUpgradesController {
     return this.roleUpgradesService.changeUserRoleByAdmin(
       userId,
       dto.targetRole,
-      req.user.userId,
+      req.user.id,
       dto.notes,
     );
   }

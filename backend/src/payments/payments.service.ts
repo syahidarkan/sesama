@@ -312,12 +312,36 @@ export class PaymentsService {
       });
 
       if (donationStatus === DonationStatus.SUCCESS) {
-        const donorCount = await tx.donation.count({
+        // Get all successful donations for this program
+        const successfulDonations = await tx.donation.findMany({
           where: {
             programId: donation.programId,
             status: DonationStatus.SUCCESS,
           },
+          select: {
+            id: true,
+            userId: true,
+            donorEmail: true,
+            isAnonymous: true,
+          },
         });
+
+        // Count unique donors by userId or donorEmail
+        // For anonymous donations without userId/email, count each as unique donor
+        const uniqueDonors = new Set();
+        successfulDonations.forEach((d) => {
+          if (d.userId) {
+            // User is logged in - use userId
+            uniqueDonors.add(`user:${d.userId}`);
+          } else if (d.donorEmail) {
+            // Guest with email - use email
+            uniqueDonors.add(`email:${d.donorEmail}`);
+          } else {
+            // Anonymous or guest without email - count each donation as unique
+            uniqueDonors.add(`donation:${d.id}`);
+          }
+        });
+        const donorCount = uniqueDonors.size;
 
         await tx.program.update({
           where: { id: donation.programId },
@@ -330,7 +354,7 @@ export class PaymentsService {
         });
 
         console.log(
-          `💰 Program ${donation.program.title} collected +${donation.amount}, donors: ${uniqueDonors.length}`,
+          `💰 Program ${donation.program.title} collected +${donation.amount}, donors: ${donorCount}`,
         );
 
         await this.updateLeaderboard(

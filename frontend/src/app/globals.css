@@ -203,3 +203,30 @@ body {
 ::-webkit-scrollbar-track { background: #F1F5F9; }
 ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+/* Mobile Responsive Fixes */
+@media (max-width: 640px) {
+  /* Reduce padding on mobile for better space usage */
+  .container { padding-left: 1rem; padding-right: 1rem; }
+
+  /* Fix overlapping issues */
+  .space-y-6 > * + * { margin-top: 1rem !important; }
+  .space-y-4 > * + * { margin-top: 0.75rem !important; }
+
+  /* Headings responsive */
+  h1 { font-size: 1.5rem !important; line-height: 2rem !important; }
+  h2 { font-size: 1.25rem !important; line-height: 1.75rem !important; }
+  h3 { font-size: 1.125rem !important; line-height: 1.5rem !important; }
+
+  /* Cards and boxes */
+  .rounded-lg { border-radius: 0.5rem; }
+  .rounded-xl { border-radius: 0.75rem; }
+
+  /* Back button specific fixes */
+  .back-button-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+}

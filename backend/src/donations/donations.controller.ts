@@ -14,7 +14,8 @@ export class DonationsController {
     @Get('my')
     @UseGuards(JwtAuthGuard)
     findMyDonations(@Request() req) {
-        return this.donationsService.findByUserId(req.user.userId);
+        // Use req.user.id (from JWT strategy) instead of req.user.userId
+        return this.donationsService.findByUserId(req.user.id);
     }
 
     @Get('stats')

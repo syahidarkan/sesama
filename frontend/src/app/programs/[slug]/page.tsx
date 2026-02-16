@@ -53,6 +53,17 @@ export default function ProgramDetailPage() {
     }
   }, [params.slug]);
 
+  // Refetch data when user returns from payment (for updated donor count)
+  useEffect(() => {
+    const paymentStatus = searchParams.get('payment_status');
+    if (paymentStatus === 'success' && params.slug) {
+      // Wait a bit for backend to process webhook
+      setTimeout(() => {
+        fetchProgramData(params.slug as string);
+      }, 1000);
+    }
+  }, [searchParams, params.slug]);
+
   const fetchProgramData = async (slug: string) => {
     try {
       // First get program data
@@ -707,8 +718,9 @@ export default function ProgramDetailPage() {
       {/* Donation Modal */}
       {showDonationModal && (
         <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-          <div className="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-primary-600 px-6 py-5 rounded-t-lg z-10">
+          <div className="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col">
+            {/* Fixed Header - stays on top */}
+            <div className="bg-primary-600 px-6 py-5 rounded-t-lg flex-shrink-0 relative z-20 shadow-lg">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold text-white">Form Donasi</h3>
                 <button
@@ -726,7 +738,9 @@ export default function ProgramDetailPage() {
               <p className="text-primary-50 mt-2">Pilih nominal dan lengkapi data Anda</p>
             </div>
 
-            <form onSubmit={handleDonationSubmit} className="p-8 space-y-6">
+            {/* Scrollable Form Content */}
+            <div className="overflow-y-auto flex-1">
+              <form onSubmit={handleDonationSubmit} className="p-8 space-y-6">
               {donationError && (
                 <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
                   <div className="flex items-start">
@@ -861,6 +875,7 @@ export default function ProgramDetailPage() {
                 )}
               </button>
             </form>
+            </div>
           </div>
         </div>
       )}

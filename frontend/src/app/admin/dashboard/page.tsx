@@ -140,9 +140,9 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="bg-primary-600 rounded-xl p-6 text-white">
-        <h1 className="text-xl font-semibold mb-1">Welcome back, {user?.name}!</h1>
-        <p className="text-primary-100 text-sm">
+      <div className="bg-primary-600 rounded-xl p-4 sm:p-6 text-white">
+        <h1 className="text-lg sm:text-xl font-semibold mb-1">Welcome back, {user?.name}!</h1>
+        <p className="text-primary-100 text-xs sm:text-sm">
           {user?.role === 'PENGUSUL'
             ? 'Kelola program donasi Anda dan pantau perkembangan dari dashboard ini.'
             : "Here's what's happening with your platform today."}
@@ -169,8 +169,8 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Stats Grid */}
-      <div className={`grid md:grid-cols-2 ${hasAccess(['MANAGER', 'SUPERVISOR', 'SUPER_ADMIN']) ? 'lg:grid-cols-4' : 'lg:grid-cols-2'} gap-6`}>
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn ">
+      <div className={`grid grid-cols-1 sm:grid-cols-2 ${hasAccess(['MANAGER', 'SUPERVISOR', 'SUPER_ADMIN']) ? 'lg:grid-cols-4' : 'lg:grid-cols-2'} gap-4 sm:gap-6`}>
+        <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 hover-lift animate-fadeIn ">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center group-hover:bg-primary-200 transition-colors">
               <Heart className="w-6 h-6 text-primary-600" />
@@ -192,7 +192,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn ">
+        <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 hover-lift animate-fadeIn ">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
               <FileText className="w-6 h-6 text-green-600" />
@@ -215,7 +215,7 @@ export default function AdminDashboardPage() {
 
         {hasAccess(['MANAGER', 'SUPERVISOR', 'SUPER_ADMIN']) && (
           <>
-            <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn ">
+            <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 hover-lift animate-fadeIn ">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
                   <DollarSign className="w-6 h-6 text-blue-600" />
@@ -236,7 +236,7 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg border border-gray-200 p-6 hover-lift animate-fadeIn ">
+            <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 hover-lift animate-fadeIn ">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center group-hover:bg-amber-200 transition-colors">
                   <Clock className="w-6 h-6 text-amber-600" />

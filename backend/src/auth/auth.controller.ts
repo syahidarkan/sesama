@@ -7,9 +7,12 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
+// Auth endpoints use the strict 'auth' throttler: 5 req/min per IP
+@Throttle({ auth: { ttl: 60000, limit: 5 } })
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

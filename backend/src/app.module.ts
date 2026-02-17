@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
@@ -34,11 +35,17 @@ import { CommentsModule } from './comments/comments.module';
       isGlobal: true,
     }),
 
-    // Rate Limiting (Security)
+    // Rate Limiting (Security) — two tiers
     ThrottlerModule.forRoot([
       {
-        ttl: 60000, // 1 minute
-        limit: 10, // Max 10 requests per minute
+        name: 'default',
+        ttl: 60000,  // 1 minute
+        limit: 60,   // General: 60 req/min per IP
+      },
+      {
+        name: 'auth',
+        ttl: 60000,  // 1 minute
+        limit: 5,    // Auth endpoints: 5 req/min per IP (brute-force protection)
       },
     ]),
 
@@ -72,6 +79,13 @@ import { CommentsModule } from './comments/comments.module';
     UploadsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // Apply ThrottlerGuard globally to ALL endpoints
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

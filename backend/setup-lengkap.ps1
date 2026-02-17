@@ -190,7 +190,7 @@ Write-Host ""
 Write-Host "3. Buka browser: http://localhost:3000" -ForegroundColor White
 Write-Host ""
 Write-Host "Kredensial login default:" -ForegroundColor Yellow
-Write-Host "  Email: superadmin@lazismu.org" -ForegroundColor Cyan
+Write-Host "  Email: superadmin@sobatbantu.org" -ForegroundColor Cyan
 Write-Host "  Password: password" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "⚠ WAJIB ganti password di production!" -ForegroundColor Red

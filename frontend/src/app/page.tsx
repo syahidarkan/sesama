@@ -99,7 +99,7 @@ export default function HomePage() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xs sm:text-sm">S</span>
               </div>
-              <span className="text-lg sm:text-xl font-bold text-gray-900">sesama</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900">SobatBantu</span>
             </Link>
 
             <div className="hidden lg:flex items-center gap-1">
@@ -313,7 +313,7 @@ export default function HomePage() {
               {[
                 {
                   title: 'Salurkan Kebaikan Anda',
-                  subtitle: 'Bersama membantu sesama yang membutuhkan',
+                  subtitle: 'Bersama berkontribusi untuk kebaikan',
                   gradient: 'from-primary-600 to-primary-800',
                   icon: '💙'
                 },
@@ -498,7 +498,7 @@ export default function HomePage() {
       <section className="py-16 px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold text-gray-900">Mengapa Berdonasi di Sesama</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Mengapa Berdonasi di SobatBantu</h2>
             <p className="text-gray-500 mt-2 max-w-xl mx-auto">
               Kami memastikan setiap donasi tersalurkan dengan transparan dan akuntabel
             </p>
@@ -745,7 +745,7 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-10">
               <h2 className="text-2xl font-bold text-gray-900">Donatur Teratas</h2>
-              <p className="text-gray-500 mt-1">Apresiasi untuk para dermawan yang membantu sesama</p>
+              <p className="text-gray-500 mt-1">Apresiasi untuk para dermawan yang berkontribusi untuk kebaikan</p>
             </div>
 
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden animate-fadeInUp">
@@ -834,7 +834,7 @@ export default function HomePage() {
                 <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-sm">S</span>
                 </div>
-                <span className="text-xl font-bold">sesama</span>
+                <span className="text-xl font-bold">SobatBantu</span>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
                 Platform donasi terpercaya yang menghubungkan kebaikan Anda dengan mereka yang membutuhkan.
@@ -870,7 +870,7 @@ export default function HomePage() {
           </div>
 
           <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
-            <p className="text-gray-500 text-xs">&copy; 2026 sesama. Seluruh hak cipta dilindungi.</p>
+            <p className="text-gray-500 text-xs">&copy; 2026 SobatBantu. Seluruh hak cipta dilindungi.</p>
             <div className="flex items-center gap-4 text-xs text-gray-500">
               <span className="flex items-center gap-1">
                 <svg className="w-3.5 h-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

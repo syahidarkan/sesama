@@ -107,7 +107,7 @@ function DonationPendingContent() {
             <a href="https://wa.me/6281234567890" className="inline-flex items-center gap-1.5 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors">
               WhatsApp
             </a>
-            <a href="mailto:support@sesama.id" className="inline-flex items-center gap-1.5 px-3 py-2 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded-lg transition-colors">
+            <a href="mailto:support@sobatbantu.id" className="inline-flex items-center gap-1.5 px-3 py-2 bg-primary-600 hover:bg-primary-700 text-white text-xs font-medium rounded-lg transition-colors">
               Email
             </a>
           </div>

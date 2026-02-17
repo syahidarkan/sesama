@@ -37,7 +37,7 @@ export default function LegalPage() {
       <div>
         <h2 class="text-2xl font-bold text-gray-900 mb-4">Informasi Hukum</h2>
         <p class="text-gray-700">
-          Halaman ini berisi informasi hukum dan ketentuan penggunaan platform Sesama.
+          Halaman ini berisi informasi hukum dan ketentuan penggunaan platform SobatBantu.
           Kami berkomitmen untuk beroperasi secara transparan dan sesuai dengan peraturan yang berlaku.
         </p>
       </div>
@@ -45,7 +45,7 @@ export default function LegalPage() {
       <div>
         <h2 class="text-2xl font-bold text-gray-900 mb-4">Legalitas Platform</h2>
         <p class="text-gray-700 mb-4">
-          Sesama adalah platform donasi yang beroperasi sesuai dengan hukum dan peraturan yang berlaku
+          SobatBantu adalah platform donasi yang beroperasi sesuai dengan hukum dan peraturan yang berlaku
           di Republik Indonesia. Kami terdaftar dan memiliki izin operasi yang sah.
         </p>
       </div>
@@ -87,7 +87,7 @@ export default function LegalPage() {
         <h2 class="text-2xl font-bold text-gray-900 mb-4">Kontak Hukum</h2>
         <p class="text-gray-700">
           Untuk pertanyaan terkait aspek hukum atau kepatuhan, silakan hubungi tim legal kami di
-          <a href="mailto:legal@sesama.org" class="text-primary-600 hover:text-primary-700 font-medium"> legal@sesama.org</a>
+          <a href="mailto:legal@sobatbantu.org" class="text-primary-600 hover:text-primary-700 font-medium"> legal@sobatbantu.org</a>
         </p>
       </div>
     </div>
@@ -99,7 +99,7 @@ export default function LegalPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-2xl font-bold text-gray-900">
-              sesama
+              SobatBantu
             </Link>
             <Link
               href="/"

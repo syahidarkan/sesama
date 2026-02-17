@@ -156,7 +156,7 @@ export default function LoginPage() {
               <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-base">S</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">sesama</span>
+              <span className="text-xl font-bold text-gray-900">SobatBantu</span>
             </Link>
           </div>
 
@@ -253,7 +253,7 @@ export default function LoginPage() {
               <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-base">S</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">sesama</span>
+              <span className="text-xl font-bold text-gray-900">SobatBantu</span>
             </Link>
           </div>
 
@@ -350,7 +350,7 @@ export default function LoginPage() {
               <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-base">S</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">sesama</span>
+              <span className="text-xl font-bold text-gray-900">SobatBantu</span>
             </Link>
           </div>
 
@@ -480,7 +480,7 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-sm">
           <div className="mb-8">
-            <Link href="/" className="text-xl font-bold text-gray-900">sesama</Link>
+            <Link href="/" className="text-xl font-bold text-gray-900">SobatBantu</Link>
           </div>
 
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Masuk</h1>

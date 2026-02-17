@@ -118,5 +118,5 @@ Write-Host "1. Start backend: npm run start:dev" -ForegroundColor Cyan
 Write-Host "2. Start frontend (terminal baru): cd ..\frontend && npm run dev" -ForegroundColor Cyan
 Write-Host "3. Buka: http://localhost:3000" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Login: superadmin@lazismu.org / password" -ForegroundColor Green
+Write-Host "Login: superadmin@sobatbantu.org / password" -ForegroundColor Green
 Write-Host ""

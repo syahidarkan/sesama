@@ -14,7 +14,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${BLUE}════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}  SESAMA Platform - Complete Setup${NC}"
+echo -e "${BLUE}  SobatBantu Platform - Complete Setup${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -74,9 +74,9 @@ echo -e "${GREEN}═════════════════════
 echo ""
 echo "Demo Accounts Created:"
 echo "  - Super Admin: syh.arkan@gmail.com / password"
-echo "  - Manager: manager@lazismu.org / password"
-echo "  - Content Manager: content@lazismu.org / password"
-echo "  - Supervisor: supervisor@lazismu.org / password"
+echo "  - Manager: manager@sobatbantu.org / password"
+echo "  - Content Manager: content@sobatbantu.org / password"
+echo "  - Supervisor: supervisor@sobatbantu.org / password"
 echo "  - Pengusul: pengusul1@example.com / password"
 echo ""
 echo "Next Steps:"

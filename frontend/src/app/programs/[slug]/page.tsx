@@ -233,7 +233,7 @@ export default function ProgramDetailPage() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xs sm:text-sm">S</span>
               </div>
-              <span className="text-lg sm:text-xl font-bold text-gray-900">sesama</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900">SobatBantu</span>
             </Link>
             <Link
               href="/"

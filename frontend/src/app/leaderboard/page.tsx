@@ -86,7 +86,7 @@ function LeaderboardContent() {
                 </svg>
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                sesama
+              SobatBantu
               </span>
             </Link>
             <Link
@@ -117,7 +117,7 @@ function LeaderboardContent() {
               Leaderboard
             </h1>
             <p className="text-xl text-primary-50 leading-relaxed mb-8">
-              Penghargaan untuk para donatur yang telah berkontribusi membantu sesama. Setiap kebaikan Anda tercatat dan dihargai.
+              Penghargaan untuk para donatur yang telah berkontribusi untuk kebaikan. Setiap kebaikan Anda tercatat dan dihargai.
             </p>
             <div className="flex flex-wrap items-center gap-6">
               <div className="flex items-center space-x-3">
@@ -339,7 +339,7 @@ function LeaderboardContent() {
               Bergabung dengan para donatur
             </h2>
             <p className="text-primary-100 text-sm mb-6 max-w-lg mx-auto">
-              Mulai berdonasi sekarang dan raih gelar tertinggi sambil membantu sesama yang membutuhkan
+              Mulai berdonasi sekarang dan raih gelar tertinggi sambil membantu yang membutuhkan
             </p>
             <Link
               href="/programs"
@@ -360,7 +360,7 @@ function LeaderboardContent() {
         <div className="max-w-7xl mx-auto px-6 py-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-gray-500">
-              &copy; 2024 sesama. Semua hak dilindungi.
+              &copy; 2024 SobatBantu. Semua hak dilindungi.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
               <Link href="/privacy" className="hover:text-gray-700">Privasi</Link>

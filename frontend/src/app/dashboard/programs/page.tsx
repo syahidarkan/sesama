@@ -18,7 +18,7 @@ export default function ProgramsPage() {
         queryFn: () => programsApi.getAll(statusFilter || undefined).then((res) => res.data),
     });
 
-    const canCreate = ['ADMIN_LAZISMU', 'ADMIN_LEMBAGA_ISLAMI', 'DEVELOPER'].includes(
+    const canCreate = ['ADMIN_SobatBantu', 'ADMIN_LEMBAGA_ISLAMI', 'DEVELOPER'].includes(
         user?.role || ''
     );
 

@@ -9,7 +9,7 @@ async function main() {
 
   // Migrate old super admin email if exists
   await prisma.user.updateMany({
-    where: { email: 'superadmin@lazismu.org', role: 'SUPER_ADMIN' },
+    where: { email: 'superadmin@sobatbantu.org', role: 'SUPER_ADMIN' },
     data: { email: 'syh.arkan@gmail.com' },
   });
 
@@ -29,11 +29,11 @@ async function main() {
   });
 
   const manager = await prisma.user.upsert({
-    where: { email: 'manager@lazismu.org' },
+    where: { email: 'manager@sobatbantu.org' },
     update: {},
     create: {
-      email: 'manager@lazismu.org',
-      name: 'Manager LAZISMU',
+      email: 'manager@sobatbantu.org',
+      name: 'Manager SobatBantu',
       passwordHash: hashedPassword,
       role: 'MANAGER',
       isActive: true,
@@ -41,10 +41,10 @@ async function main() {
   });
 
   const contentManager = await prisma.user.upsert({
-    where: { email: 'content@lazismu.org' },
+    where: { email: 'content@sobatbantu.org' },
     update: {},
     create: {
-      email: 'content@lazismu.org',
+      email: 'content@sobatbantu.org',
       name: 'Content Manager',
       passwordHash: hashedPassword,
       role: 'CONTENT_MANAGER',
@@ -53,10 +53,10 @@ async function main() {
   });
 
   const supervisor = await prisma.user.upsert({
-    where: { email: 'supervisor@lazismu.org' },
+    where: { email: 'supervisor@sobatbantu.org' },
     update: {},
     create: {
-      email: 'supervisor@lazismu.org',
+      email: 'supervisor@sobatbantu.org',
       name: 'Supervisor',
       passwordHash: hashedPassword,
       role: 'SUPERVISOR',
@@ -78,7 +78,7 @@ async function main() {
       ktpImageUrl: 'https://example.com/ktp/ahmad.jpg',
       phone: '081234567890',
       address: 'Jl. Contoh No. 123, Jakarta',
-      institutionName: 'Yayasan Peduli Sesama',
+      institutionName: 'SobatBantu',
       institutionProfile: 'Yayasan yang bergerak di bidang pendidikan dan sosial',
       supportingDocuments: ['https://example.com/docs/akta.pdf'],
       verifiedAt: new Date(),
@@ -368,9 +368,9 @@ Terima kasih kepada semua donatur yang telah berpartisipasi. Semoga Allah SWT me
       slug: 'about-us',
       title: 'Tentang Kami',
       content: `
-# Tentang LAZISMU
+# Tentang SobatBantu
 
-LAZISMU (Lembaga Amil Zakat, Infaq, dan Shadaqah Muhammadiyah) adalah lembaga yang berkhidmat dalam pemberdayaan masyarakat melalui pendayagunaan secara produktif dana zakat, infaq, shadaqah, wakaf dan dana kedermawanan lainnya.
+SobatBantu (Lembaga Amil Zakat, Infaq, dan Shadaqah Muhammadiyah) adalah lembaga yang berkhidmat dalam pemberdayaan masyarakat melalui pendayagunaan secara produktif dana zakat, infaq, shadaqah, wakaf dan dana kedermawanan lainnya.
 
 ## Visi
 Menjadi Lembaga Amil Zakat terpercaya.
@@ -381,7 +381,7 @@ Menjadi Lembaga Amil Zakat terpercaya.
 - Optimalisasi pelayanan donatur
 
 ## Kontak
-Email: info@lazismu.org
+Email: info@sobatbantu.org
 Phone: (021) 1234-5678
       `,
     },
@@ -397,13 +397,13 @@ Phone: (021) 1234-5678
 # Kebijakan Legal & Privasi
 
 ## Kebijakan Privasi
-LAZISMU menghormati privasi Anda dan berkomitmen untuk melindungi data pribadi Anda.
+SobatBantu menghormati privasi Anda dan berkomitmen untuk melindungi data pribadi Anda.
 
 ## Syarat & Ketentuan
 Dengan menggunakan platform ini, Anda menyetujui syarat dan ketentuan yang berlaku.
 
 ## Hubungi Kami
-Jika ada pertanyaan terkait kebijakan legal, silakan hubungi legal@lazismu.org
+Jika ada pertanyaan terkait kebijakan legal, silakan hubungi legal@sobatbantu.org
       `,
     },
   });
@@ -415,12 +415,12 @@ Jika ada pertanyaan terkait kebijakan legal, silakan hubungi legal@lazismu.org
       slug: 'privacy-policy',
       title: 'Kebijakan Privasi',
       content: `
-# Kebijakan Privasi LAZISMU Platform
+# Kebijakan Privasi SobatBantu Platform
 
 Terakhir diperbarui: Januari 2026
 
 ## Pendahuluan
-LAZISMU Platform ("kami", "kita", atau "platform") berkomitmen untuk melindungi dan menghormati privasi Anda. Kebijakan privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.
+SobatBantu Platform ("kami", "kita", atau "platform") berkomitmen untuk melindungi dan menghormati privasi Anda. Kebijakan privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.
 
 ## Informasi yang Kami Kumpulkan
 
@@ -461,7 +461,7 @@ Anda berhak untuk:
 
 ## Hubungi Kami
 Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi:
-- Email: privacy@lazismu.org
+- Email: privacy@sobatbantu.org
 - Telepon: (021) 1234-5678
       `,
     },
@@ -479,7 +479,7 @@ Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi:
 Terakhir diperbarui: Januari 2026
 
 ## 1. Penerimaan Syarat
-Dengan mengakses dan menggunakan LAZISMU Platform, Anda setuju untuk terikat dengan syarat dan ketentuan berikut.
+Dengan mengakses dan menggunakan SobatBantu Platform, Anda setuju untuk terikat dengan syarat dan ketentuan berikut.
 
 ## 2. Penggunaan Platform
 
@@ -522,10 +522,10 @@ Anda setuju untuk:
 - Mematuhi semua hukum dan peraturan yang berlaku
 
 ## 6. Hak Kekayaan Intelektual
-Semua konten di platform ini, termasuk teks, grafik, logo, dan perangkat lunak, adalah milik LAZISMU dan dilindungi oleh undang-undang hak cipta.
+Semua konten di platform ini, termasuk teks, grafik, logo, dan perangkat lunak, adalah milik SobatBantu dan dilindungi oleh undang-undang hak cipta.
 
 ## 7. Pembatasan Tanggung Jawab
-LAZISMU tidak bertanggung jawab atas:
+SobatBantu tidak bertanggung jawab atas:
 - Kehilangan atau kerusakan yang timbul dari penggunaan platform
 - Kesalahan atau kelalaian dalam konten
 - Gangguan layanan atau downtime
@@ -538,7 +538,7 @@ Syarat dan ketentuan ini diatur oleh hukum Republik Indonesia.
 
 ## 10. Kontak
 Untuk pertanyaan tentang syarat dan ketentuan ini:
-- Email: legal@lazismu.org
+- Email: legal@sobatbantu.org
 - Telepon: (021) 1234-5678
       `,
     },
@@ -604,14 +604,14 @@ Klik "Lupa Password" di halaman login, masukkan email Anda, dan ikuti instruksi 
 
 ## Kontak
 
-### Bagaimana cara menghubungi LAZISMU?
-- Email: info@lazismu.org
+### Bagaimana cara menghubungi SobatBantu?
+- Email: info@sobatbantu.org
 - WhatsApp: +62 812-3456-7890
 - Telepon: (021) 1234-5678
 - Jam operasional: Senin-Jumat, 08:00-17:00 WIB
 
-### Dimana alamat kantor LAZISMU?
-Kantor Pusat LAZISMU
+### Dimana alamat kantor SobatBantu?
+Kantor Pusat SobatBantu
 Jl. Menteng Raya No. 62, Jakarta Pusat 10340
 
 Pertanyaan lain? Jangan ragu untuk menghubungi kami!
@@ -632,7 +632,7 @@ Kami siap melayani dan menjawab pertanyaan Anda. Jangan ragu untuk menghubungi k
 
 ## Kantor Pusat
 
-**LAZISMU Platform**
+**SobatBantu Platform**
 Jl. Menteng Raya No. 62
 Jakarta Pusat 10340
 Indonesia
@@ -640,17 +640,17 @@ Indonesia
 ## Kontak
 
 ### Customer Service
-- **Email**: info@lazismu.org
+- **Email**: info@sobatbantu.org
 - **WhatsApp**: +62 812-3456-7890
 - **Telepon**: (021) 1234-5678
 - **Fax**: (021) 1234-5679
 
 ### Media & Partnership
-- **Email**: media@lazismu.org
+- **Email**: media@sobatbantu.org
 - **Telepon**: (021) 1234-5680
 
 ### Legal & Compliance
-- **Email**: legal@lazismu.org
+- **Email**: legal@sobatbantu.org
 - **Telepon**: (021) 1234-5681
 
 ## Jam Operasional
@@ -662,14 +662,14 @@ Indonesia
 
 Ikuti kami di media sosial untuk update terbaru:
 
-- **Facebook**: facebook.com/lazismu
-- **Instagram**: @lazismu
-- **Twitter**: @lazismu
-- **YouTube**: LAZISMU Official
+- **Facebook**: facebook.com/sobatbantu
+- **Instagram**: @sobatbantu
+- **Twitter**: @sobatbantu
+- **YouTube**: SobatBantu Official
 
 ## Formulir Kontak
 
-Untuk pertanyaan atau masukan, silakan isi formulir di bawah atau kirim email langsung ke info@lazismu.org
+Untuk pertanyaan atau masukan, silakan isi formulir di bawah atau kirim email langsung ke info@sobatbantu.org
 
 ---
 
@@ -728,17 +728,17 @@ Untuk pertanyaan atau masukan, silakan isi formulir di bawah atau kirim email la
   // Seed Sample Berita
   console.log('\n📰 Creating sample berita...');
 
-  const beritaSlug = 'lazismu-salurkan-bantuan-korban-bencana';
+  const beritaSlug = 'sobatbantu-salurkan-bantuan-korban-bencana';
   await prisma.berita.upsert({
     where: { slug: beritaSlug },
     update: {},
     create: {
-      title: 'LAZISMU Salurkan Bantuan ke Korban Bencana',
+      title: 'SobatBantu Salurkan Bantuan ke Korban Bencana',
       slug: beritaSlug,
       content: `
-# LAZISMU Salurkan Bantuan ke Korban Bencana
+# SobatBantu Salurkan Bantuan ke Korban Bencana
 
-Jakarta, 11 Januari 2026 - LAZISMU telah menyalurkan bantuan kemanusiaan kepada korban bencana alam di beberapa wilayah Indonesia.
+Jakarta, 11 Januari 2026 - SobatBantu telah menyalurkan bantuan kemanusiaan kepada korban bencana alam di beberapa wilayah Indonesia.
 
 ## Detail Bantuan
 - Bantuan sembako untuk 500 keluarga
@@ -746,9 +746,9 @@ Jakarta, 11 Januari 2026 - LAZISMU telah menyalurkan bantuan kemanusiaan kepada 
 - Tenda darurat
 - Obat-obatan dan alat kesehatan
 
-Tim relawan LAZISMU terus berkoordinasi dengan pihak terkait untuk memastikan bantuan tepat sasaran.
+Tim relawan SobatBantu terus berkoordinasi dengan pihak terkait untuk memastikan bantuan tepat sasaran.
       `,
-      excerpt: 'LAZISMU menyalurkan bantuan kemanusiaan kepada korban bencana alam',
+      excerpt: 'SobatBantu menyalurkan bantuan kemanusiaan kepada korban bencana alam',
       category: 'SOSIAL',
       authorId: contentManager.id,
       status: 'PUBLISHED',
@@ -762,9 +762,9 @@ Tim relawan LAZISMU terus berkoordinasi dengan pihak terkait untuk memastikan ba
   console.log('\n📝 Demo Accounts (NEW ROLE SYSTEM):');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('Email: syh.arkan@gmail.com     | Password: password | Role: SUPER_ADMIN');
-  console.log('Email: manager@lazismu.org     | Password: password | Role: MANAGER');
-  console.log('Email: content@lazismu.org     | Password: password | Role: CONTENT_MANAGER');
-  console.log('Email: supervisor@lazismu.org  | Password: password | Role: SUPERVISOR');
+  console.log('Email: manager@sobatbantu.org     | Password: password | Role: MANAGER');
+  console.log('Email: content@sobatbantu.org     | Password: password | Role: CONTENT_MANAGER');
+  console.log('Email: supervisor@sobatbantu.org  | Password: password | Role: SUPERVISOR');
   console.log('Email: pengusul1@example.com   | Password: password | Role: PENGUSUL (Approved)');
   console.log('Email: pengusul2@example.com   | Password: password | Role: PENGUSUL (Approved)');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');

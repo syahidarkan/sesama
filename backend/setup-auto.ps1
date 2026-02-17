@@ -149,6 +149,6 @@ Write-Host ""
 Write-Host "Lalu buka: http://localhost:3000" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Default login:" -ForegroundColor Yellow
-Write-Host "  Email: superadmin@lazismu.org" -ForegroundColor White
+Write-Host "  Email: superadmin@sobatbantu.org" -ForegroundColor White
 Write-Host "  Password: password" -ForegroundColor White
 Write-Host ""

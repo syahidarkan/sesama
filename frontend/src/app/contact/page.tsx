@@ -39,8 +39,8 @@ export default function ContactPage() {
     {
       icon: <Mail className="w-6 h-6" />,
       title: 'Email',
-      primary: 'info@sesama.org',
-      secondary: 'support@sesama.org',
+      primary: 'info@sobatbantu.org',
+      secondary: 'support@sobatbantu.org',
       description: 'Kirim email untuk pertanyaan umum atau bantuan',
       color: 'primary'
     },
@@ -76,10 +76,10 @@ export default function ContactPage() {
   ];
 
   const socialMedia = [
-    { name: 'Instagram', handle: '@sesama.id', url: '#', icon: '📸' },
-    { name: 'Twitter', handle: '@sesama_id', url: '#', icon: '🐦' },
-    { name: 'Facebook', handle: '/sesama.id', url: '#', icon: '👥' },
-    { name: 'LinkedIn', handle: '/company/sesama', url: '#', icon: '💼' }
+    { name: 'Instagram', handle: '@sobatbantu.id', url: '#', icon: '📸' },
+    { name: 'Twitter', handle: '@sobatbantu_id', url: '#', icon: '🐦' },
+    { name: 'Facebook', handle: '/sobatbantu.id', url: '#', icon: '👥' },
+    { name: 'LinkedIn', handle: '/company/sobatbantu', url: '#', icon: '💼' }
   ];
 
   return (
@@ -95,7 +95,7 @@ export default function ContactPage() {
                 </svg>
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                sesama
+              SobatBantu
               </span>
             </Link>
             <Link
@@ -253,7 +253,7 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-6 py-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-gray-500">
-              &copy; 2026 sesama. Semua hak dilindungi.
+              &copy; 2026 SobatBantu. Semua hak dilindungi.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
               <Link href="/privacy" className="hover:text-gray-700">Privasi</Link>

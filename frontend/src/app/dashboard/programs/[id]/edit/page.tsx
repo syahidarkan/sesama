@@ -207,7 +207,7 @@ export default function EditProgramPage() {
                 </div>
 
                 {/* Bank Accounts Section */}
-                {['ADMIN_LAZISMU', 'DEVELOPER'].includes(user?.role || '') && (
+                {['ADMIN_SobatBantu', 'DEVELOPER'].includes(user?.role || '') && (
                     <div className="bg-white rounded-lg border border-gray-200 p-8">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center space-x-3">

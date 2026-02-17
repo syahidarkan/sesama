@@ -1,4 +1,4 @@
-# SESAMA Platform - Platform Donasi
+# SobatBantu Platform - Platform Donasi
 
 Platform donasi internal yang aman dan transparan dengan sistem multi-role approval, integrasi payment gateway Midtrans, gamification, dan CMS laporan penyaluran.
 
@@ -152,10 +152,10 @@ Setelah seeding, login dengan akun berikut:
 
 | Role | Email | Password |
 |------|-------|----------|
-| SUPER_ADMIN | superadmin@lazismu.org | password |
-| MANAGER | manager@lazismu.org | password |
-| CONTENT_MANAGER | content@lazismu.org | password |
-| SUPERVISOR | supervisor@lazismu.org | password |
+| SUPER_ADMIN | superadmin@sobatbantu.org | password |
+| MANAGER | manager@sobatbantu.org | password |
+| CONTENT_MANAGER | content@sobatbantu.org | password |
+| SUPERVISOR | supervisor@sobatbantu.org | password |
 | PENGUSUL | pengusul1@example.com | password |
 
 ---

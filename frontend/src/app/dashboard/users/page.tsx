@@ -39,7 +39,7 @@ export default function UsersPage() {
         const colors = {
             DEVELOPER: 'bg-purple-50 text-purple-700 border-purple-200',
             ADMIN_IT: 'bg-blue-50 text-blue-700 border-blue-200',
-            ADMIN_LAZISMU: 'bg-green-50 text-green-700 border-green-200',
+            ADMIN_SobatBantu: 'bg-green-50 text-green-700 border-green-200',
             ADMIN_LEMBAGA_ISLAMI: 'bg-primary-50 text-primary-700 border-primary-200',
             DONATUR: 'bg-gray-50 text-gray-700 border-gray-200',
         };
@@ -130,7 +130,7 @@ export default function UsersPage() {
                             <option value="">Semua Role</option>
                             <option value="DEVELOPER">Developer</option>
                             <option value="ADMIN_IT">Admin IT</option>
-                            <option value="ADMIN_LAZISMU">Admin LAZISMU</option>
+                            <option value="ADMIN_SobatBantu">Admin SobatBantu</option>
                             <option value="ADMIN_LEMBAGA_ISLAMI">Admin Lembaga Islami</option>
                             <option value="DONATUR">Donatur</option>
                         </select>

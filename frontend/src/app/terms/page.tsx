@@ -48,7 +48,7 @@ export default function TermsPage() {
                 </svg>
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                sesama
+              SobatBantu
               </span>
             </Link>
             <Link
@@ -89,7 +89,7 @@ export default function TermsPage() {
           <div className="prose prose-gray max-w-none">
             <div className="bg-primary-50 border-l-4 border-primary-600 p-6 rounded-lg mb-8">
               <p className="text-gray-700 leading-relaxed mb-0">
-                Syarat dan Ketentuan ini mengatur penggunaan platform <strong>Sesama</strong>.
+                Syarat dan Ketentuan ini mengatur penggunaan platform <strong>SobatBantu</strong>.
                 Dengan mengakses atau menggunakan layanan kami, Anda menyetujui untuk terikat oleh ketentuan ini.
               </p>
             </div>
@@ -100,7 +100,7 @@ export default function TermsPage() {
               </div>
               Penggunaan Platform
             </h2>
-            <p className="text-gray-700 mb-4">Dengan menggunakan Sesama, Anda setuju untuk:</p>
+            <p className="text-gray-700 mb-4">Dengan menggunakan SobatBantu, Anda setuju untuk:</p>
             <ul className="space-y-2 text-gray-700">
               <li>Memberikan informasi yang akurat dan lengkap</li>
               <li>Menjaga kerahasiaan akun Anda</li>
@@ -126,7 +126,7 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Batasan Tanggung Jawab</h2>
             <p className="text-gray-700">
-              Platform Sesama bertindak sebagai perantara antara donatur dan penerima dana. Kami tidak bertanggung jawab
+              Platform SobatBantu bertindak sebagai perantara antara donatur dan penerima dana. Kami tidak bertanggung jawab
               atas klaim, kerugian, atau kerusakan yang timbul dari penggunaan platform atau program yang didanai melalui platform kami.
             </p>
 
@@ -139,7 +139,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Kontak</h2>
             <p className="text-gray-700">
               Jika Anda memiliki pertanyaan tentang Syarat dan Ketentuan ini, silakan hubungi kami di{' '}
-              <a href="mailto:legal@sesama.org" className="text-primary-600 hover:text-primary-700 font-semibold">legal@sesama.org</a>
+              <a href="mailto:legal@sobatbantu.org" className="text-primary-600 hover:text-primary-700 font-semibold">legal@sobatbantu.org</a>
             </p>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default function TermsPage() {
         <div className="max-w-7xl mx-auto px-6 py-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-gray-500">
-              &copy; 2026 sesama. Semua hak dilindungi.
+              &copy; 2026 SobatBantu. Semua hak dilindungi.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
               <Link href="/privacy" className="hover:text-gray-700">Privasi</Link>

@@ -84,7 +84,7 @@ export default function ProgramsPage() {
               <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">S</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">sesama</span>
+              <span className="text-xl font-bold text-gray-900">SobatBantu</span>
             </Link>
             <Link
               href="/"
@@ -114,7 +114,7 @@ export default function ProgramsPage() {
               Salurkan Kebaikan Anda
             </h1>
             <p className="text-lg text-primary-100 leading-relaxed max-w-2xl mb-8">
-              Pilih program yang sesuai dengan hati Anda dan mulai berbagi kebaikan untuk sesama yang membutuhkan.
+              Pilih program yang sesuai dengan hati Anda dan mulai berbagi kebaikan dan bantu yang membutuhkan.
             </p>
 
             <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/20 max-w-lg">

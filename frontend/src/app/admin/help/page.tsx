@@ -175,13 +175,13 @@ export default function HelpPage() {
         <h3 className="font-semibold text-gray-900 mb-4">Still need help?</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <a
-            href="mailto:support@sesama.com"
+            href="mailto:support@sobatbantu.com"
             className="flex items-center space-x-3 p-4 bg-white rounded-lg border border-gray-200 hover:border-primary-500 transition-all hover-lift group"
           >
             <Mail className="w-5 h-5 text-primary-600 transition-transform group-" />
             <div>
               <div className="font-medium text-gray-900">Email Support</div>
-              <div className="text-sm text-gray-600">support@sesama.com</div>
+              <div className="text-sm text-gray-600">support@sobatbantu.com</div>
             </div>
           </a>
 

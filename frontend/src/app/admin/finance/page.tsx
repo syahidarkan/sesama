@@ -108,7 +108,7 @@ export default function FinanceDashboardPage() {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>Laporan Keuangan - SESAMA Platform</title>
+        <title>Laporan Keuangan - SobatBantu Platform</title>
         <style>
           body { font-family: Arial, sans-serif; padding: 40px; color: #333; }
           h1 { color: #0284c7; border-bottom: 2px solid #0284c7; padding-bottom: 10px; }
@@ -130,7 +130,7 @@ export default function FinanceDashboardPage() {
       <body>
         <div class="header">
           <h1>Laporan Keuangan</h1>
-          <p>SESAMA Platform - Donasi Digital Terpercaya</p>
+          <p>SobatBantu Platform - Donasi Digital Terpercaya</p>
           <p>Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
         </div>
 
@@ -209,7 +209,7 @@ export default function FinanceDashboardPage() {
         </table>
 
         <div class="footer">
-          <p>Dokumen ini dicetak secara otomatis dari SESAMA Platform Finance Dashboard.</p>
+          <p>Dokumen ini dicetak secara otomatis dari SobatBantu Platform Finance Dashboard.</p>
           <p>Data akurat per tanggal dan waktu cetak.</p>
         </div>
       </body>
@@ -265,7 +265,7 @@ export default function FinanceDashboardPage() {
       <body>
         <div class="header">
           <h1>Rekap Program Donasi</h1>
-          <p>SESAMA Platform - Donasi Digital Terpercaya</p>
+          <p>SobatBantu Platform - Donasi Digital Terpercaya</p>
           <p>Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
         </div>
 
@@ -326,7 +326,7 @@ export default function FinanceDashboardPage() {
         </table>
 
         <div class="footer">
-          <p>Dokumen ini dicetak secara otomatis dari SESAMA Platform Finance Dashboard.</p>
+          <p>Dokumen ini dicetak secara otomatis dari SobatBantu Platform Finance Dashboard.</p>
           <p>Data akurat per tanggal dan waktu cetak.</p>
         </div>
       </body>

@@ -2,17 +2,17 @@
 set -e
 
 # ============================================
-# SESAMA/SOBATBANTU VPS Auto-Setup Script
+# SobatBantu/SOBATBANTU VPS Auto-Setup Script
 # Run as root on fresh Ubuntu 22.04
 # ============================================
 
 DOMAIN="sobatbantu.com"
 API_DOMAIN="api.sobatbantu.com"
 REPO_URL="https://github.com/syahidarkan/sesama.git"
-DB_NAME="sesama"
-DB_USER="sesama"
+DB_NAME="sobatbantu"
+DB_USER="sobatbantu"
 DB_PASS="SeSaMa2026SecureDB!"
-APP_DIR="/var/www/sesama"
+APP_DIR="/var/www/sobatbantu"
 
 echo ""
 echo "=========================================="
@@ -162,8 +162,8 @@ npx ts-node prisma/seed.ts || echo "Seed may have already been applied"
 npm run build
 
 # Start backend with PM2
-pm2 delete sesama-backend 2>/dev/null || true
-pm2 start dist/main.js --name sesama-backend
+pm2 delete sobatbantu-backend 2>/dev/null || true
+pm2 start dist/main.js --name sobatbantu-backend
 echo "Backend: running on port 3001"
 
 # --- FRONTEND ---
@@ -180,8 +180,8 @@ ENVFILE
 npm run build
 
 # Start frontend with PM2
-pm2 delete sesama-frontend 2>/dev/null || true
-pm2 start npm --name sesama-frontend -- start -- -p 3000
+pm2 delete sobatbantu-frontend 2>/dev/null || true
+pm2 start npm --name sobatbantu-frontend -- start -- -p 3000
 echo "Frontend: running on port 3000"
 
 # PM2 auto-start on reboot
@@ -254,28 +254,28 @@ certbot --nginx -d $DOMAIN -d www.$DOMAIN -d $API_DOMAIN --non-interactive --agr
 # 11. SETUP AUTO-DEPLOY WEBHOOK
 # ==========================================
 echo "Setting up auto-deploy script..."
-cat > /var/www/sesama/deploy.sh <<'DEPLOY'
+cat > /var/www/sobatbantu/deploy.sh <<'DEPLOY'
 #!/bin/bash
-cd /var/www/sesama
+cd /var/www/sobatbantu
 git pull origin main
 
 # Rebuild backend
-cd /var/www/sesama/backend
+cd /var/www/sobatbantu/backend
 npm install --production
 npx prisma generate
 npx prisma migrate deploy
 npm run build
-pm2 restart sesama-backend
+pm2 restart sobatbantu-backend
 
 # Rebuild frontend
-cd /var/www/sesama/frontend
+cd /var/www/sobatbantu/frontend
 npm install --production
 npm run build
-pm2 restart sesama-frontend
+pm2 restart sobatbantu-frontend
 
 echo "Deploy complete: $(date)"
 DEPLOY
-chmod +x /var/www/sesama/deploy.sh
+chmod +x /var/www/sobatbantu/deploy.sh
 
 # ==========================================
 # DONE!
@@ -303,7 +303,7 @@ echo "    pm2 logs            - View logs"
 echo "    pm2 restart all     - Restart all"
 echo ""
 echo "  Deploy update:"
-echo "    /var/www/sesama/deploy.sh"
+echo "    /var/www/sobatbantu/deploy.sh"
 echo ""
 echo "  SSL (if DNS ready):"
 echo "    certbot --nginx -d $DOMAIN -d www.$DOMAIN -d $API_DOMAIN"

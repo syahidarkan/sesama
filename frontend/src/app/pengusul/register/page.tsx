@@ -178,7 +178,7 @@ export default function PengusulRegisterPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-2xl font-bold text-gray-900">
-              sesama
+              SobatBantu
             </Link>
             <Link
               href="/"
@@ -308,7 +308,7 @@ export default function PengusulRegisterPage() {
                     name="institutionName"
                     value={formData.institutionName}
                     onChange={handleChange}
-                    placeholder="Contoh: Yayasan Peduli Sesama"
+                    placeholder="Contoh: Yayasan Peduli SobatBantu"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>

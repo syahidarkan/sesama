@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # ============================================
-# Database Setup Script for SESAMA Platform
+# Database Setup Script for SobatBantu Platform
 # ============================================
 
 set -e  # Exit on error
 
-echo "🔧 Setting up PostgreSQL database for SESAMA Platform..."
+echo "🔧 Setting up PostgreSQL database for SobatBantu Platform..."
 echo ""
 
 # Colors for output

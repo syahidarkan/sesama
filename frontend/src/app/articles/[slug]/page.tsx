@@ -87,7 +87,7 @@ export default function ArticleDetailPage() {
                 </svg>
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                sesama
+              SobatBantu
               </span>
             </Link>
             <Link
@@ -259,10 +259,10 @@ export default function ArticleDetailPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </div>
-                <span className="text-2xl font-bold text-white">sesama</span>
+                <span className="text-2xl font-bold text-white">SobatBantu</span>
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Platform donasi terpercaya untuk membantu sesama yang membutuhkan
+                Platform donasi terpercaya untuk kebaikan bersama
               </p>
             </div>
 
@@ -296,7 +296,7 @@ export default function ArticleDetailPage() {
 
           <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between">
             <p className="text-gray-500 text-sm mb-4 md:mb-0">
-              © 2024 sesama. Semua hak dilindungi undang-undang.
+              © 2024 SobatBantu. Semua hak dilindungi undang-undang.
             </p>
             <div className="flex items-center space-x-6">
               <a href="#" className="text-gray-400 hover:text-primary-400 transition-colors">

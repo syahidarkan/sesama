@@ -23,7 +23,7 @@ export class EmailService {
           pass: smtpPassword,
         },
       });
-      this.fromAddress = `SESAMA Platform <${smtpUser}>`;
+      this.fromAddress = `SobatBantu Platform <${smtpUser}>`;
       console.log(`📧 Email configured: Gmail SMTP (${smtpUser})`);
     }
 
@@ -32,7 +32,7 @@ export class EmailService {
     if (resendApiKey) {
       this.resend = new Resend(resendApiKey);
       if (!this.transporter) {
-        this.fromAddress = this.configService.get('EMAIL_FROM') || 'SESAMA Platform <onboarding@resend.dev>';
+        this.fromAddress = this.configService.get('EMAIL_FROM') || 'SobatBantu Platform <onboarding@resend.dev>';
       }
       console.log('📧 Email fallback: Resend API');
     }
@@ -51,7 +51,7 @@ export class EmailService {
     if (!smtpUser) return email;
 
     // Route dummy domain emails to SMTP_USER
-    if (email.endsWith('@lazismu.org') || email.endsWith('@lazizmu.org') || email.endsWith('@example.com')) {
+    if (email.endsWith('@sobatbantu.org') || email.endsWith('@sobatbantu.org') || email.endsWith('@example.com')) {
       return smtpUser;
     }
 
@@ -84,7 +84,7 @@ export class EmailService {
 
     // Try Resend as fallback
     if (this.resend) {
-      const resendFrom = this.configService.get('EMAIL_FROM') || 'SESAMA Platform <onboarding@resend.dev>';
+      const resendFrom = this.configService.get('EMAIL_FROM') || 'SobatBantu Platform <onboarding@resend.dev>';
       const result = await this.resend.emails.send({
         from: resendFrom,
         to: [to],
@@ -127,11 +127,11 @@ export class EmailService {
       <body>
         <div class="container">
           <div class="header">
-            <h1>SESAMA Platform</h1>
+            <h1>SobatBantu Platform</h1>
           </div>
           <div class="content">
             <h2>Halo, ${userName}!</h2>
-            <p>Anda telah meminta kode OTP untuk login ke dashboard admin SESAMA Platform.</p>
+            <p>Anda telah meminta kode OTP untuk login ke dashboard admin SobatBantu Platform.</p>
 
             <div class="otp-box">
               <p style="margin: 0; font-size: 14px; color: #666;">Kode OTP Anda:</p>
@@ -142,14 +142,14 @@ export class EmailService {
             <p><strong>Penting:</strong></p>
             <ul>
               <li>Jangan bagikan kode ini kepada siapapun</li>
-              <li>Tim SESAMA tidak akan pernah meminta kode OTP Anda</li>
+              <li>Tim SobatBantu tidak akan pernah meminta kode OTP Anda</li>
               <li>Kode ini hanya berlaku untuk ${expiresInMinutes} menit</li>
             </ul>
 
             <p class="warning">Jika Anda tidak meminta kode ini, abaikan email ini dan segera hubungi administrator.</p>
 
             <div class="footer">
-              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Email otomatis dari SobatBantu Platform</p>
               <p>Jangan balas email ini</p>
             </div>
           </div>
@@ -159,7 +159,7 @@ export class EmailService {
     `;
 
     try {
-      await this.sendEmail(actualRecipient, 'Kode OTP Login - SESAMA Platform', html);
+      await this.sendEmail(actualRecipient, 'Kode OTP Login - SobatBantu Platform', html);
       console.log(`✅ OTP email sent to ${actualRecipient}${to !== actualRecipient ? ` (routed from ${to})` : ''}`);
       return true;
     } catch (error) {
@@ -178,8 +178,8 @@ export class EmailService {
     notes?: string,
   ): Promise<void> {
     const subject = isApproved
-      ? 'Registrasi Pengusul Disetujui - SESAMA Platform'
-      : 'Registrasi Pengusul Ditolak - SESAMA Platform';
+      ? 'Registrasi Pengusul Disetujui - SobatBantu Platform'
+      : 'Registrasi Pengusul Ditolak - SobatBantu Platform';
 
     const statusColor = isApproved ? '#16a34a' : '#dc2626';
     const statusText = isApproved ? 'DISETUJUI' : 'DITOLAK';
@@ -205,7 +205,7 @@ export class EmailService {
       <body>
         <div class="container">
           <div class="header">
-            <h1>SESAMA Platform</h1>
+            <h1>SobatBantu Platform</h1>
           </div>
           <div class="content">
             <h2>Halo, ${userName}!</h2>
@@ -221,7 +221,7 @@ export class EmailService {
             ${isApproved ? '<p>Silakan login ke dashboard untuk mulai membuat program donasi.</p>' : '<p>Anda dapat melakukan registrasi ulang dengan melengkapi dokumen yang diperlukan.</p>'}
 
             <div class="footer">
-              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Email otomatis dari SobatBantu Platform</p>
               <p>Jangan balas email ini</p>
             </div>
           </div>
@@ -326,7 +326,7 @@ export class EmailService {
 
             <div class="footer">
               <p style="margin-top:24px;">Simpan email ini sebagai bukti donasi Anda.</p>
-              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Email otomatis dari SobatBantu Platform</p>
               <p>Jangan balas email ini</p>
             </div>
           </div>
@@ -411,7 +411,7 @@ export class EmailService {
 
             <div class="footer">
               <p>Anda menerima email ini karena Anda pernah berdonasi di program ini.</p>
-              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Email otomatis dari SobatBantu Platform</p>
               <p>Jangan balas email ini</p>
             </div>
           </div>
@@ -439,8 +439,8 @@ export class EmailService {
     notes?: string,
   ): Promise<void> {
     const subject = isApproved
-      ? 'Program Donasi Disetujui - SESAMA Platform'
-      : 'Program Donasi Ditolak - SESAMA Platform';
+      ? 'Program Donasi Disetujui - SobatBantu Platform'
+      : 'Program Donasi Ditolak - SobatBantu Platform';
 
     const statusColor = isApproved ? '#16a34a' : '#dc2626';
     const statusText = isApproved ? 'DISETUJUI' : 'DITOLAK';
@@ -464,7 +464,7 @@ export class EmailService {
       <body>
         <div class="container">
           <div class="header">
-            <h1>SESAMA Platform</h1>
+            <h1>SobatBantu Platform</h1>
           </div>
           <div class="content">
             <h2>Halo, ${userName}!</h2>
@@ -479,7 +479,7 @@ export class EmailService {
             ${isApproved ? '<p>Program Anda sudah aktif dan dapat menerima donasi.</p>' : '<p>Silakan periksa kembali dan lengkapi informasi yang diperlukan.</p>'}
 
             <div class="footer">
-              <p>Email otomatis dari SESAMA Platform</p>
+              <p>Email otomatis dari SobatBantu Platform</p>
               <p>Jangan balas email ini</p>
             </div>
           </div>

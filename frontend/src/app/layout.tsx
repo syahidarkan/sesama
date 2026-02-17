@@ -6,8 +6,8 @@ import { Providers } from "@/components/providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sesama - Platform Donasi & Crowdfunding",
-  description: "Platform donasi dan crowdfunding untuk membantu sesama yang membutuhkan",
+  title: "SobatBantu - Platform Donasi & Crowdfunding",
+  description: "Platform donasi dan crowdfunding untuk berbuat kebaikan bersama",
   icons: {
     icon: '/icon.svg',
   },

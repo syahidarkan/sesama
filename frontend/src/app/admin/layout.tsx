@@ -58,7 +58,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {/* Logo */}
           <div className="px-5 py-4 border-b border-primary-800">
             <div className="flex items-center justify-between">
-              <Link href="/" className="text-lg font-bold text-white">sesama</Link>
+              <Link href="/" className="text-lg font-bold text-white">SobatBantu</Link>
               <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-primary-300 hover:text-white">
                 <X className="w-5 h-5" />
               </button>

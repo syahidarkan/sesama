@@ -27,20 +27,20 @@ export default function FAQPage() {
 
   const faqData = [
     {
-      category: 'Tentang Sesama',
+      category: 'Tentang SobatBantu',
       icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />,
       questions: [
         {
-          q: 'Apa itu Sesama?',
-          a: 'Sesama adalah platform donasi online yang menghubungkan donatur dengan mereka yang membutuhkan bantuan. Kami berkomitmen untuk transparansi penuh dan penyaluran dana yang akuntabel.'
+          q: 'Apa itu SobatBantu?',
+          a: 'SobatBantu adalah platform donasi online yang menghubungkan donatur dengan mereka yang membutuhkan bantuan. Kami berkomitmen untuk transparansi penuh dan penyaluran dana yang akuntabel.'
         },
         {
-          q: 'Bagaimana cara kerja Sesama?',
+          q: 'Bagaimana cara kerja SobatBantu?',
           a: 'Anda dapat memilih program donasi yang ingin didukung, melakukan pembayaran melalui berbagai metode, dan menerima laporan penyaluran dana secara berkala. Setiap donasi tercatat dan dapat dilacak.'
         },
         {
-          q: 'Apakah Sesama lembaga resmi?',
-          a: 'Ya, Sesama adalah platform resmi yang terdaftar dan diawasi. Kami bekerja sama dengan berbagai lembaga filantropi yang terverifikasi untuk memastikan setiap program berjalan sesuai standar.'
+          q: 'Apakah SobatBantu lembaga resmi?',
+          a: 'Ya, SobatBantu adalah platform resmi yang terdaftar dan diawasi. Kami bekerja sama dengan berbagai lembaga filantropi yang terverifikasi untuk memastikan setiap program berjalan sesuai standar.'
         }
       ]
     },
@@ -132,7 +132,7 @@ export default function FAQPage() {
                 </svg>
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                sesama
+              SobatBantu
               </span>
             </Link>
             <Link
@@ -251,7 +251,7 @@ export default function FAQPage() {
         <div className="max-w-7xl mx-auto px-6 py-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-gray-500">
-              &copy; 2026 sesama. Semua hak dilindungi.
+              &copy; 2026 SobatBantu. Semua hak dilindungi.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
               <Link href="/privacy" className="hover:text-gray-700">Privasi</Link>

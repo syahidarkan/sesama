@@ -95,9 +95,9 @@ npx prisma db seed
 
 This will create demo accounts:
 - Super Admin: `syh.arkan@gmail.com` / `password`
-- Manager: `manager@lazismu.org` / `password`
-- Content Manager: `content@lazismu.org` / `password`
-- Supervisor: `supervisor@lazismu.org` / `password`
+- Manager: `manager@sobatbantu.org` / `password`
+- Content Manager: `content@sobatbantu.org` / `password`
+- Supervisor: `supervisor@sobatbantu.org` / `password`
 - Pengusul: `pengusul1@example.com` / `password`
 
 ---

@@ -87,7 +87,7 @@ export default function ProgramDetailPage() {
                 </Link>
 
                 <div className="flex gap-3">
-                    {['ADMIN_LAZISMU', 'ADMIN_IT', 'DEVELOPER'].includes(user?.role || '') && (
+                    {['ADMIN_SobatBantu', 'ADMIN_IT', 'DEVELOPER'].includes(user?.role || '') && (
                         <Link
                             href={`/dashboard/programs/${id}/edit`}
                             className="inline-flex items-center space-x-2 px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50 hover:border-gray-400 transition-colors"
@@ -98,7 +98,7 @@ export default function ProgramDetailPage() {
                     )}
 
                     {program.status === 'PENDING_APPROVAL' &&
-                        ['ADMIN_LAZISMU', 'ADMIN_IT', 'DEVELOPER'].includes(user?.role || '') && (
+                        ['ADMIN_SobatBantu', 'ADMIN_IT', 'DEVELOPER'].includes(user?.role || '') && (
                             <>
                                 <button
                                     onClick={() => rejectMutation.mutate()}

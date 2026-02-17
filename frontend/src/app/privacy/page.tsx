@@ -35,7 +35,7 @@ export default function PrivacyPolicyPage() {
     <div class="space-y-8">
       <div>
         <p class="text-gray-700">
-          Kebijakan Privasi ini menjelaskan bagaimana Sesama mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.
+          Kebijakan Privasi ini menjelaskan bagaimana SobatBantu mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.
           Dengan menggunakan platform kami, Anda menyetujui praktik yang dijelaskan dalam kebijakan ini.
         </p>
       </div>
@@ -129,7 +129,7 @@ export default function PrivacyPolicyPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-2xl font-bold text-gray-900">
-              sesama
+              SobatBantu
             </Link>
             <Link
               href="/"

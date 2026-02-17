@@ -94,7 +94,7 @@ export default function DashboardLayout({
                     <div className="px-5 py-4 border-b border-primary-800">
                         <div className="flex items-center justify-between">
                             <Link href="/" className="text-lg font-bold text-white">
-                                sesama
+              SobatBantu
                             </Link>
                             <button
                                 onClick={() => setSidebarOpen(false)}

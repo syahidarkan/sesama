@@ -67,12 +67,12 @@ export default function RegisterPage() {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="mb-8">
-            <Link href="/" className="text-xl font-bold text-gray-900">sesama</Link>
+            <Link href="/" className="text-xl font-bold text-gray-900">SobatBantu</Link>
           </div>
 
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Buat Akun</h1>
           <p className="text-sm text-gray-600 mb-6">
-            Daftar untuk mulai berdonasi dan membantu sesama
+            Daftar untuk mulai berdonasi dan membantu yang membutuhkan
           </p>
 
           {(error || formError) && (

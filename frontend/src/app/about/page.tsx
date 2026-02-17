@@ -48,7 +48,7 @@ export default function AboutPage() {
                 </svg>
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                sesama
+              SobatBantu
               </span>
             </Link>
             <Link
@@ -238,7 +238,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-6 py-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-gray-500">
-              &copy; 2026 sesama. Semua hak dilindungi.
+              &copy; 2026 SobatBantu. Semua hak dilindungi.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
               <Link href="/privacy" className="hover:text-gray-700">Privasi</Link>

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { programsApi, donationsApi, approvalsApi, roleUpgradesApi } from '@/lib/api';
+import { programsApi, donationsApi, approvalsApi, roleUpgradesApi, gamificationApi } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
 import Link from 'next/link';
 import { TrendingUp, Heart, Users, CheckCircle, ArrowRight, Loader2, UserPlus, Clock, CheckCircle2, XCircle, Plus, FileText, Newspaper } from 'lucide-react';
@@ -33,6 +33,13 @@ export default function DashboardPage() {
         queryKey: ['donations-stats'],
         queryFn: () => donationsApi.getStats().then((res) => res.data),
         enabled: user?.role !== 'USER', // Only fetch for admin roles
+    });
+
+    // Fetch unique donor count from gamification (distinct from transaction count)
+    const { data: platformStats } = useQuery({
+        queryKey: ['platform-stats'],
+        queryFn: () => gamificationApi.getStatistics().then((res) => res.data),
+        enabled: user?.role !== 'USER',
     });
 
     // For USER role: fetch their personal donation history
@@ -305,10 +312,10 @@ export default function DashboardPage() {
                         </div>
                         <div className="text-sm text-gray-600 mb-1">Total Donasi</div>
                         <div className="text-2xl font-semibold text-gray-900 mb-2">
-                            {formatCurrency(stats?.totalAmount || 0)}
+                            {formatCurrency(Number(stats?.successAmount || 0))}
                         </div>
                         <span className="inline-flex px-2 py-0.5 bg-green-50 text-green-700 text-xs font-medium rounded border border-green-200">
-                            {stats?.totalDonations || 0} transaksi
+                            {stats?.successCount || 0} transaksi sukses
                         </span>
                     </div>
 
@@ -333,10 +340,10 @@ export default function DashboardPage() {
                         </div>
                         <div className="text-sm text-gray-600 mb-1">Total Donatur</div>
                         <div className="text-2xl font-semibold text-gray-900 mb-2">
-                            {stats?.totalDonations || 0}
+                            {platformStats?.totalDonors || 0}
                         </div>
                         <span className="text-sm text-gray-500">
-                            Kontributor aktif
+                            Donatur unik
                         </span>
                     </div>
 

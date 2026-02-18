@@ -96,8 +96,8 @@ export default function AdminDashboardPage() {
         totalPrograms: programsRes.data.total || 0,
         activePrograms:
           programsRes.data.data?.filter((p: any) => p.status === 'ACTIVE').length || 0,
-        totalDonations: donationsRes?.data.totalCount || 0,
-        totalAmount: donationsRes?.data.totalAmount || 0,
+        totalDonations: donationsRes?.data.successCount || 0,   // Only successful transactions
+        totalAmount: donationsRes?.data.successAmount || 0,     // Only successful amount
         pendingApprovals: approvalsRes?.data.total || 0,
         recentPrograms: programsRes.data.data?.slice(0, 5) || [],
         recentDonations: [],

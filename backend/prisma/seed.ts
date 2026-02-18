@@ -361,13 +361,7 @@ Terima kasih kepada semua donatur yang telah berpartisipasi. Semoga Allah SWT me
   // Seed Static Pages
   console.log('\n📄 Creating static pages...');
 
-  await prisma.staticPage.upsert({
-    where: { slug: 'about-us' },
-    update: {},
-    create: {
-      slug: 'about-us',
-      title: 'Tentang Kami',
-      content: `
+  const aboutUsContent = `
 # Tentang SobatBantu
 
 SobatBantu adalah platform donasi digital yang hadir untuk menghubungkan donatur dengan program-program sosial yang terverifikasi dan terpercaya. Kami berkomitmen untuk memastikan setiap donasi tersalurkan secara transparan, akuntabel, dan tepat sasaran kepada mereka yang membutuhkan.
@@ -383,17 +377,19 @@ Menjadi platform donasi digital terpercaya dan berdampak nyata bagi masyarakat I
 ## Kontak
 Email: info@sobatbantu.org
 Phone: (021) 1234-5678
-      `,
+      `;
+
+  await prisma.staticPage.upsert({
+    where: { slug: 'about-us' },
+    update: { title: 'Tentang Kami', content: aboutUsContent },
+    create: {
+      slug: 'about-us',
+      title: 'Tentang Kami',
+      content: aboutUsContent,
     },
   });
 
-  await prisma.staticPage.upsert({
-    where: { slug: 'legal' },
-    update: {},
-    create: {
-      slug: 'legal',
-      title: 'Kebijakan Legal',
-      content: `
+  const legalContent = `
 # Kebijakan Legal & Privasi
 
 ## Kebijakan Privasi
@@ -404,17 +400,19 @@ Dengan menggunakan platform ini, Anda menyetujui syarat dan ketentuan yang berla
 
 ## Hubungi Kami
 Jika ada pertanyaan terkait kebijakan legal, silakan hubungi legal@sobatbantu.org
-      `,
+      `;
+
+  await prisma.staticPage.upsert({
+    where: { slug: 'legal' },
+    update: { title: 'Kebijakan Legal', content: legalContent },
+    create: {
+      slug: 'legal',
+      title: 'Kebijakan Legal',
+      content: legalContent,
     },
   });
 
-  await prisma.staticPage.upsert({
-    where: { slug: 'privacy-policy' },
-    update: {},
-    create: {
-      slug: 'privacy-policy',
-      title: 'Kebijakan Privasi',
-      content: `
+  const privacyContent = `
 # Kebijakan Privasi SobatBantu Platform
 
 Terakhir diperbarui: Januari 2026
@@ -463,17 +461,19 @@ Anda berhak untuk:
 Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi:
 - Email: privacy@sobatbantu.org
 - Telepon: (021) 1234-5678
-      `,
+      `;
+
+  await prisma.staticPage.upsert({
+    where: { slug: 'privacy-policy' },
+    update: { title: 'Kebijakan Privasi', content: privacyContent },
+    create: {
+      slug: 'privacy-policy',
+      title: 'Kebijakan Privasi',
+      content: privacyContent,
     },
   });
 
-  await prisma.staticPage.upsert({
-    where: { slug: 'terms-of-service' },
-    update: {},
-    create: {
-      slug: 'terms-of-service',
-      title: 'Syarat dan Ketentuan',
-      content: `
+  const tosContent = `
 # Syarat dan Ketentuan Penggunaan
 
 Terakhir diperbarui: Januari 2026
@@ -540,17 +540,19 @@ Syarat dan ketentuan ini diatur oleh hukum Republik Indonesia.
 Untuk pertanyaan tentang syarat dan ketentuan ini:
 - Email: legal@sobatbantu.org
 - Telepon: (021) 1234-5678
-      `,
+      `;
+
+  await prisma.staticPage.upsert({
+    where: { slug: 'terms-of-service' },
+    update: { title: 'Syarat dan Ketentuan', content: tosContent },
+    create: {
+      slug: 'terms-of-service',
+      title: 'Syarat dan Ketentuan',
+      content: tosContent,
     },
   });
 
-  await prisma.staticPage.upsert({
-    where: { slug: 'faq' },
-    update: {},
-    create: {
-      slug: 'faq',
-      title: 'Frequently Asked Questions (FAQ)',
-      content: `
+  const faqContent = `
 # Frequently Asked Questions (FAQ)
 
 ## Tentang Donasi
@@ -615,17 +617,19 @@ Kantor Pusat SobatBantu
 Jl. Menteng Raya No. 62, Jakarta Pusat 10340
 
 Pertanyaan lain? Jangan ragu untuk menghubungi kami!
-      `,
+      `;
+
+  await prisma.staticPage.upsert({
+    where: { slug: 'faq' },
+    update: { title: 'Frequently Asked Questions (FAQ)', content: faqContent },
+    create: {
+      slug: 'faq',
+      title: 'Frequently Asked Questions (FAQ)',
+      content: faqContent,
     },
   });
 
-  await prisma.staticPage.upsert({
-    where: { slug: 'contact' },
-    update: {},
-    create: {
-      slug: 'contact',
-      title: 'Hubungi Kami',
-      content: `
+  const contactContent = `
 # Hubungi Kami
 
 Kami siap melayani dan menjawab pertanyaan Anda. Jangan ragu untuk menghubungi kami melalui channel berikut:
@@ -674,7 +678,15 @@ Untuk pertanyaan atau masukan, silakan isi formulir di bawah atau kirim email la
 ---
 
 **Catatan**: Kami akan merespons pertanyaan Anda dalam waktu 1x24 jam (hari kerja). Terima kasih atas kesabaran Anda!
-      `,
+      `;
+
+  await prisma.staticPage.upsert({
+    where: { slug: 'contact' },
+    update: { title: 'Hubungi Kami', content: contactContent },
+    create: {
+      slug: 'contact',
+      title: 'Hubungi Kami',
+      content: contactContent,
     },
   });
 

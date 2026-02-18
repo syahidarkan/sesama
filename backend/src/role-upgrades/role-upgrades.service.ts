@@ -10,6 +10,7 @@ import {
   UserRole,
   UpgradeRequestType,
   UpgradeRequestStatus,
+  PengusulStatus,
 } from '@prisma/client';
 
 @Injectable()
@@ -44,29 +45,41 @@ export class RoleUpgradesService {
       throw new ConflictException('You already have a pending upgrade request');
     }
 
-    // Create the upgrade request
-    const upgradeRequest = await this.prisma.roleUpgradeRequest.create({
-      data: {
-        userId,
-        requestType: UpgradeRequestType.USER_TO_PENGUSUL,
-        ktpNumber: dto.ktpNumber,
-        ktpImageUrl: dto.ktpImageUrl,
-        phone: dto.phone,
-        address: dto.address,
-        institutionName: dto.institutionName,
-        institutionProfile: dto.institutionProfile,
-        supportingDocuments: dto.supportingDocuments,
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
+    // Create the upgrade request and update user status in one transaction
+    const upgradeRequest = await this.prisma.$transaction(async (tx) => {
+      const request = await tx.roleUpgradeRequest.create({
+        data: {
+          userId,
+          requestType: UpgradeRequestType.USER_TO_PENGUSUL,
+          ktpNumber: dto.ktpNumber,
+          ktpImageUrl: dto.ktpImageUrl,
+          phone: dto.phone,
+          address: dto.address,
+          institutionName: dto.institutionName,
+          institutionProfile: dto.institutionProfile,
+          supportingDocuments: dto.supportingDocuments,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              role: true,
+            },
           },
         },
-      },
+      });
+
+      // Set user pengusulStatus to PENDING_VERIFICATION so admin dashboard can track it
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          pengusulStatus: PengusulStatus.PENDING_VERIFICATION,
+        },
+      });
+
+      return request;
     });
 
     return {
@@ -165,7 +178,7 @@ export class RoleUpgradesService {
           institutionName: request.institutionName,
           institutionProfile: request.institutionProfile,
           supportingDocuments: request.supportingDocuments,
-          pengusulStatus: 'APPROVED',
+          pengusulStatus: PengusulStatus.APPROVED,
           verifiedAt: new Date(),
           verifiedBy: reviewerId,
         },
@@ -212,23 +225,33 @@ export class RoleUpgradesService {
       throw new BadRequestException('Request has already been processed');
     }
 
-    const updatedRequest = await this.prisma.roleUpgradeRequest.update({
-      where: { id: requestId },
-      data: {
-        status: UpgradeRequestStatus.REJECTED,
-        reviewedBy: reviewerId,
-        reviewedAt: new Date(),
-        reviewNotes: notes,
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
+    const updatedRequest = await this.prisma.$transaction(async (tx) => {
+      const updated = await tx.roleUpgradeRequest.update({
+        where: { id: requestId },
+        data: {
+          status: UpgradeRequestStatus.REJECTED,
+          reviewedBy: reviewerId,
+          reviewedAt: new Date(),
+          reviewNotes: notes,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
           },
         },
-      },
+      });
+
+      // Reset user pengusulStatus to REJECTED
+      await tx.user.update({
+        where: { id: request.userId },
+        data: { pengusulStatus: PengusulStatus.REJECTED },
+      });
+
+      return updated;
     });
 
     return {

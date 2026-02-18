@@ -3,8 +3,8 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
-import { pengusulApi, programsApi, articlesApi } from '@/lib/api';
-import { User, Program, Article } from '@/types';
+import { roleUpgradesApi, programsApi, articlesApi } from '@/lib/api';
+import { Program, Article } from '@/types';
 import Link from 'next/link';
 import {
   CheckCircle, XCircle, Users, Heart, FileText, ArrowLeft, Loader2,
@@ -13,10 +13,26 @@ import {
 
 type ApprovalType = 'pengusul' | 'program' | 'article';
 
-interface PendingPengusul extends User {
+interface PendingPengusul {
+  id: string;
+  userId: string;
+  requestType: string;
+  status: string;
+  ktpNumber?: string;
   ktpImageUrl?: string;
+  phone?: string;
+  address?: string;
   institutionName?: string;
   institutionProfile?: string;
+  supportingDocuments?: string[];
+  createdAt: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    createdAt: string;
+  };
 }
 
 function ApprovalsPageContent() {
@@ -35,6 +51,7 @@ function ApprovalsPageContent() {
 
   const [showReauth, setShowReauth] = useState(false);
   const [reauthPassword, setReauthPassword] = useState('');
+  const [rejectNotes, setRejectNotes] = useState('');
   const [pendingAction, setPendingAction] = useState<{
     type: ApprovalType;
     id: string;
@@ -61,12 +78,12 @@ function ApprovalsPageContent() {
 
       // Fetch all pending items in parallel to show correct counts
       const [pengusulRes, programRes, articleRes] = await Promise.all([
-        pengusulApi.getPending(50, 0),
+        roleUpgradesApi.getPendingPengusulRequests(),
         programsApi.getAll('PENDING_APPROVAL', 50, 0),
         articlesApi.getAll('PENDING_APPROVAL', undefined, undefined, 50, 0),
       ]);
 
-      setPengusulList(pengusulRes.data.data || []);
+      setPengusulList(pengusulRes.data || []);
       setProgramList(programRes.data.data || []);
       setArticleList(articleRes.data.data || []);
     } catch (error) {
@@ -95,9 +112,9 @@ function ApprovalsPageContent() {
 
       if (type === 'pengusul') {
         if (action === 'approve') {
-          await pengusulApi.approve(id);
+          await roleUpgradesApi.approvePengusulRequest(id);
         } else {
-          await pengusulApi.reject(id);
+          await roleUpgradesApi.rejectPengusulRequest(id, rejectNotes || 'Ditolak oleh admin');
         }
       } else if (type === 'program') {
         if (action === 'approve') {
@@ -118,6 +135,7 @@ function ApprovalsPageContent() {
       setShowReauth(false);
       setPendingAction(null);
       setReauthPassword('');
+      setRejectNotes('');
     } catch (error: any) {
       alert(error.response?.data?.message || 'Gagal melakukan approval');
     } finally {
@@ -260,12 +278,15 @@ function ApprovalsPageContent() {
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-start space-x-4">
                         <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center text-white font-medium text-lg">
-                          {pengusul.name.charAt(0).toUpperCase()}
+                          {pengusul.user.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900">{pengusul.name}</h3>
-                          <p className="text-sm text-gray-600">{pengusul.email}</p>
+                          <h3 className="text-lg font-semibold text-gray-900">{pengusul.user.name}</h3>
+                          <p className="text-sm text-gray-600">{pengusul.user.email}</p>
                           <p className="text-sm text-gray-600">KTP: {pengusul.ktpNumber || 'N/A'}</p>
+                          {pengusul.phone && (
+                            <p className="text-sm text-gray-600">Telp: {pengusul.phone}</p>
+                          )}
                           {pengusul.institutionName && (
                             <p className="text-sm text-gray-600 flex items-center space-x-1 mt-1">
                               <Building className="w-4 h-4" />
@@ -276,7 +297,7 @@ function ApprovalsPageContent() {
                       </div>
                       <span className="px-3 py-1 bg-yellow-50 border border-yellow-200 text-yellow-700 text-xs font-medium rounded-md">
                         <Clock className="w-3 h-3 inline mr-1" />
-                        {pengusul.pengusulStatus}
+                        MENUNGGU REVIEW
                       </span>
                     </div>
 
@@ -522,11 +543,28 @@ function ApprovalsPageContent() {
               value={reauthPassword}
               onChange={(e) => setReauthPassword(e.target.value)}
               placeholder="Masukkan password"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none mb-6"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none mb-4"
               onKeyPress={(e) => {
                 if (e.key === 'Enter') executeAction();
               }}
             />
+
+            {pendingAction?.action === 'reject' && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Alasan Penolakan <span className="text-gray-400">(opsional)</span>
+                </label>
+                <textarea
+                  value={rejectNotes}
+                  onChange={(e) => setRejectNotes(e.target.value)}
+                  placeholder="Masukkan alasan penolakan untuk dikirim ke user..."
+                  rows={3}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors outline-none resize-none"
+                />
+              </div>
+            )}
+
+            {pendingAction?.action !== 'reject' && <div className="mb-6" />}
 
             <div className="flex gap-3">
               <button
@@ -548,6 +586,7 @@ function ApprovalsPageContent() {
                   setShowReauth(false);
                   setPendingAction(null);
                   setReauthPassword('');
+                  setRejectNotes('');
                 }}
                 className="flex-1 px-6 py-2.5 bg-gray-100 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors"
               >

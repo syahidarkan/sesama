@@ -1,7 +1,7 @@
 {
   "name": "donation-platform",
   "version": "1.0.0",
-  "description": "Platform donasi internal untuk organisasi Islam (LAZISMU dan lembaga mitra) dengan sistem multi-role approval, integrasi Midtrans, dan wallet management.",
+  "description": "Platform donasi digital SobatBantu dengan sistem multi-role approval, pembayaran terintegrasi, dan manajemen program sosial.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

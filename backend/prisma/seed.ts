@@ -317,7 +317,7 @@ Terima kasih kepada semua donatur yang telah berpartisipasi. Semoga Allah SWT me
   const institutionTypes = [
     { key: 'YAYASAN', value: 'Yayasan', sortOrder: 1 },
     { key: 'PERKUMPULAN', value: 'Perkumpulan', sortOrder: 2 },
-    { key: 'LAZ', value: 'Lembaga Amil Zakat', sortOrder: 3 },
+    { key: 'LAZ', value: 'Lembaga Sosial', sortOrder: 3 },
     { key: 'ORMAS', value: 'Organisasi Masyarakat', sortOrder: 4 },
     { key: 'PESANTREN', value: 'Pesantren', sortOrder: 5 },
     { key: 'MASJID', value: 'Masjid/Musholla', sortOrder: 6 },
@@ -370,15 +370,15 @@ Terima kasih kepada semua donatur yang telah berpartisipasi. Semoga Allah SWT me
       content: `
 # Tentang SobatBantu
 
-SobatBantu (Lembaga Amil Zakat, Infaq, dan Shadaqah Muhammadiyah) adalah lembaga yang berkhidmat dalam pemberdayaan masyarakat melalui pendayagunaan secara produktif dana zakat, infaq, shadaqah, wakaf dan dana kedermawanan lainnya.
+SobatBantu adalah platform donasi digital yang hadir untuk menghubungkan donatur dengan program-program sosial yang terverifikasi dan terpercaya. Kami berkomitmen untuk memastikan setiap donasi tersalurkan secara transparan, akuntabel, dan tepat sasaran kepada mereka yang membutuhkan.
 
 ## Visi
-Menjadi Lembaga Amil Zakat terpercaya.
+Menjadi platform donasi digital terpercaya dan berdampak nyata bagi masyarakat Indonesia.
 
 ## Misi
-- Optimalisasi kualitas pengelolaan ZIS yang amanah, profesional, dan transparan
-- Optimalisasi pendayagunaan ZIS yang kreatif, inovatif, dan produktif
-- Optimalisasi pelayanan donatur
+- Menyediakan platform donasi yang transparan dan akuntabel bagi seluruh lapisan masyarakat
+- Menghubungkan donatur dengan program sosial yang terverifikasi dan berdampak nyata
+- Memberikan kemudahan dan keamanan dalam berdonasi secara digital
 
 ## Kontak
 Email: info@sobatbantu.org

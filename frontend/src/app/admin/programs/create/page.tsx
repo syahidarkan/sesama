@@ -518,7 +518,7 @@ export default function CreateProgramPage() {
                 </div>
                 <div className="flex items-start">
                   <span className="text-primary-600 mr-2 mt-0.5">•</span>
-                  <span>LAZ dan lembaga sosial</span>
+                  <span>Lembaga sosial dan komunitas</span>
                 </div>
                 <div className="flex items-start">
                   <span className="text-primary-600 mr-2 mt-0.5">•</span>
@@ -1062,7 +1062,7 @@ export default function CreateProgramPage() {
                   <option value="Madrasah">Madrasah</option>
                   <option value="Masjid">Masjid</option>
                   <option value="Organisasi Kemasyarakatan">Organisasi Kemasyarakatan</option>
-                  <option value="LAZ">LAZ (Lembaga Amil Zakat)</option>
+                  <option value="LAZ">Lembaga Sosial</option>
                   <option value="Lainnya">Lainnya</option>
                 </select>
               </div>
